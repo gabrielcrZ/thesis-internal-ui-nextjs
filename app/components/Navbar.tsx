@@ -1,10 +1,10 @@
 import React from "react";
 
-const Navbar = () => {
+const Navbar = (props: any) => {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar">
       <div className="flex-none">
-        <button className="btn btn-square btn-ghost">
+        <button className="btn btn-square btn-ghost" onClick={props.onClick}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,7 +21,7 @@ const Navbar = () => {
         </button>
       </div>
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Shipping-App</a>
+        <a className="btn btn-ghost text-xl">Shipping Portal</a>
       </div>
       <div className="flex-none">
         <button className="btn btn-square btn-ghost">
