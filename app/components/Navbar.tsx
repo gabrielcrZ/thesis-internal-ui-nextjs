@@ -4,7 +4,7 @@ import Indicator from "./Indicator";
 
 const Navbar = (props: any) => {
   return (
-    <div className="navbar bg-neutral">
+    <div className="navbar bg-primary">
       <div className="flex-none">
         <button className="btn btn-square btn-ghost" onClick={props.onClick}>
           <svg
@@ -28,9 +28,9 @@ const Navbar = (props: any) => {
       <div className="flex-none">
         <ThemeController/>
       </div>
-      <div className="flex-none">
+      {/* <div className="flex-none">
         <Indicator/>
-      </div>
+      </div> */}
       <div className="flex-none">
         <button className="btn btn-square btn-ghost">
           <svg

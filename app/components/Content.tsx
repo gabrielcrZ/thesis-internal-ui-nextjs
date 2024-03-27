@@ -4,10 +4,10 @@ import TableVisuals from "./TableVisuals";
 
 const Content = () => {
   return (
-    <>
+    <div className="grid">
       <Stats />
       <TableVisuals />
-    </>
+    </div>
   );
 };
 
