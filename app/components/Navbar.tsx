@@ -1,12 +1,12 @@
 import React from "react";
 import ThemeController from "./ThemeController";
 import Indicator from "./Indicator";
-
+ 
 const Navbar = (props: any) => {
   return (
-    <div className="navbar bg-primary">
+    <div className="navbar">
       <div className="flex-none">
-        <button className="btn btn-square btn-ghost" onClick={props.onClick}>
+        <button className="btn btn-square" onClick={props.onClick}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,17 +22,17 @@ const Navbar = (props: any) => {
           </svg>
         </button>
       </div>
-      <div className="flex-1">
-        <a className="btn btn-ghost text-l">GC - Dashboard</a>
+      <div className="flex-1 pl-2">
+        <a className="btn text-l ">GC - Dashboard</a>
       </div>
       <div className="flex-none">
         <ThemeController/>
       </div>
-      {/* <div className="flex-none">
-        <Indicator/>
-      </div> */}
       <div className="flex-none">
-        <button className="btn btn-square btn-ghost">
+        <Indicator/>
+      </div>
+      <div className="flex-none">
+        <button className="btn btn-square">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

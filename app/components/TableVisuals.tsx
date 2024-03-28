@@ -7,25 +7,15 @@ const TableVisuals = () => {
         {/* head */}
         <thead>
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
+            <th>Order Nr.</th>
+            <th>Date</th>
+            <th>Shipping To</th>
             <th>Details</th>
           </tr>
         </thead>
         <tbody>
           {/* row 1 */}
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
             <td>
               <div className="flex items-center gap-3">
                 <div className="avatar">
@@ -56,11 +46,6 @@ const TableVisuals = () => {
           </tr>
           {/* row 2 */}
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
             <td>
               <div className="flex items-center gap-3">
                 <div className="avatar">
@@ -89,11 +74,6 @@ const TableVisuals = () => {
           </tr>
           {/* row 3 */}
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
             <td>
               <div className="flex items-center gap-3">
                 <div className="avatar">
@@ -124,11 +104,6 @@ const TableVisuals = () => {
           </tr>
           {/* row 4 */}
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
             <td>
               <div className="flex items-center gap-3">
                 <div className="avatar">
@@ -160,12 +135,12 @@ const TableVisuals = () => {
         </tbody>
         {/* foot */}
         <tfoot></tfoot>
-        <div className="join">
-          <button className="join-item btn">«</button>
-          <button className="join-item btn">Page 5</button>
-          <button className="join-item btn">»</button>
-        </div>
       </table>
+      <div className="join pr-5 float-right">
+        <button className="join-item btn">«</button>
+        <button className="join-item btn">Page 5</button>
+        <button className="join-item btn">»</button>
+      </div>
     </div>
   );
 };

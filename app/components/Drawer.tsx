@@ -27,13 +27,13 @@ const Drawer = () => {
         ></label>
         <ul className="menu p-4 w-80 min-h-full text-base-content text-l">
           {/* Sidebar content here */}
-          <li className="text-center text-l text-primary">Navigation</li>
+          <li className="text-center text-l">Navigation</li>
           <div className="divider divider-vertical divider-primary"></div>
           <li>
-            <a className="text-primary"> -{">"} Dashboard</a>
+            <a> -{">"} Dashboard</a>
           </li>
           <li>
-            <a className="text-primary"> -{">"} Orders</a>
+            <a> -{">"} Orders</a>
           </li>
         </ul>
       </div>
