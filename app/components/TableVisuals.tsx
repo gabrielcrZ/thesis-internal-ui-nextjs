@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 const TableVisuals = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageIncrease = () => {
+    setCurrentPage(currentPage + 1);
+  };
+  const pageDecrease = () => {
+    if (currentPage === 0) return;
+    else setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -137,9 +146,13 @@ const TableVisuals = () => {
         <tfoot></tfoot>
       </table>
       <div className="join pr-5 float-right">
-        <button className="join-item btn">«</button>
-        <button className="join-item btn">Page 5</button>
-        <button className="join-item btn">»</button>
+        <button className="join-item btn" onClick={pageDecrease}>
+          «
+        </button>
+        <button className="join-item btn">{`Page ${currentPage}`}</button>
+        <button className="join-item btn" onClick={pageIncrease}>
+          »
+        </button>
       </div>
     </div>
   );

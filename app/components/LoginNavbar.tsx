@@ -1,14 +1,17 @@
 import React from "react";
 import ThemeController from "./ThemeController";
+import Link from "next/link";
 
 const LoginNavbar = () => {
   return (
-    <div className="navbar bg-primary">
+    <div className="navbar">
       <div className="flex-1">
-        <a className="btn btn-ghost text-l">GC - Dashboard</a>
+        <Link href="/">
+          <div className="btn btn-ghost text-l text-primary">GC - Dashboard</div>
+        </Link>
       </div>
       <div className="flex-none">
-        <ThemeController/>
+        <ThemeController />
       </div>
     </div>
   );

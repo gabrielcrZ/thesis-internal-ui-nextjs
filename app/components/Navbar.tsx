@@ -1,7 +1,8 @@
 import React from "react";
 import ThemeController from "./ThemeController";
 import Indicator from "./Indicator";
- 
+import Link from "next/link";
+
 const Navbar = (props: any) => {
   return (
     <div className="navbar">
@@ -23,13 +24,15 @@ const Navbar = (props: any) => {
         </button>
       </div>
       <div className="flex-1 pl-2">
-        <a className="btn text-l ">GC - Dashboard</a>
+        <Link href="/">
+          <div className="btn text-l ">GC - Dashboard</div>
+        </Link>
       </div>
       <div className="flex-none">
-        <ThemeController/>
+        <ThemeController />
       </div>
       <div className="flex-none">
-        <Indicator/>
+        <Indicator />
       </div>
       <div className="flex-none">
         <button className="btn btn-square">

@@ -10,18 +10,18 @@ const Content = () => {
     <div className="grid ">
       <Stats />
       <div className="grid grid-cols-2">
-        <div className="grid justify-items-center">
+        <div className="grid justify-items-start pt-2">
           <StackBarChart />
         </div>
-        <div className="grid justify-items-center">
+        <div className="grid justify-items-end pt-2">
           <BarChart />
         </div>
       </div>
       <div className="grid grid-cols-2">
-        <div>
+        <div className="pt-2">
           <TableVisuals />
         </div>
-        <div className="grid justify-items-center">
+        <div className="grid justify-items-end pt-2">
           <LineChart />
         </div>
       </div>
