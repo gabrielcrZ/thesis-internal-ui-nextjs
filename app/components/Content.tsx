@@ -4,10 +4,12 @@ import TableVisuals from "./TableVisuals";
 import StackBarChart from "./charts/StackBarChart";
 import BarChart from "./charts/BarChart";
 import LineChart from "./charts/LineChart";
+import Toast from "./Toast";
 
 const Content = () => {
   return (
     <div className="grid ">
+      <Toast/>
       <Stats />
       <div className="grid grid-cols-2">
         <div className="grid justify-items-start pt-2">

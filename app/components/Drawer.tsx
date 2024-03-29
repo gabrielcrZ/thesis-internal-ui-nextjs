@@ -2,13 +2,13 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Content from "./Content";
+import Link from "next/link";
 
 const Drawer = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleDrawerOpen = () => {
-    if (isOpen) setIsOpen(false);
-    else setIsOpen(true);
+    setIsOpen((prevState) => !prevState);
   };
 
   return (
@@ -17,7 +17,7 @@ const Drawer = () => {
       <div className="drawer-content">
         {/* Page content here */}
         <Navbar onClick={handleDrawerOpen} />
-        <Content/>
+        <Content />
       </div>
       <div className="drawer-side">
         <label
@@ -25,15 +25,19 @@ const Drawer = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 w-80 min-h-full text-base-content text-l">
+        <ul className="menu p-4 w-80 min-h-full text-base-content text-l bg-content">
           {/* Sidebar content here */}
           <li className="text-center text-l">Navigation</li>
           <div className="divider divider-vertical divider-primary"></div>
           <li>
-            <a> -{">"} Dashboard</a>
+            <Link href="/">
+              <div> -{">"} Dashboard</div>
+            </Link>
           </li>
           <li>
-            <a> -{">"} Orders</a>
+            <Link href="/orders">
+              <div> -{">"} Orders</div>
+            </Link>
           </li>
         </ul>
       </div>
