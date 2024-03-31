@@ -1,9 +1,9 @@
-import Drawer from "./components/Drawer";
+import MainContent from "./components/content/MainContent";
 
 export default function Home() {
   return (
     <>
-      <Drawer />
+      <MainContent/>
     </>
   );
 }

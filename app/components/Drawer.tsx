@@ -1,10 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import Navbar from "./Navbar";
-import Content from "./content/MainContent";
 import Link from "next/link";
 
-const Drawer = () => {
+const Drawer = (props: any) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleDrawerOpen = () => {
@@ -17,7 +16,7 @@ const Drawer = () => {
       <div className="drawer-content">
         {/* Page content here */}
         <Navbar onClick={handleDrawerOpen} />
-        <Content />
+        {props.children}
       </div>
       <div className="drawer-side">
         <label

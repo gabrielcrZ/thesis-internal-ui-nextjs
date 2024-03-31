@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Toast = (props: any) => {
-  const [isCancelled, setIsCancelled] = useState(true);
+  const [isCancelled, setIsCancelled] = useState(false);
 
   const handleDismiss = () => {
     setIsCancelled((prevState) => !prevState);
