@@ -1,7 +1,12 @@
 import React from "react";
+import OrderContent from "../components/content/OrderContent";
 
 const Orders = () => {
-  return <></>
+  return (
+    <>
+      <OrderContent />
+    </>
+  );
 };
 
 export default Orders;

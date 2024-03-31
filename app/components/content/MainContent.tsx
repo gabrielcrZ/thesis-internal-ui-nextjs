@@ -21,7 +21,7 @@ const MainContent = () => {
       </div>
       <div className="grid grid-cols-2 mt-2">
         <div className="pt-2">
-          <TableVisuals />
+          <TableVisuals type="mainContent"/>
         </div>
         <div className="grid pt-2 pl-2.5 justify-items-start">
           <LineChart />

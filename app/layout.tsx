@@ -18,11 +18,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <body className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}>{children}</body> */}
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
+      >
         <Drawer> {children}</Drawer>
         <Footer />
-      </body> 
+      </body>
+      {/* <body className={inter.className}>
+        <Drawer> {children}</Drawer>
+        <Footer />
+      </body>  */}
     </html>
   );
 }

@@ -1,7 +1,18 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from "react";
 
-const TableVisuals = () => {
+const TableVisuals = (props: any) => {
+  const orderTableFields = [
+    "OrderNr.",
+    "Client",
+    "Date",
+    "Shipping To",
+    "Status",
+    "Location",
+    "Details",
+  ];
+  const mainTableField = ["OrderNr. ", "Date", "Shipping To", "Details"];
   const [currentPage, setCurrentPage] = useState(0);
   const pageIncrease = () => {
     setCurrentPage(currentPage + 1);
@@ -17,10 +28,15 @@ const TableVisuals = () => {
         {/* head */}
         <thead>
           <tr>
-            <th>Order Nr.</th>
-            <th>Date</th>
-            <th>Shipping To</th>
-            <th>Details</th>
+            {props.type === "mainContent" ? (
+              mainTableField.map((field, index) => <th key={index}>{field}</th>)
+            ) : props.type === "ordersContent" ? (
+              orderTableFields.map((field, index) => (
+                <th key={index}>{field}</th>
+              ))
+            ) : (
+              <th></th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -51,7 +67,9 @@ const TableVisuals = () => {
             </td>
             <td>Purple</td>
             <th>
-              <button className="btn btn-ghost btn-xs">details</button>
+              <Link href="/orders/details">
+                <button className="btn btn-ghost btn-xs">details</button>
+              </Link>
             </th>
           </tr>
           {/* row 2 */}
@@ -79,7 +97,9 @@ const TableVisuals = () => {
             </td>
             <td>Red</td>
             <th>
-              <button className="btn btn-ghost btn-xs">details</button>
+              <Link href="/orders/details">
+                <button className="btn btn-ghost btn-xs">details</button>
+              </Link>
             </th>
           </tr>
           {/* row 3 */}
@@ -109,7 +129,9 @@ const TableVisuals = () => {
             </td>
             <td>Crimson</td>
             <th>
-              <button className="btn btn-ghost btn-xs">details</button>
+              <Link href="/orders/details">
+                <button className="btn btn-ghost btn-xs">details</button>
+              </Link>
             </th>
           </tr>
           {/* row 4 */}
@@ -139,7 +161,9 @@ const TableVisuals = () => {
             </td>
             <td>Indigo</td>
             <th>
-              <button className="btn btn-ghost btn-xs">details</button>
+              <Link href="/orders/details">
+                <button className="btn btn-ghost btn-xs">details</button>
+              </Link>
             </th>
           </tr>
         </tbody>
