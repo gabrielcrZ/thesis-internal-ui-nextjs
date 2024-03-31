@@ -50,7 +50,11 @@ function BarChart() {
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return (
+    <>
+      <Bar options={options} data={data} />;
+    </>
+  );
 }
 
 export default BarChart;

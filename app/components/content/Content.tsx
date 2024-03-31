@@ -12,7 +12,7 @@ const Content = () => {
       <Toast/>
       <Stats />
       <div className="grid grid-cols-2">
-        <div className="pt-2">
+        <div className="grid justify-items-start pt-2">
           <StackBarChart />
         </div>
         <div className="grid justify-items-end pt-2">
