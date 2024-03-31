@@ -25,7 +25,7 @@ const Navbar = (props: any) => {
       </div>
       <div className="flex-1 pl-2">
         <Link href="/">
-          <div className="btn text-l ">GC - Dashboard</div>
+          <div className="btn text-l ">SA - Dashboard</div>
         </Link>
       </div>
       <div className="flex-none">

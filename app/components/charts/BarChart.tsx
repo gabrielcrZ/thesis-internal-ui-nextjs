@@ -28,25 +28,20 @@ function BarChart() {
     },
   };
 
-  const labels = [
-    "Q1",
-    "Q2",
-    "Q3",
-    "Q4",
-  ];
+  const labels = ["Q1", "Q2", "Q3", "Q4"];
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Store 1",
+        label: `${new Date().getFullYear() - 1}`,
         data: labels.map(() => {
           return Math.random() * 1000 + 500;
         }),
         backgroundColor: "rgba(255, 99, 132, 1)",
       },
       {
-        label: "Store 2",
+        label: `${new Date().getFullYear()}`,
         data: labels.map(() => {
           return Math.random() * 1000 + 500;
         }),

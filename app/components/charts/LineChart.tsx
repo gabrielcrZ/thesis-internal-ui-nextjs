@@ -39,7 +39,7 @@ function LineChart() {
     datasets: [
       {
         fill: true,
-        label: "MAU",
+        label: `Shipped orders - ${new Date().getFullYear()}`,
         data: labels.map(() => {
           return Math.random() * 100 + 500;
         }),
