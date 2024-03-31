@@ -62,7 +62,7 @@ function StackBarChart() {
 
   return (
     <>
-      <Bar options={options} data={data} />;
+      <Bar options={options} data={data} />
     </>
   );
 }

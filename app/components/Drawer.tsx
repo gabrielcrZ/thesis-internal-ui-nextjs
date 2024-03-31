@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Navbar from "./Navbar";
-import Content from "./content/Content";
+import Content from "./content/MainContent";
 import Link from "next/link";
 
 const Drawer = () => {

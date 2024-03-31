@@ -52,7 +52,7 @@ function BarChart() {
 
   return (
     <>
-      <Bar options={options} data={data} />;
+      <Bar options={options} data={data} />
     </>
   );
 }
