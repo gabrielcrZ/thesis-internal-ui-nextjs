@@ -3,7 +3,7 @@ import TableVisuals from "../TableVisuals";
 
 const OrderContent = () => {
   return (
-    <div className="grid mx-10 mt-5">
+    <div className="grid p-5">
       <TableVisuals type="ordersContent" />
     </div>
   );

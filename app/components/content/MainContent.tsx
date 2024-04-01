@@ -4,10 +4,12 @@ import TableVisuals from "../TableVisuals";
 import StackBarChart from "../charts/StackBarChart";
 import BarChart from "../charts/BarChart";
 import LineChart from "../charts/LineChart";
+import Toast from "../Toast";
 
 const MainContent = () => {
   return (
-    <div className="grid">
+    <div className="grid p-5">
+      <Toast/>
       <Stats />
       <div className="grid grid-cols-2 mt-2">
         <div className="grid pt-2">

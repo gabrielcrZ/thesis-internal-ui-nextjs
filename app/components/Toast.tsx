@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 
 const Toast = (props: any) => {
@@ -9,7 +10,7 @@ const Toast = (props: any) => {
   return (
     <>
       {!isCancelled && (
-        <div className="toast toast-top toast-end">
+        <div className="toast toast-top toast-end opacity-70">
           <div className="alert alert-success">
             <span>Message sent successfully.</span>
             <button onClick={handleDismiss}>X</button>

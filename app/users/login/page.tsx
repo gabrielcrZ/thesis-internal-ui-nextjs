@@ -1,11 +1,9 @@
 import React from "react";
-import LoginNavbar from "@/app/components/LoginNavbar";
 import Link from "next/link";
 
 const Login = () => {
   return (
     <>
-      <LoginNavbar />
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left text-primary">
