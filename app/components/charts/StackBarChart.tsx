@@ -38,21 +38,21 @@ function StackBarChart() {
     labels,
     datasets: [
       {
-        label: "Region 1",
+        label: "Route 1",
         data: labels.map(() => {
           return Math.random() * 1000 + 500;
         }),
         backgroundColor: "rgba(255, 99, 132, 1)",
       },
       {
-        label: "Region 2",
+        label: "Route 2",
         data: labels.map(() => {
           return Math.random() * 1000 + 500;
         }),
         backgroundColor: "rgba(53, 162, 235, 1)",
       },
       {
-        label: "Region 3",
+        label: "Route 3",
         data: labels.map(() => {
           return Math.random() * 1000 + 500;
         }),

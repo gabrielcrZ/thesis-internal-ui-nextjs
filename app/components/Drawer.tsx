@@ -2,20 +2,27 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Drawer = (props: any) => {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setIsOpen((prevState) => !prevState);
   };
 
+  const checkPathIsLogin = () => {
+    console.log(pathname);
+    return pathname === "/users/login";
+  };
+
   return (
-    <div className={isOpen ? "drawer lg:drawer-open" : "drawer"}>
+    <div className={!checkPathIsLogin() && isOpen ? "drawer lg:drawer-open" : "drawer"}>
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
-        <Navbar displayNavigation={true} onClick={handleDrawerOpen} />
+        <Navbar isLoginPath={checkPathIsLogin()} onClick={handleDrawerOpen} />
         {props.children}
       </div>
       <div className="drawer-side">
@@ -124,7 +131,7 @@ const Drawer = (props: any) => {
             </Link>
           </li>
           <li>
-            <Link href="/settings">
+            <Link href="/users/settings">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

@@ -1,6 +1,6 @@
 import React from "react";
 import Stats from "../Stats";
-import TableVisuals from "../TableVisuals";
+import DashboardTable from "../DashboardTable";
 import StackBarChart from "../charts/StackBarChart";
 import BarChart from "../charts/BarChart";
 import LineChart from "../charts/LineChart";
@@ -9,7 +9,7 @@ import Toast from "../Toast";
 const MainContent = () => {
   return (
     <div className="grid p-5">
-      <Toast/>
+      {/* <Toast/> */}
       <Stats />
       <div className="grid grid-cols-2 mt-2">
         <div className="grid pt-2">
@@ -23,7 +23,7 @@ const MainContent = () => {
       </div>
       <div className="grid grid-cols-2 mt-2">
         <div className="pt-2">
-          <TableVisuals type="mainContent"/>
+          <DashboardTable/>
         </div>
         <div className="grid pt-2 pl-2.5 justify-items-start">
           <LineChart />
