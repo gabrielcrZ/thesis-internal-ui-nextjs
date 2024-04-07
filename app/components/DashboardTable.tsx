@@ -4,15 +4,24 @@ import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
 
 const DashboardTable = () => {
-  // const orderTableFields = [
-  //   "OrderNr.",
-  //   "Client",
-  //   "Date",
-  //   "Shipping To",
-  //   "Status",
-  //   "Location",
-  //   "Details",
-  // ];
+  const mockedStatusTooltip = [
+    <div className="tooltip tooltip-success tooltip-right" data-tip="Shipped">
+      <div className="badge badge-success badge-sm"></div>
+    </div>,
+    <div className="tooltip tooltip-info tooltip-right" data-tip="Ongoing">
+      <div className="badge badge-info badge-sm"></div>
+    </div>,
+    <div
+      className="tooltip tooltip-warning tooltip-right"
+      data-tip="Unprocessed"
+    >
+      <div className="badge badge-warning badge-sm"></div>
+    </div>,
+    <div className="tooltip tooltip-error tooltip-right" data-tip="Cancelled">
+      <div className="badge badge-error badge-sm"></div>
+    </div>,
+  ];
+
   const [currentPage, setCurrentPage] = useState(1);
   const pageIncrease = () => {
     setCurrentPage(currentPage + 1);
@@ -39,12 +48,11 @@ const DashboardTable = () => {
           <tr>
             <td>
               <div className="flex items-center gap-3 pl-3">
-                <div
-                  className="tooltip tooltip-success tooltip-right"
-                  data-tip="Shipped"
-                >
-                  <div className="badge badge-success badge-sm"></div>
-                </div>
+                {
+                  mockedStatusTooltip[
+                    Math.floor(Math.random() * mockedStatusTooltip.length)
+                  ]
+                }
                 <div>
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
@@ -73,12 +81,11 @@ const DashboardTable = () => {
           <tr>
             <td>
               <div className="flex items-center gap-3 pl-3">
-                <div
-                  className="tooltip tooltip-info tooltip-right"
-                  data-tip="Ongoing"
-                >
-                  <div className="badge badge-info badge-sm"></div>
-                </div>
+                {
+                  mockedStatusTooltip[
+                    Math.floor(Math.random() * mockedStatusTooltip.length)
+                  ]
+                }
                 <div>
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
@@ -105,12 +112,11 @@ const DashboardTable = () => {
           <tr>
             <td>
               <div className="flex items-center gap-3 pl-3">
-                <div
-                  className="tooltip tooltip-warning tooltip-right"
-                  data-tip="Unprocessed"
-                >
-                  <div className="badge badge-warning badge-sm"></div>
-                </div>
+                {
+                  mockedStatusTooltip[
+                    Math.floor(Math.random() * mockedStatusTooltip.length)
+                  ]
+                }
                 <div>
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
@@ -137,12 +143,11 @@ const DashboardTable = () => {
           <tr>
             <td>
               <div className="flex items-center gap-3 pl-3">
-                <div
-                  className="tooltip tooltip-error tooltip-right"
-                  data-tip="Cancelled"
-                >
-                  <div className="badge badge-error badge-sm"></div>
-                </div>
+                {
+                  mockedStatusTooltip[
+                    Math.floor(Math.random() * mockedStatusTooltip.length)
+                  ]
+                }
                 <div>
                   <div className="font-bold">{`#${faker.string.numeric(
                     6

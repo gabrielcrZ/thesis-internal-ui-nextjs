@@ -2,7 +2,7 @@ import React from "react";
 
 const Stats = () => {
   return (
-    <div className="stats shadow mt-2">
+    <div className="stats shadow">
       <div className="stat">
         <div className="stat-figure text-secondary">
           <svg
