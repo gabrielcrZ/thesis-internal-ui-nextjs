@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
+import Modal from "./Modal";
 
 const DashboardTable = () => {
   const mockedStatusTooltip = [
@@ -72,9 +73,9 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-              <Link href="/orders/details">
-                <button className="btn btn-ghost btn-xs">View</button>
-              </Link>
+            <Modal btnName="View" title={`OrderNr. #${faker.string.numeric(6)}`}>
+                Aici pun campurile
+              </Modal>
             </th>
           </tr>
           {/* row 2 */}
@@ -90,7 +91,9 @@ const DashboardTable = () => {
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">{faker.location.country()}</div>
+                  <div className="text-sm opacity-50">
+                    {faker.location.country()}
+                  </div>
                 </div>
               </div>
             </td>
@@ -103,9 +106,9 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-              <Link href="/orders/details">
-                <button className="btn btn-ghost btn-xs">View</button>
-              </Link>
+            <Modal btnName="View" title={`OrderNr. #${faker.string.numeric(6)}`}>
+                Aici pun campurile
+              </Modal>
             </th>
           </tr>
           {/* row 3 */}
@@ -121,7 +124,9 @@ const DashboardTable = () => {
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">{faker.location.country()}</div>
+                  <div className="text-sm opacity-50">
+                    {faker.location.country()}
+                  </div>
                 </div>
               </div>
             </td>
@@ -134,9 +139,9 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-              <Link href="/orders/details">
-                <button className="btn btn-ghost btn-xs">View</button>
-              </Link>
+            <Modal btnName="View" title={`OrderNr. #${faker.string.numeric(6)}`}>
+                Aici pun campurile
+              </Modal>
             </th>
           </tr>
           {/* row 4 */}
@@ -152,7 +157,9 @@ const DashboardTable = () => {
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">{faker.location.country()}</div>
+                  <div className="text-sm opacity-50">
+                    {faker.location.country()}
+                  </div>
                 </div>
               </div>
             </td>
@@ -165,13 +172,13 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-              <Link href="/orders/details">
-                <button className="btn btn-ghost btn-xs">View</button>
-              </Link>
+            <Modal btnName="View" title={`OrderNr. #${faker.string.numeric(6)}`}>
+                Aici pun campurile
+              </Modal>
             </th>
           </tr>
-                    {/* row 5 */}
-                    <tr className="hover">
+          {/* row 5 */}
+          <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -183,7 +190,9 @@ const DashboardTable = () => {
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">{faker.location.country()}</div>
+                  <div className="text-sm opacity-50">
+                    {faker.location.country()}
+                  </div>
                 </div>
               </div>
             </td>
@@ -196,9 +205,9 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-              <Link href="/orders/details">
-                <button className="btn btn-ghost btn-xs">View</button>
-              </Link>
+            <Modal btnName="View" title={faker.string.numeric(6)}>
+                Aici pun campurile
+              </Modal>
             </th>
           </tr>
         </tbody>
