@@ -1,14 +1,14 @@
 import React from "react";
-import DateTimePicker from "../DateTimePicker";
 import OrdersTable from "../OrdersTable";
+import Filters from "../Filters";
+import CollapsibleTable from "../CollapsibleTable";
 
 const OrderContent = () => {
   return (
-    <div className="grid p-5">
-      <div className="w-1/3">
-        <DateTimePicker />
-      </div>
-      <OrdersTable />
+    <div className="grid justify-items-center">
+      <Filters />
+      {/* <OrdersTable /> */}
+      <CollapsibleTable/>
     </div>
   );
 };

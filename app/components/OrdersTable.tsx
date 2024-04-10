@@ -30,14 +30,14 @@ const OrdersTable = () => {
             <th>OrderNr.</th>
             <th>Client</th>
             <th>Date</th>
-            <th>Shipping To</th>
+            <th>ShippingTo</th>
             <th>Status</th>
             <th>Location</th>
             <th>LastUpdated</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -64,7 +64,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -91,7 +91,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -118,7 +118,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -145,7 +145,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -172,7 +172,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -199,7 +199,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -226,7 +226,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -253,7 +253,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -280,7 +280,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -307,7 +307,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -334,7 +334,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -361,7 +361,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -388,7 +388,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -415,7 +415,7 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr>
+          <tr className="hover">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}

@@ -22,7 +22,7 @@ const MainContent = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 mt-2">
-        <div className="pt-2">
+        <div className="grid pt-2">
           <DashboardTable/>
         </div>
         <div className="grid pt-2 pl-2.5 justify-items-start">

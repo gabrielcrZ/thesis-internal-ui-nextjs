@@ -45,7 +45,7 @@ const DashboardTable = () => {
         </thead>
         <tbody>
           {/* row 1 */}
-          <tr>
+          <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -78,7 +78,7 @@ const DashboardTable = () => {
             </th>
           </tr>
           {/* row 2 */}
-          <tr>
+          <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -90,7 +90,7 @@ const DashboardTable = () => {
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">China</div>
+                  <div className="text-sm opacity-50">{faker.location.country()}</div>
                 </div>
               </div>
             </td>
@@ -109,7 +109,7 @@ const DashboardTable = () => {
             </th>
           </tr>
           {/* row 3 */}
-          <tr>
+          <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -121,7 +121,7 @@ const DashboardTable = () => {
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">Russia</div>
+                  <div className="text-sm opacity-50">{faker.location.country()}</div>
                 </div>
               </div>
             </td>
@@ -140,7 +140,7 @@ const DashboardTable = () => {
             </th>
           </tr>
           {/* row 4 */}
-          <tr>
+          <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -152,7 +152,38 @@ const DashboardTable = () => {
                   <div className="font-bold">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">Brazil</div>
+                  <div className="text-sm opacity-50">{faker.location.country()}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              {faker.date.anytime().toLocaleDateString()}
+              <br />
+              <span className="badge badge-ghost badge-sm">
+                {faker.company.name()}
+              </span>
+            </td>
+            <td>{faker.location.countryCode("alpha-2")}</td>
+            <th>
+              <Link href="/orders/details">
+                <button className="btn btn-ghost btn-xs">View</button>
+              </Link>
+            </th>
+          </tr>
+                    {/* row 5 */}
+                    <tr className="hover">
+            <td>
+              <div className="flex items-center gap-3 pl-3">
+                {
+                  mockedStatusTooltip[
+                    Math.floor(Math.random() * mockedStatusTooltip.length)
+                  ]
+                }
+                <div>
+                  <div className="font-bold">{`#${faker.string.numeric(
+                    6
+                  )}`}</div>
+                  <div className="text-sm opacity-50">{faker.location.country()}</div>
                 </div>
               </div>
             </td>
@@ -174,7 +205,7 @@ const DashboardTable = () => {
         {/* foot */}
         <tfoot></tfoot>
       </table>
-      <div className="join pr-5 float-right">
+      <div className="join pr-5 float-right mt-1">
         <button className="join-item btn" onClick={pageDecrease}>
           «
         </button>
