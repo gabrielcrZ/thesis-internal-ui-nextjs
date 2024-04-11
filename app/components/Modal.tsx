@@ -15,17 +15,17 @@ const Modal = (props: any) => {
       </button>
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">{props.title}</h3>
-          <p className="py-4">
-            {props.children}
-          </p>
+          <h3 className="font-bold text-lg text-primary">{props.title}</h3>
+          <div className="pt-4">
+          {props.children}
+          </div>
           <div className="modal-action">
             <form method="post">
-              <button className="btn">Edit Order</button>
+              <button className="btn text-primary">Update</button>
             </form>
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
+              <button className="btn text-primary">Close</button>
             </form>
           </div>
         </div>

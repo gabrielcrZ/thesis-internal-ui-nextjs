@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
 import Modal from "./Modal";
@@ -21,6 +20,13 @@ const DashboardTable = () => {
     <div className="tooltip tooltip-error tooltip-right" data-tip="Cancelled">
       <div className="badge badge-error badge-sm"></div>
     </div>,
+  ];
+
+  const mockedStatusBadge = [
+    <div className="badge badge-info gap-2">Ongoing</div>,
+    <div className="badge badge-success gap-2">Shipped</div>,
+    <div className="badge badge-warning gap-2">Unprocessed</div>,
+    <div className="badge badge-error gap-2">Cancelled</div>,
   ];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,8 +79,31 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-            <Modal btnName="View" title={`OrderNr. #${faker.string.numeric(6)}`}>
-                Aici pun campurile
+              <Modal
+                btnName="View"
+                title={
+                  <div className="flex">
+                    <div className="flex-1">
+                      OrderNr. #{faker.string.numeric(6)}
+                    </div>
+                    <div className="flex-none">
+                      {" "}
+                      {
+                        mockedStatusBadge[
+                          Math.floor(Math.random() * mockedStatusTooltip.length)
+                        ]
+                      }
+                    </div>
+                  </div>
+                }
+              >
+                <div className="grid gap-1 font-bold text-neutral-content">
+                  <p>• Date - {new Date().toLocaleDateString()}</p>
+                  <p>• Shipping From - Romania</p>
+                  <p>• Shipping To - Spain</p>
+                  <p>• Weight - 0,5 Kg</p>
+                  <p>• Assigned shipment - s103</p>
+                </div>
               </Modal>
             </th>
           </tr>
@@ -106,7 +135,21 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-            <Modal btnName="View" title={`OrderNr. #${faker.string.numeric(6)}`}>
+              <Modal
+                btnName="View"
+                title={
+                  <div className="flex">
+                    <div className="flex-1">
+                      OrderNr. #{faker.string.numeric(6)}
+                    </div>
+                    {
+                      mockedStatusBadge[
+                        Math.floor(Math.random() * mockedStatusTooltip.length)
+                      ]
+                    }
+                  </div>
+                }
+              >
                 Aici pun campurile
               </Modal>
             </th>
@@ -139,7 +182,21 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-            <Modal btnName="View" title={`OrderNr. #${faker.string.numeric(6)}`}>
+              <Modal
+                btnName="View"
+                title={
+                  <div className="flex">
+                    <div className="flex-1">
+                      OrderNr. #{faker.string.numeric(6)}
+                    </div>
+                    {
+                      mockedStatusBadge[
+                        Math.floor(Math.random() * mockedStatusBadge.length)
+                      ]
+                    }
+                  </div>
+                }
+              >
                 Aici pun campurile
               </Modal>
             </th>
@@ -172,7 +229,21 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-            <Modal btnName="View" title={`OrderNr. #${faker.string.numeric(6)}`}>
+              <Modal
+                btnName="View"
+                title={
+                  <div className="flex">
+                    <div className="flex-1">
+                      OrderNr. #{faker.string.numeric(6)}
+                    </div>
+                    {
+                      mockedStatusBadge[
+                        Math.floor(Math.random() * mockedStatusTooltip.length)
+                      ]
+                    }
+                  </div>
+                }
+              >
                 Aici pun campurile
               </Modal>
             </th>
@@ -205,7 +276,21 @@ const DashboardTable = () => {
             </td>
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
-            <Modal btnName="View" title={faker.string.numeric(6)}>
+              <Modal
+                btnName="View"
+                title={
+                  <div className="flex">
+                    <div className="flex-1">
+                      OrderNr. #{faker.string.numeric(6)}
+                    </div>
+                    {
+                      mockedStatusBadge[
+                        Math.floor(Math.random() * mockedStatusTooltip.length)
+                      ]
+                    }
+                  </div>
+                }
+              >
                 Aici pun campurile
               </Modal>
             </th>

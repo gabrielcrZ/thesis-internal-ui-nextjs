@@ -15,14 +15,14 @@ const Filters = () => {
     <DateTimePicker/>
     <label className="input input-bordered flex items-center gap-2">
   <input type="text" className="grow" placeholder="#OrderId" />
-  <span className="badge badge-info">Optional</span>
+  <span className="badge badge-info">optional</span>
 </label>
 <label className="input input-bordered flex items-center gap-2">
-  <input type="text" className="grow" placeholder="Company" />
-  <span className="badge badge-info">Optional</span>
+  <input type="text" className="grow" placeholder="#Company" />
+  <span className="badge badge-info">optional</span>
 </label>
 <button className="btn btn-info">Apply</button>
-<button className="btn btn-info">Reset</button>
+<button className="btn btn-info">Clear</button>
   </div>
 </div>
   );
