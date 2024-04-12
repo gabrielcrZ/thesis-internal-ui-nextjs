@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import RoutesContent from "../components/content/RoutesContent";
 
 const Routes = () => {
-  return (
-    <div>Routes</div>
-  )
-}
+  return <RoutesContent />;
+};
 
-export default Routes
+export default Routes;

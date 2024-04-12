@@ -3,7 +3,7 @@ import DateTimePicker from "./DateTimePicker";
 
 const Filters = () => {
   return (
-<div className="collapse">
+<div className="collapse w-fit">
   <input type="checkbox" className="peer" /> 
   <div className="collapse-title flex text-base-content">
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -15,14 +15,14 @@ const Filters = () => {
     <DateTimePicker/>
     <label className="input input-bordered flex items-center gap-2">
   <input type="text" className="grow" placeholder="#OrderId" />
-  <span className="badge badge-info">optional</span>
+  <span className="badge badge-info bg-primary">optional</span>
 </label>
 <label className="input input-bordered flex items-center gap-2">
   <input type="text" className="grow" placeholder="#Company" />
-  <span className="badge badge-info">optional</span>
+  <span className="badge badge-info bg-primary">optional</span>
 </label>
-<button className="btn btn-info">Apply</button>
-<button className="btn btn-info">Clear</button>
+<button className="btn btn-primary">Apply</button>
+<button className="btn btn-primary">Clear</button>
   </div>
 </div>
   );

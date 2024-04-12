@@ -80,6 +80,7 @@ const DashboardTable = () => {
             <td>{faker.location.countryCode("alpha-2")}</td>
             <th>
               <Modal
+                submitBtn="Update"
                 btnName="View"
                 title={
                   <div className="flex">
@@ -87,7 +88,6 @@ const DashboardTable = () => {
                       OrderNr. #{faker.string.numeric(6)}
                     </div>
                     <div className="flex-none">
-                      {" "}
                       {
                         mockedStatusBadge[
                           Math.floor(Math.random() * mockedStatusTooltip.length)

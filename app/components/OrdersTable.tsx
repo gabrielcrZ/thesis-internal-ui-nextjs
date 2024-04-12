@@ -22,7 +22,7 @@ const OrdersTable = () => {
   };
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto px-3">
       <table className="table">
         {/* head */}
         <thead>
@@ -446,12 +446,12 @@ const OrdersTable = () => {
         {/* foot */}
         <tfoot></tfoot>
       </table>
-      <div className="join py-3 px-3 float-right">
+      <div className="join py-3 float-right">
         <button className="join-item btn" onClick={pageDecrease}>
           «
         </button>
-        <button className="join-item btn">{`Page ${currentPage}`}</button>
-        <button className="join-item btn" onClick={pageIncrease}>
+        <button className="join-item btn ">{`Page ${currentPage}`}</button>
+        <button className="join-item btn " onClick={pageIncrease}>
           »
         </button>
       </div>
