@@ -61,24 +61,26 @@ const DashboardTable = () => {
                   ]
                 }
                 <div>
-                  <div className="font-bold">{`#${faker.string.numeric(
+                  <div className="text-gray-400">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">
+                  <div className="badge badge-ghost badge-sm">
                     {faker.location.country()}
                   </div>
                 </div>
               </div>
             </td>
-            <td>
+            <td className="text-gray-400">
               {faker.date.anytime().toLocaleDateString()}
               <br />
               <span className="badge badge-ghost badge-sm">
                 {faker.company.name()}
               </span>
             </td>
-            <td>{faker.location.countryCode("alpha-2")}</td>
-            <th>
+            <td className="text-gray-400">
+              {faker.location.countryCode("alpha-2")}
+            </td>
+            <td>
               <Modal
                 submitBtn="Update"
                 btnName="View"
@@ -105,7 +107,7 @@ const DashboardTable = () => {
                   <p>• Assigned shipment - s103</p>
                 </div>
               </Modal>
-            </th>
+            </td>
           </tr>
           {/* row 2 */}
           <tr className="hover">
@@ -117,42 +119,53 @@ const DashboardTable = () => {
                   ]
                 }
                 <div>
-                  <div className="font-bold">{`#${faker.string.numeric(
+                  <div className="text-gray-400">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">
+                  <div className="badge badge-ghost badge-sm">
                     {faker.location.country()}
                   </div>
                 </div>
               </div>
             </td>
-            <td>
+            <td className="text-gray-400">
               {faker.date.anytime().toLocaleDateString()}
               <br />
               <span className="badge badge-ghost badge-sm">
                 {faker.company.name()}
               </span>
             </td>
-            <td>{faker.location.countryCode("alpha-2")}</td>
-            <th>
+            <td className="text-gray-400">
+              {faker.location.countryCode("alpha-2")}
+            </td>
+            <td>
               <Modal
+                submitBtn="Update"
                 btnName="View"
                 title={
                   <div className="flex">
                     <div className="flex-1">
                       OrderNr. #{faker.string.numeric(6)}
                     </div>
-                    {
-                      mockedStatusBadge[
-                        Math.floor(Math.random() * mockedStatusTooltip.length)
-                      ]
-                    }
+                    <div className="flex-none">
+                      {
+                        mockedStatusBadge[
+                          Math.floor(Math.random() * mockedStatusTooltip.length)
+                        ]
+                      }
+                    </div>
                   </div>
                 }
               >
-                Aici pun campurile
+                <div className="grid gap-1 font-bold text-neutral-content">
+                  <p>• Date - {new Date().toLocaleDateString()}</p>
+                  <p>• Shipping From - Romania</p>
+                  <p>• Shipping To - Spain</p>
+                  <p>• Weight - 0,5 Kg</p>
+                  <p>• Assigned shipment - s103</p>
+                </div>
               </Modal>
-            </th>
+            </td>
           </tr>
           {/* row 3 */}
           <tr className="hover">
@@ -164,42 +177,53 @@ const DashboardTable = () => {
                   ]
                 }
                 <div>
-                  <div className="font-bold">{`#${faker.string.numeric(
+                  <div className="text-gray-400">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">
+                  <div className="badge badge-ghost badge-sm">
                     {faker.location.country()}
                   </div>
                 </div>
               </div>
             </td>
-            <td>
+            <td className="text-gray-400">
               {faker.date.anytime().toLocaleDateString()}
               <br />
               <span className="badge badge-ghost badge-sm">
                 {faker.company.name()}
               </span>
             </td>
-            <td>{faker.location.countryCode("alpha-2")}</td>
-            <th>
+            <td className="text-gray-400">
+              {faker.location.countryCode("alpha-2")}
+            </td>
+            <td>
               <Modal
+                submitBtn="Update"
                 btnName="View"
                 title={
                   <div className="flex">
                     <div className="flex-1">
                       OrderNr. #{faker.string.numeric(6)}
                     </div>
-                    {
-                      mockedStatusBadge[
-                        Math.floor(Math.random() * mockedStatusBadge.length)
-                      ]
-                    }
+                    <div className="flex-none">
+                      {
+                        mockedStatusBadge[
+                          Math.floor(Math.random() * mockedStatusTooltip.length)
+                        ]
+                      }
+                    </div>
                   </div>
                 }
               >
-                Aici pun campurile
+                <div className="grid gap-1 font-bold text-neutral-content">
+                  <p>• Date - {new Date().toLocaleDateString()}</p>
+                  <p>• Shipping From - Romania</p>
+                  <p>• Shipping To - Spain</p>
+                  <p>• Weight - 0,5 Kg</p>
+                  <p>• Assigned shipment - s103</p>
+                </div>
               </Modal>
-            </th>
+            </td>
           </tr>
           {/* row 4 */}
           <tr className="hover">
@@ -211,42 +235,53 @@ const DashboardTable = () => {
                   ]
                 }
                 <div>
-                  <div className="font-bold">{`#${faker.string.numeric(
+                  <div className="text-gray-400">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">
+                  <div className="badge badge-ghost badge-sm">
                     {faker.location.country()}
                   </div>
                 </div>
               </div>
             </td>
-            <td>
+            <td className="text-gray-400">
               {faker.date.anytime().toLocaleDateString()}
               <br />
               <span className="badge badge-ghost badge-sm">
                 {faker.company.name()}
               </span>
             </td>
-            <td>{faker.location.countryCode("alpha-2")}</td>
-            <th>
+            <td className="text-gray-400">
+              {faker.location.countryCode("alpha-2")}
+            </td>
+            <td>
               <Modal
+                submitBtn="Update"
                 btnName="View"
                 title={
                   <div className="flex">
                     <div className="flex-1">
                       OrderNr. #{faker.string.numeric(6)}
                     </div>
-                    {
-                      mockedStatusBadge[
-                        Math.floor(Math.random() * mockedStatusTooltip.length)
-                      ]
-                    }
+                    <div className="flex-none">
+                      {
+                        mockedStatusBadge[
+                          Math.floor(Math.random() * mockedStatusTooltip.length)
+                        ]
+                      }
+                    </div>
                   </div>
                 }
               >
-                Aici pun campurile
+                <div className="grid gap-1 font-bold text-neutral-content">
+                  <p>• Date - {new Date().toLocaleDateString()}</p>
+                  <p>• Shipping From - Romania</p>
+                  <p>• Shipping To - Spain</p>
+                  <p>• Weight - 0,5 Kg</p>
+                  <p>• Assigned shipment - s103</p>
+                </div>
               </Modal>
-            </th>
+            </td>
           </tr>
           {/* row 5 */}
           <tr className="hover">
@@ -258,42 +293,53 @@ const DashboardTable = () => {
                   ]
                 }
                 <div>
-                  <div className="font-bold">{`#${faker.string.numeric(
+                  <div className="text-gray-400">{`#${faker.string.numeric(
                     6
                   )}`}</div>
-                  <div className="text-sm opacity-50">
+                  <div className="badge badge-ghost badge-sm">
                     {faker.location.country()}
                   </div>
                 </div>
               </div>
             </td>
-            <td>
+            <td className="text-gray-400">
               {faker.date.anytime().toLocaleDateString()}
               <br />
               <span className="badge badge-ghost badge-sm">
                 {faker.company.name()}
               </span>
             </td>
-            <td>{faker.location.countryCode("alpha-2")}</td>
-            <th>
+            <td className="text-gray-400">
+              {faker.location.countryCode("alpha-2")}
+            </td>
+            <td>
               <Modal
+                submitBtn="Update"
                 btnName="View"
                 title={
                   <div className="flex">
                     <div className="flex-1">
                       OrderNr. #{faker.string.numeric(6)}
                     </div>
-                    {
-                      mockedStatusBadge[
-                        Math.floor(Math.random() * mockedStatusTooltip.length)
-                      ]
-                    }
+                    <div className="flex-none">
+                      {
+                        mockedStatusBadge[
+                          Math.floor(Math.random() * mockedStatusTooltip.length)
+                        ]
+                      }
+                    </div>
                   </div>
                 }
               >
-                Aici pun campurile
+                <div className="grid gap-1 font-bold text-neutral-content">
+                  <p>• Date - {new Date().toLocaleDateString()}</p>
+                  <p>• Shipping From - Romania</p>
+                  <p>• Shipping To - Spain</p>
+                  <p>• Weight - 0,5 Kg</p>
+                  <p>• Assigned shipment - s103</p>
+                </div>
               </Modal>
-            </th>
+            </td>
           </tr>
         </tbody>
         {/* foot */}

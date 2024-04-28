@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import RoutesTable from "../RoutesTable";
+import DeliveriesTable from "../DeliveriesTable";
 import Modal from "../Modal";
 
-const RoutesContent = () => {
+const DeliveriesContent = () => {
   return (
     <>
       <div className="my-5 px-3">
@@ -48,9 +48,9 @@ const RoutesContent = () => {
           </form>
         </Modal>
       </div>
-      <RoutesTable />
+      <DeliveriesTable />
     </>
   );
 };
 
-export default RoutesContent;
+export default DeliveriesContent;

@@ -5,7 +5,7 @@ const Indicator = () => {
   return (
     <div className="indicator my-2 px-2">
       <Link href="/messages">
-        <span className="indicator-item badge badge-primary">10+</span>
+        <span className="indicator-item badge badge-info">10+</span>
         <button className="btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"

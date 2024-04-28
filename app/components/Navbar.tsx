@@ -30,9 +30,9 @@ const Navbar = (props: any) => {
           <div className="btn text-l ">SA - Dashboard</div>
         </Link>
       </div>
-      {/* <div className="flex-none">
+      <div className="flex-none">
         <ThemeController />
-      </div> */}
+      </div>
       {!props.isLoginPath && (
         <div className="flex-none">
           <Indicator />

@@ -12,7 +12,7 @@ const DateTimePicker = () => {
       <input
         type="date"
         value={startDate}
-        className="input input-bordered"
+        className="input input-bordered text-gray-400"
         onChange={(e) => {
           console.log(startDate);
           console.log(endDate);
@@ -24,7 +24,7 @@ const DateTimePicker = () => {
       <input
         type="date"
         value={endDate}
-        className="input input-bordered"
+        className="input input-bordered text-gray-400"
         onChange={(e) => {
           setEndDate(e.target.value);
         }}

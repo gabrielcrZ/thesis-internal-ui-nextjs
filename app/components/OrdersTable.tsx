@@ -4,11 +4,10 @@ import { faker } from "@faker-js/faker";
 import Link from "next/link";
 
 const mockedShippingStatus = [
-  <div className="badge">Unknown</div>,
   <div className="badge badge-success">At destination</div>,
-  <div className="badge badge-info">Shipment in progress</div>,
-  <div className="badge badge-warning">Shipment not assigned</div>,
-  <div className="badge badge-error">Order cancelled</div>,
+  <div className="badge badge-info">In progress</div>,
+  <div className="badge badge-warning">Not processed</div>,
+  <div className="badge badge-error">Cancelled</div>,
 ];
 
 const OrdersTable = () => {
@@ -30,26 +29,31 @@ const OrdersTable = () => {
             <th>OrderNr.</th>
             <th>Client</th>
             <th>Date</th>
-            <th>ShippingTo</th>
+            <th>DeliverTo</th>
             <th>Status</th>
             <th>Location</th>
             <th>LastUpdated</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="hover">
+          {/* tr1 */}
+          <tr className="hover text-gray-400">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
+                <div className="font-bold hover:text-info">{`#${faker.string.numeric(
+                  8
+                )}`}</div>
               </Link>
             </td>
             <td>
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
-                <div className="font-bold">{faker.company.name()}</div>
+                <div className="font-bold hover:text-info">
+                  {faker.company.name()}
+                </div>
               </Link>
             </td>
             <td>{faker.date.anytime().toDateString()}</td>
@@ -64,19 +68,24 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr className="hover">
+          {/* tr2 */}
+          <tr className="hover text-gray-400">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
+                <div className="font-bold hover:text-info">{`#${faker.string.numeric(
+                  8
+                )}`}</div>
               </Link>
             </td>
             <td>
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
-                <div className="font-bold">{faker.company.name()}</div>
+                <div className="font-bold hover:text-info">
+                  {faker.company.name()}
+                </div>
               </Link>
             </td>
             <td>{faker.date.anytime().toDateString()}</td>
@@ -91,19 +100,24 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr className="hover">
+          {/* tr3 */}
+          <tr className="hover text-gray-400">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
+                <div className="font-bold hover:text-info">{`#${faker.string.numeric(
+                  8
+                )}`}</div>
               </Link>
             </td>
             <td>
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
-                <div className="font-bold">{faker.company.name()}</div>
+                <div className="font-bold hover:text-info">
+                  {faker.company.name()}
+                </div>
               </Link>
             </td>
             <td>{faker.date.anytime().toDateString()}</td>
@@ -118,19 +132,24 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr className="hover">
+          {/* tr4 */}
+          <tr className="hover text-gray-400">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
+                <div className="font-bold hover:text-info">{`#${faker.string.numeric(
+                  8
+                )}`}</div>
               </Link>
             </td>
             <td>
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
-                <div className="font-bold">{faker.company.name()}</div>
+                <div className="font-bold hover:text-info">
+                  {faker.company.name()}
+                </div>
               </Link>
             </td>
             <td>{faker.date.anytime().toDateString()}</td>
@@ -145,19 +164,24 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr className="hover">
+          {/* tr5 */}
+          <tr className="hover text-gray-400">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
+                <div className="font-bold hover:text-info">{`#${faker.string.numeric(
+                  8
+                )}`}</div>
               </Link>
             </td>
             <td>
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
-                <div className="font-bold">{faker.company.name()}</div>
+                <div className="font-bold hover:text-info">
+                  {faker.company.name()}
+                </div>
               </Link>
             </td>
             <td>{faker.date.anytime().toDateString()}</td>
@@ -172,19 +196,24 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr className="hover">
+          {/* tr6 */}
+          <tr className="hover text-gray-400">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
+                <div className="font-bold hover:text-info">{`#${faker.string.numeric(
+                  8
+                )}`}</div>
               </Link>
             </td>
             <td>
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
-                <div className="font-bold">{faker.company.name()}</div>
+                <div className="font-bold hover:text-info">
+                  {faker.company.name()}
+                </div>
               </Link>
             </td>
             <td>{faker.date.anytime().toDateString()}</td>
@@ -199,235 +228,24 @@ const OrdersTable = () => {
             <td>{faker.location.country()}</td>
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
-          <tr className="hover">
+          {/* tr7 */}
+          <tr className="hover text-gray-400">
             <td>
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
+                <div className="font-bold hover:text-info">{`#${faker.string.numeric(
+                  8
+                )}`}</div>
               </Link>
             </td>
             <td>
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
-                <div className="font-bold">{faker.company.name()}</div>
-              </Link>
-            </td>
-            <td>{faker.date.anytime().toDateString()}</td>
-            <td>{faker.location.countryCode("alpha-3")}</td>
-            <td>
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
-            </td>
-            <td>{faker.location.country()}</td>
-            <td>{faker.date.anytime().toDateString()}</td>
-          </tr>
-          <tr className="hover">
-            <td>
-              <Link
-                href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
-              </Link>
-            </td>
-            <td>
-              <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
-              >
-                <div className="font-bold">{faker.company.name()}</div>
-              </Link>
-            </td>
-            <td>{faker.date.anytime().toDateString()}</td>
-            <td>{faker.location.countryCode("alpha-3")}</td>
-            <td>
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
-            </td>
-            <td>{faker.location.country()}</td>
-            <td>{faker.date.anytime().toDateString()}</td>
-          </tr>
-          <tr className="hover">
-            <td>
-              <Link
-                href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
-              </Link>
-            </td>
-            <td>
-              <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
-              >
-                <div className="font-bold">{faker.company.name()}</div>
-              </Link>
-            </td>
-            <td>{faker.date.anytime().toDateString()}</td>
-            <td>{faker.location.countryCode("alpha-3")}</td>
-            <td>
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
-            </td>
-            <td>{faker.location.country()}</td>
-            <td>{faker.date.anytime().toDateString()}</td>
-          </tr>
-          <tr className="hover">
-            <td>
-              <Link
-                href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
-              </Link>
-            </td>
-            <td>
-              <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
-              >
-                <div className="font-bold">{faker.company.name()}</div>
-              </Link>
-            </td>
-            <td>{faker.date.anytime().toDateString()}</td>
-            <td>{faker.location.countryCode("alpha-3")}</td>
-            <td>
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
-            </td>
-            <td>{faker.location.country()}</td>
-            <td>{faker.date.anytime().toDateString()}</td>
-          </tr>
-          <tr className="hover">
-            <td>
-              <Link
-                href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
-              </Link>
-            </td>
-            <td>
-              <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
-              >
-                <div className="font-bold">{faker.company.name()}</div>
-              </Link>
-            </td>
-            <td>{faker.date.anytime().toDateString()}</td>
-            <td>{faker.location.countryCode("alpha-3")}</td>
-            <td>
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
-            </td>
-            <td>{faker.location.country()}</td>
-            <td>{faker.date.anytime().toDateString()}</td>
-          </tr>
-          <tr className="hover">
-            <td>
-              <Link
-                href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
-              </Link>
-            </td>
-            <td>
-              <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
-              >
-                <div className="font-bold">{faker.company.name()}</div>
-              </Link>
-            </td>
-            <td>{faker.date.anytime().toDateString()}</td>
-            <td>{faker.location.countryCode("alpha-3")}</td>
-            <td>
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
-            </td>
-            <td>{faker.location.country()}</td>
-            <td>{faker.date.anytime().toDateString()}</td>
-          </tr>
-          <tr className="hover">
-            <td>
-              <Link
-                href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
-              </Link>
-            </td>
-            <td>
-              <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
-              >
-                <div className="font-bold">{faker.company.name()}</div>
-              </Link>
-            </td>
-            <td>{faker.date.anytime().toDateString()}</td>
-            <td>{faker.location.countryCode("alpha-3")}</td>
-            <td>
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
-            </td>
-            <td>{faker.location.country()}</td>
-            <td>{faker.date.anytime().toDateString()}</td>
-          </tr>
-          <tr className="hover">
-            <td>
-              <Link
-                href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
-              </Link>
-            </td>
-            <td>
-              <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
-              >
-                <div className="font-bold">{faker.company.name()}</div>
-              </Link>
-            </td>
-            <td>{faker.date.anytime().toDateString()}</td>
-            <td>{faker.location.countryCode("alpha-3")}</td>
-            <td>
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
-            </td>
-            <td>{faker.location.country()}</td>
-            <td>{faker.date.anytime().toDateString()}</td>
-          </tr>
-          <tr className="hover">
-            <td>
-              <Link
-                href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                <div className="font-bold">{`#${faker.string.numeric(8)}`}</div>
-              </Link>
-            </td>
-            <td>
-              <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
-              >
-                <div className="font-bold">{faker.company.name()}</div>
+                <div className="font-bold hover:text-info">
+                  {faker.company.name()}
+                </div>
               </Link>
             </td>
             <td>{faker.date.anytime().toDateString()}</td>

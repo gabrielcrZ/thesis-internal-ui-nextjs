@@ -4,7 +4,7 @@ const Modal = (props: any) => {
   return (
     <>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <button className="btn btn-primary btn-sm"
+      <button className="btn btn-info btn-sm text-content"
         onClick={() =>
           (
             document.getElementById("my_modal_1") as HTMLDialogElement
