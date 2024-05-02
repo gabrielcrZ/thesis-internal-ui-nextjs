@@ -1,7 +1,28 @@
-import React from "react";
-import DateTimePicker from "./DateTimePicker";
+"use client";
+import React, { useEffect, useState } from "react";
 
 const Filters = () => {
+  const defaultStartDate = `${new Date().getFullYear()}-01-01`;
+  const defaultEndDate = `${new Date().getFullYear()}-12-31`;
+
+  const [startDate, setStartDate] = useState(defaultStartDate);
+  const [endDate, setEndDate] = useState(defaultEndDate);
+  const [orderId, setOrderId] = useState("");
+  const [client, setClient] = useState("");
+
+  const clearFilters = () => {
+    setStartDate(defaultStartDate);
+    setEndDate(defaultEndDate);
+    setOrderId("");
+    setClient("");
+  };
+
+  const searchOrders = () => {
+    console.log("test");
+  };
+
+  //maybe an use effect for every time the content of the table is changing
+
   return (
     <div className="collapse w-fit">
       <input type="checkbox" className="peer" />
@@ -23,18 +44,60 @@ const Filters = () => {
         Filters
       </div>
       <div className="collapse-content flex gap-5">
-        <DateTimePicker />
+        <div className="flex">
+          <input
+            type="date"
+            value={startDate}
+            className="input input-bordered text-gray-400"
+            onChange={(e) => {
+              setStartDate(e.target.value);
+            }}
+          />
+          <div className="divider divider-horizontal"></div>
+          <input
+            type="date"
+            value={endDate}
+            className="input input-bordered text-gray-400"
+            onChange={(e) => {
+              setEndDate(e.target.value);
+            }}
+          />
+        </div>
         <label className="input input-bordered text-gray-400 flex items-center gap-2">
-          <input type="text" className="grow" placeholder="#orderId" />
+          <input
+            type="text"
+            className="grow"
+            placeholder="#orderId"
+            value={orderId}
+            onChange={(e) => {
+              setOrderId(e.target.value);
+            }}
+          />
           <span className="badge badge-ghost font-medium">optional</span>
         </label>
         <label className="input input-bordered text-gray-400 flex items-center gap-2">
-          <input type="text" className="grow" placeholder="#client" />
+          <input
+            type="text"
+            className="grow"
+            placeholder="#client"
+            value={client}
+            onChange={(e) => {
+              setClient(e.target.value);
+            }}
+          />
           <span className="badge badge-ghost font-medium">optional</span>
         </label>
         <div className="flex items-center gap-2">
-          <button className="btn btn-info btn-sm">Apply</button>
-          <button className="btn btn-info btn-sm">Clear</button>
+          <button
+            type="submit"
+            className="btn btn-info btn-sm"
+            onSubmit={searchOrders}
+          >
+            Apply
+          </button>
+          <button className="btn btn-info btn-sm" onClick={clearFilters}>
+            Clear
+          </button>
         </div>
       </div>
     </div>

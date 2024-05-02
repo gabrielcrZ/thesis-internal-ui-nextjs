@@ -82,7 +82,7 @@ const DashboardTable = () => {
             </td>
             <td>
               <Modal
-                submitBtn="Update"
+                submitBtn="Check order"
                 btnName="View"
                 title={
                   <div className="flex">
@@ -99,12 +99,15 @@ const DashboardTable = () => {
                   </div>
                 }
               >
-                <div className="grid gap-1 font-bold text-neutral-content">
+                <div className="grid grid-cols-2 gap-1 font-bold text-gray-400">
                   <p>• Date - {new Date().toLocaleDateString()}</p>
                   <p>• Shipping From - Romania</p>
-                  <p>• Shipping To - Spain</p>
-                  <p>• Weight - 0,5 Kg</p>
                   <p>• Assigned shipment - s103</p>
+                  <p>• Shipping To - Spain</p>
+                  <p>• Revenue - 1500$</p>
+                  <p>• Current location - Romania</p>
+                  <p>• Estimated cost - 500$</p>
+                  <p>• Contact - 0712345678</p>
                 </div>
               </Modal>
             </td>

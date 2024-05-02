@@ -8,7 +8,6 @@ const ThemeController = () => {
   useEffect(() => {
     themeChange(false);
     setTheme(localStorage.getItem("theme"));
-    // 👆 false parameter is required for react project
   }, [theme]);
 
   return (

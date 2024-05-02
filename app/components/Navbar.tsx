@@ -39,8 +39,8 @@ const Navbar = (props: any) => {
         </div>
       )}
       {!props.isLoginPath && (
-        <details className="dropdown dropdown-end">
-          <summary className="m-1 btn">
+        <div className="dropdown dropdown-hover dropdown-end">
+          <div tabIndex={0} role="button" className="btn m-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -54,8 +54,8 @@ const Navbar = (props: any) => {
                 d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
               ></path>
             </svg>
-          </summary>
-          <ul className="mt-1 shadow menu dropdown-content z-[1] bg-primary rounded-box w-40 text-black font-medium">
+          </div>
+          <ul className="dropdown-content z-[1] menu p-1 shadow rounded-box w-52 text-gray-400">
             <li>
               <Link href="/users/settings">View user</Link>
             </li>
@@ -63,7 +63,7 @@ const Navbar = (props: any) => {
               <Link href="/users/login">Logout</Link>
             </li>
           </ul>
-        </details>
+        </div>
       )}
     </div>
   );
