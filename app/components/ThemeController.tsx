@@ -1,10 +1,25 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { themeChange } from "theme-change";
 
 const ThemeController = () => {
+  const [theme, setTheme] = useState<any>("");
+
+  useEffect(() => {
+    themeChange(false);
+    setTheme(localStorage.getItem("theme"));
+    // 👆 false parameter is required for react project
+  }, [theme]);
+
   return (
     <label className="swap swap-rotate btn">
       {/* this hidden checkbox controls the state */}
-      <input type="checkbox" className="theme-controller" value="light" />
+      <input
+        type="checkbox"
+        className="theme-controller"
+        data-toggle-theme="light, dark"
+        data-act-class="ACTIVECLASS"
+      />
 
       {/* sun icon */}
       <svg

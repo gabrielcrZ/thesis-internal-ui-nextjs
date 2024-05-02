@@ -13,7 +13,6 @@ const Drawer = (props: any) => {
   };
 
   const checkPathIsLogin = () => {
-    console.log(pathname);
     return pathname === "/users/login";
   };
 

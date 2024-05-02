@@ -31,3 +31,7 @@ export default function RootLayout({
     </html>
   );
 }
+
+function Loading() {
+  return <h2 className="text-primary">🌀 Loading...</h2>;
+}

@@ -14,9 +14,6 @@ const DateTimePicker = () => {
         value={startDate}
         className="input input-bordered text-gray-400"
         onChange={(e) => {
-          console.log(startDate);
-          console.log(endDate);
-          console.log(e);
           setStartDate(e.target.value);
         }}
       />
