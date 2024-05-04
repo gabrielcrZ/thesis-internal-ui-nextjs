@@ -25,7 +25,7 @@ const OrdersTable = () => {
       <table className="table">
         {/* head */}
         <thead>
-          <tr>
+          <tr className="text-info">
             <th>OrderNr.</th>
             <th>Client</th>
             <th>Date</th>

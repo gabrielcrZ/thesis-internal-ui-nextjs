@@ -29,7 +29,7 @@ const ViewOrderContent = () => {
   const orderId = searchParams.get("orderId");
   const hasAvailablePickups = true;
   return (
-    <div className="grid gap-5 px-5">
+    <div className="grid gap-5 px-2">
       <div className="flex justify-between gap-5">
         <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body">
@@ -265,7 +265,7 @@ const ViewOrderContent = () => {
             <table className="table">
               {/* head */}
               <thead>
-                <tr>
+                <tr className="text-info">
                   <th></th>
                   <th>Product</th>
                   <th>Category</th>
@@ -273,7 +273,7 @@ const ViewOrderContent = () => {
                   <th>Calculated revenue</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-400">
+              <tbody className="text-gray-400 font-bold">
                 {/* row 1 */}
                 <tr className="hover">
                   <th>1</th>
@@ -301,12 +301,12 @@ const ViewOrderContent = () => {
               </tbody>
             </table>
           </div>
-          <div className="divider divider-vertical px-5"></div>
+          <div className="divider divider-vertical px-2"></div>
           <div className="overflow-x-auto">
             <table className="table ">
               {/* head */}
               <thead>
-                <tr>
+                <tr className="text-info">
                   <th></th>
                   <th>Address</th>
                   <th>Region</th>
@@ -319,8 +319,8 @@ const ViewOrderContent = () => {
               </thead>
               <tbody className="text-gray-400">
                 {/* row 1 */}
-                <tr>
-                  <td className="text-info font-bold">Pickup details</td>
+                <tr className="font-bold">
+                  <td className="text-gray-500 font-bold italic">Pickup details</td>
                   <td>{faker.location.streetAddress()}</td>
                   <td>{faker.location.country()}</td>
                   <td>{faker.person.fullName()}</td>
@@ -329,8 +329,8 @@ const ViewOrderContent = () => {
                   <td>#{faker.string.numeric(4)}</td>
                   <td>{"Pending"}</td>
                 </tr>
-                <tr>
-                  <td className="text-info font-bold">Delivery details</td>
+                <tr className="font-bold">
+                  <td className="text-gray-500 italic">Delivery details</td>
                   <td>{faker.location.streetAddress()}</td>
                   <td>{faker.location.country()}</td>
                   <td>{faker.person.fullName()}</td>
@@ -354,14 +354,14 @@ const ViewOrderContent = () => {
             <table className="table">
               {/* head */}
               <thead>
-                <tr>
+                <tr className="text-info">
                   <th>Date</th>
                   <th>Update type</th>
                   <th>Update info</th>
                   <th>Updated by</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-400">
+              <tbody className="text-gray-400 font-bold">
                 {/* row 1 */}
                 <tr className="hover">
                   <td>{faker.date.anytime().toDateString()}</td>
