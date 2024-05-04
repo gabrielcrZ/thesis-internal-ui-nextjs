@@ -60,7 +60,7 @@ const ViewOrderContent = () => {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content z-[1] menu p-2 shadow bg-base-200 text-gray-500 rounded-box w-52"
+                  className="dropdown-content z-[2] menu p-2 shadow bg-base-200 text-gray-500 rounded-box w-52"
                 >
                   {/* <li className="text-gray-500"><a>Update pickup</a></li> */}
                   <li className="text-gray-500">
