@@ -29,7 +29,7 @@ const OrdersTable = () => {
             <th>OrderNr.</th>
             <th>Client</th>
             <th>Date</th>
-            <th>DeliverTo</th>
+            <th>Deliver To</th>
             <th>Status</th>
             <th>Location</th>
             <th>LastUpdated</th>

@@ -24,7 +24,7 @@ const Filters = () => {
   //maybe an use effect for every time the content of the table is changing
 
   return (
-    <div className="collapse w-fit">
+    <div className="collapse">
       <input type="checkbox" className="peer" />
       <div className="collapse-title flex text-base-content">
         <svg
@@ -43,7 +43,7 @@ const Filters = () => {
         </svg>
         Filters
       </div>
-      <div className="collapse-content flex gap-5">
+      <div className="collapse-content flex gap-5 overflow-x-auto">
         <div className="flex">
           <input
             type="date"
