@@ -30,9 +30,21 @@ const ViewOrderContent = () => {
 
   //Pickup cases
   const hasAvailablePickups = false;
-  const isPickupSuccess = false;
+  const isPickupSuccess = true;
   const hasPickupAssigned = false;
 
+  //Shipment cases
+  const hasAvailableShipments = false;
+  const isShippingSuccess = true;
+  const hasShipmentAssigned = false;
+
+  //Delivery cases
+  const hasAvailableDeliveries = false;
+  const isDeliverySuccess = true;
+  const hasDeliveryAssigned = false;
+
+  //Cancel order case
+  const isOrderCancelled = false;
 
   return (
     <div className="grid gap-5 px-2">
@@ -48,94 +60,102 @@ const ViewOrderContent = () => {
               }
             </p>
             <div className="card-actions justify-end">
-              <div className="dropdown dropdown-hover dropdown-end">
-                <div tabIndex={0} role="button" className="btn btn-info btn-sm">
-                  Actions
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="w-5 h-5"
+              {!isOrderCancelled ? (
+                <div className="dropdown dropdown-hover dropdown-end">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="btn btn-info btn-sm"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                    Actions
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[2] menu p-2 shadow bg-base-200 text-gray-500 rounded-box w-52 "
+                  >
+                    {/* <li className="text-gray-500"><a>Update pickup</a></li> */}
+                    <li className="text-gray-500">
+                      <a
+                        onClick={() =>
+                          (
+                            document.getElementById(
+                              "my_modal_pickup"
+                            ) as HTMLDialogElement
+                          ).showModal()
+                        }
+                      >
+                        Update pickup
+                      </a>
+                    </li>
+                    <li className="text-gray-500">
+                      <a
+                        onClick={() =>
+                          (
+                            document.getElementById(
+                              "my_modal_shipping"
+                            ) as HTMLDialogElement
+                          ).showModal()
+                        }
+                      >
+                        Update shipment
+                      </a>
+                    </li>
+                    <li className="text-gray-500">
+                      <a
+                        onClick={() =>
+                          (
+                            document.getElementById(
+                              "my_modal_delivery"
+                            ) as HTMLDialogElement
+                          ).showModal()
+                        }
+                      >
+                        Update delivery
+                      </a>
+                    </li>
+                    <li className="text-warning">
+                      <a
+                        onClick={() =>
+                          (
+                            document.getElementById(
+                              "my_modal_editOrder"
+                            ) as HTMLDialogElement
+                          ).showModal()
+                        }
+                      >
+                        Update details
+                      </a>
+                    </li>
+                    <li className="text-red-500">
+                      <a
+                        onClick={() =>
+                          (
+                            document.getElementById(
+                              "my_modal_cancel"
+                            ) as HTMLDialogElement
+                          ).showModal()
+                        }
+                      >
+                        Cancel Order
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content z-[2] menu p-2 shadow bg-base-200 text-gray-500 rounded-box w-52 "
-                >
-                  {/* <li className="text-gray-500"><a>Update pickup</a></li> */}
-                  <li className="text-gray-500">
-                    <a
-                      onClick={() =>
-                        (
-                          document.getElementById(
-                            "my_modal_pickup"
-                          ) as HTMLDialogElement
-                        ).showModal()
-                      }
-                    >
-                      Update pickup
-                    </a>
-                  </li>
-                  <li className="text-gray-500">
-                    <a
-                      onClick={() =>
-                        (
-                          document.getElementById(
-                            "my_modal_shipping"
-                          ) as HTMLDialogElement
-                        ).showModal()
-                      }
-                    >
-                      Update shipment
-                    </a>
-                  </li>
-                  <li className="text-gray-500">
-                    <a
-                      onClick={() =>
-                        (
-                          document.getElementById(
-                            "my_modal_delivery"
-                          ) as HTMLDialogElement
-                        ).showModal()
-                      }
-                    >
-                      Update delivery
-                    </a>
-                  </li>
-                  <li className="text-warning">
-                    <a
-                      onClick={() =>
-                        (
-                          document.getElementById(
-                            "my_modal_editOrder"
-                          ) as HTMLDialogElement
-                        ).showModal()
-                      }
-                    >
-                      Update details
-                    </a>
-                  </li>
-                  <li className="text-red-500">
-                    <a
-                      onClick={() =>
-                        (
-                          document.getElementById(
-                            "my_modal_cancel"
-                          ) as HTMLDialogElement
-                        ).showModal()
-                      }
-                    >
-                      Cancel Order
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>
@@ -177,16 +197,16 @@ const ViewOrderContent = () => {
           <form method="post">
             {isPickupSuccess ? (
               <div className="text-success font-bold">
-                {`Order #${orderId} has been already picked up and is now available in our local storage facility.`}
+                {`Order #${orderId} has been already picked up.`}
               </div>
             ) : hasPickupAssigned ? (
               <div className="text-warning font-bold">
-                {`Order #${orderId} has an been already assigned to a pickup. Id: #${faker.string.numeric(
+                {`Order #${orderId} has been already assigned to a pickup. Id: #${faker.string.numeric(
                   4
                 )}`}
               </div>
             ) : hasAvailablePickups ? (
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full max-w-sm">
                 <div className="label">
                   <span className="label-text text-info font-bold">
                     {`Select available pickup for order #${orderId}`}
@@ -220,18 +240,19 @@ const ViewOrderContent = () => {
             )}
           </form>
           <div className="modal-action">
-            <form className="flex gap-3" method="dialog">
+            <form className="flex gap-2" method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button
-                className={`btn ${
-                  !hasAvailablePickups || isPickupSuccess || hasPickupAssigned
-                    ? "btn-disabled"
-                    : ""
-                }`}
-                type="submit"
-              >
-                Assign
-              </button>
+              {hasPickupAssigned ? (
+                <button className="btn" type="submit">
+                  Unassign
+                </button>
+              ) : hasAvailablePickups && !isPickupSuccess ? (
+                <button className="btn" type="submit">
+                  Assign
+                </button>
+              ) : (
+                <></>
+              )}
               <button className="btn">Close</button>
             </form>
           </div>
@@ -247,21 +268,21 @@ const ViewOrderContent = () => {
         <div className="modal-box">
           <h3 className="font-bold text-lg text-gray-500">Shipping process</h3>
           <form method="post">
-            {isPickupSuccess ? (
+            {isShippingSuccess ? (
               <div className="text-success font-bold">
-                {`Order #${orderId} has been already picked up and is now available in our local storage facility.`}
+                {`Order #${orderId} has been already shipped.`}
               </div>
-            ) : hasPickupAssigned ? (
+            ) : hasShipmentAssigned ? (
               <div className="text-warning font-bold">
-                {`Order #${orderId} has an been already assigned to a shipment. Id: #${faker.string.numeric(
+                {`Order #${orderId} has been already assigned to a shipment. Id: #${faker.string.numeric(
                   4
                 )}`}
               </div>
-            ) : hasAvailablePickups ? (
-              <label className="form-control w-full max-w-xs">
+            ) : hasAvailableShipments ? (
+              <label className="form-control w-full max-w-sm">
                 <div className="label">
                   <span className="label-text text-info font-bold">
-                    {`Select available pickup for order #${orderId}`}
+                    {`Select available shipment for order #${orderId}`}
                   </span>
                 </div>
                 <select
@@ -271,18 +292,18 @@ const ViewOrderContent = () => {
                   }}
                 >
                   <option disabled selected>
-                    Select pickup
+                    Select shipment
                   </option>
-                  <option value={faker.string.numeric(8)}>Pickup #1</option>
-                  <option value={faker.string.numeric(8)}>Pickup #2</option>
-                  <option value={faker.string.numeric(8)}>Pickup #3</option>
-                  <option value={faker.string.numeric(8)}>Pickup #4</option>
-                  <option value={faker.string.numeric(8)}>Pickup #5</option>
+                  <option value={faker.string.numeric(8)}>Shipment #1</option>
+                  <option value={faker.string.numeric(8)}>Shipment #2</option>
+                  <option value={faker.string.numeric(8)}>Shipment #3</option>
+                  <option value={faker.string.numeric(8)}>Shipment #4</option>
+                  <option value={faker.string.numeric(8)}>Shipment #5</option>
                 </select>
               </label>
             ) : (
               <div className="inline text-red-500 font-bold">
-                {`We can't find any available pickups for order
+                {`We can't find any available shipments for order
                 #${orderId}. Consider adding one from`}
                 <a className="link pl-1" href="/deliveries">
                   here
@@ -292,58 +313,123 @@ const ViewOrderContent = () => {
             )}
           </form>
           <div className="modal-action">
-            <form className="flex gap-3" method="dialog">
+            <form className="flex gap-2" method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button
-                className={`btn ${
-                  !hasAvailablePickups || isPickupSuccess || hasPickupAssigned
-                    ? "btn-disabled"
-                    : ""
-                }`}
-                type="submit"
-              >
-                Assign
-              </button>
+              {hasShipmentAssigned ? (
+                <button className="btn" type="submit">
+                  Unassign
+                </button>
+              ) : hasAvailableShipments && !isShippingSuccess ? (
+                <button className="btn" type="submit">
+                  Assign
+                </button>
+              ) : (
+                <></>
+              )}
               <button className="btn">Close</button>
             </form>
           </div>
         </div>
       </dialog>
       {/* Shipping modal end */}
+
+      {/* Delivery modal  */}
       <dialog
         id="my_modal_delivery"
         className="modal modal-bottom sm:modal-middle"
       >
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
+          <h3 className="font-bold text-lg text-gray-500">Delivery process</h3>
+          <form method="post">
+            {isDeliverySuccess ? (
+              <div className="text-success font-bold">
+                {`Order #${orderId} has been already successfully delivered.`}
+              </div>
+            ) : hasDeliveryAssigned ? (
+              <div className="text-warning font-bold">
+                {`Order #${orderId} has been already assigned to a delivery. Id: #${faker.string.numeric(
+                  4
+                )}`}
+              </div>
+            ) : hasAvailableDeliveries ? (
+              <label className="form-control w-full max-w-sm">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    {`Select available delivery for order #${orderId}`}
+                  </span>
+                </div>
+                <select
+                  className="select select-bordered text-gray-500"
+                  onChange={(e) => {
+                    setSelectedPickup(e.target.value);
+                  }}
+                >
+                  <option disabled selected>
+                    Select delivery
+                  </option>
+                  <option value={faker.string.numeric(8)}>Delivery #1</option>
+                  <option value={faker.string.numeric(8)}>Delivery #2</option>
+                  <option value={faker.string.numeric(8)}>Delivery #3</option>
+                  <option value={faker.string.numeric(8)}>Delivery #4</option>
+                  <option value={faker.string.numeric(8)}>Delivery #5</option>
+                </select>
+              </label>
+            ) : (
+              <div className="inline text-red-500 font-bold">
+                {`We can't find any available deliveries for order
+                #${orderId}. Consider adding one from`}
+                <a className="link pl-1" href="/deliveries">
+                  here
+                </a>
+                .
+              </div>
+            )}
+          </form>
           <div className="modal-action">
-            <form method="dialog">
+            <form className="flex gap-2" method="dialog">
               {/* if there is a button in form, it will close the modal */}
+              {hasDeliveryAssigned ? (
+                <button className="btn" type="submit">
+                  Unassign
+                </button>
+              ) : hasAvailableDeliveries && !isDeliverySuccess ? (
+                <button className="btn" type="submit">
+                  Assign
+                </button>
+              ) : (
+                <></>
+              )}
               <button className="btn">Close</button>
             </form>
           </div>
         </div>
       </dialog>
+      {/* Delivery modal end */}
       <dialog
         id="my_modal_cancel"
         className="modal modal-bottom sm:modal-middle"
       >
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
+          <h3 className="font-bold text-lg text-gray-500">
+            Order cancellation
+          </h3>
+          <p className="py-4 font-bold text-red-500">
+            <form method="post">
+              This action will cancel the current order. Make sure that
+              cancelling will not affect the current status of an existing
+              delivery!
+            </form>
           </p>
           <div className="modal-action">
-            <form method="dialog">
+            <form className="flex gap-2" method="dialog">
+              <button className="btn" type="submit">Proceed</button>
               {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>
         </div>
       </dialog>
+      {/* Edit order modal */}
       <dialog id="my_modal_editOrder" className="modal">
         <div className="modal-box w-11/12 max-w-5xl">
           <h3 className="font-bold text-lg text-gray-500">
@@ -354,32 +440,227 @@ const ViewOrderContent = () => {
               <div className="collapse collapse-arrow bg-base-200">
                 <input type="checkbox" />
                 <div className="collapse-title text-l font-bold text-gray-500">
-                  Product details
-                </div>
-                <div className="collapse-content">
-                  <p>hello</p>
-                </div>
-              </div>
-              <div className="collapse collapse-arrow bg-base-200">
-                <input type="checkbox" />
-                <div className="collapse-title text-l font-bold text-gray-500">
                   Pickup details
                 </div>
                 <div className="collapse-content">
-                  <p>hello</p>
+                  {/* Pickup details inputs */}
+                  <div className="grid grid-cols-3 gap-2 font-bold text-gray-400">
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">Country</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.location.country()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">City</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.location.city()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">Address</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.location.streetAddress()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">Region</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Europe"
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">Pickup Id</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.string.numeric(4)}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Pickup status
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Pickup success"
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Client email
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.internet.email()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Client name
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.person.fullName()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Client phone
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.phone.number()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                  </div>
+                  {/* Pickup details inputs end */}
                 </div>
               </div>
-              <div className="collapse collapse-arrow bg-base-200">
+              <div className="collapse collapse-arrow bg-base-200 mb-2">
                 <input type="checkbox" />
                 <div className="collapse-title text-l font-bold text-gray-500">
                   Delivery details
                 </div>
                 <div className="collapse-content">
-                  <p>hello</p>
+                  {/* Delivery details inputs */}
+                  <div className="grid grid-cols-3 gap-2 font-bold text-gray-400">
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">Country</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.location.country()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">City</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.location.city()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">Address</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.location.streetAddress()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">Region</span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Europe"
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Delivery Id
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.string.numeric(4)}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Delivery status
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Pickup success"
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Client email
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.internet.email()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Client name
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.person.fullName()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                    <label className="form-control w-full max-w-xs">
+                      <div className="label">
+                        <span className="label-text text-info">
+                          Client phone
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={faker.phone.number()}
+                        className="input input-bordered w-full max-w-xs"
+                      />
+                    </label>
+                  </div>
+                  {/* Delivery details inputs end */}
                 </div>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 font-bold text-gray-400">
               <label className="form-control w-full max-w-xs">
                 <div className="label">
                   <span className="label-text text-info">Current location</span>
@@ -413,7 +694,7 @@ const ViewOrderContent = () => {
             </div>
           </form>
           <div className="modal-action">
-            <form className="flex gap-3" method="dialog">
+            <form className="flex gap-2" method="dialog">
               {/* if there is a button in form, it will close the modal */}
               <button className="btn" type="submit">
                 Update order
@@ -423,6 +704,8 @@ const ViewOrderContent = () => {
           </div>
         </div>
       </dialog>
+      {/* Edit order modal end */}
+
       {/* modals end */}
       <div className="collapse collapse-arrow bg-base-200 shadow-xl">
         <input type="checkbox" />
