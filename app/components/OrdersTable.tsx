@@ -22,7 +22,7 @@ const OrdersTable = () => {
 
   return (
     <div className="overflow-x-auto px-3">
-      <table className="table">
+      <table className="table font-medium text-gray-400">
         {/* head */}
         <thead>
           <tr className="text-info">
@@ -37,8 +37,8 @@ const OrdersTable = () => {
         </thead>
         <tbody>
           {/* tr1 */}
-          <tr className="hover text-gray-400">
-            <td>
+          <tr className="hover">
+            <td className="text-gray-500">
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
@@ -47,9 +47,9 @@ const OrdersTable = () => {
                 )}`}</div>
               </Link>
             </td>
-            <td>
+            <td className="text-gray-500">
               <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
+                href={`clients/viewClient?clientId=${faker.string.numeric(8)}`}
               >
                 <div className="font-bold hover:text-info">
                   {faker.company.name()}
@@ -69,8 +69,8 @@ const OrdersTable = () => {
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
           {/* tr2 */}
-          <tr className="hover text-gray-400">
-            <td>
+          <tr className="hover">
+            <td className="text-gray-500">
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
@@ -79,7 +79,7 @@ const OrdersTable = () => {
                 )}`}</div>
               </Link>
             </td>
-            <td>
+            <td className="text-gray-500">
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
@@ -101,8 +101,8 @@ const OrdersTable = () => {
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
           {/* tr3 */}
-          <tr className="hover text-gray-400">
-            <td>
+          <tr className="hover">
+            <td className="text-gray-500">
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
@@ -111,7 +111,7 @@ const OrdersTable = () => {
                 )}`}</div>
               </Link>
             </td>
-            <td>
+            <td className="text-gray-500">
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
@@ -133,8 +133,8 @@ const OrdersTable = () => {
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
           {/* tr4 */}
-          <tr className="hover text-gray-400">
-            <td>
+          <tr className="hover">
+            <td className="text-gray-500">
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
@@ -143,7 +143,7 @@ const OrdersTable = () => {
                 )}`}</div>
               </Link>
             </td>
-            <td>
+            <td className="text-gray-500">
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
@@ -165,8 +165,8 @@ const OrdersTable = () => {
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
           {/* tr5 */}
-          <tr className="hover text-gray-400">
-            <td>
+          <tr className="hover">
+            <td className="text-gray-500">
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
@@ -175,7 +175,7 @@ const OrdersTable = () => {
                 )}`}</div>
               </Link>
             </td>
-            <td>
+            <td className="text-gray-500">
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
@@ -197,8 +197,8 @@ const OrdersTable = () => {
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
           {/* tr6 */}
-          <tr className="hover text-gray-400">
-            <td>
+          <tr className="hover">
+            <td className="text-gray-500">
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
@@ -207,7 +207,7 @@ const OrdersTable = () => {
                 )}`}</div>
               </Link>
             </td>
-            <td>
+            <td className="text-gray-500">
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >
@@ -229,8 +229,8 @@ const OrdersTable = () => {
             <td>{faker.date.anytime().toDateString()}</td>
           </tr>
           {/* tr7 */}
-          <tr className="hover text-gray-400">
-            <td>
+          <tr className="hover">
+            <td className="text-gray-500">
               <Link
                 href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
               >
@@ -239,7 +239,7 @@ const OrdersTable = () => {
                 )}`}</div>
               </Link>
             </td>
-            <td>
+            <td className="text-gray-500">
               <Link
                 href={`clients/viewClient?clientName=${faker.company.name()}`}
               >

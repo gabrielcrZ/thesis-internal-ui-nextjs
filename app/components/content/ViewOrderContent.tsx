@@ -52,14 +52,14 @@ const ViewOrderContent = () => {
         <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body">
             <h1 className="card-title text-gray-500">{`Order #${orderId}`}</h1>
-            <p>
+            <p className="font-medium">
               {
                 mockedShippingStatus[
                   Math.floor(Math.random() * mockedShippingStatus.length)
                 ]
               }
             </p>
-            <div className="card-actions justify-end">
+            <div className="card-actions justify-end font-medium">
               {!isOrderCancelled ? (
                 <div className="dropdown dropdown-hover dropdown-end">
                   <div
@@ -405,6 +405,7 @@ const ViewOrderContent = () => {
         </div>
       </dialog>
       {/* Delivery modal end */}
+      {/* Cancel order modal */}
       <dialog
         id="my_modal_cancel"
         className="modal modal-bottom sm:modal-middle"
@@ -422,13 +423,16 @@ const ViewOrderContent = () => {
           </p>
           <div className="modal-action">
             <form className="flex gap-2" method="dialog">
-              <button className="btn" type="submit">Proceed</button>
+              <button className="btn" type="submit">
+                Proceed
+              </button>
               {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>
         </div>
       </dialog>
+      {/* Cancel order modal end */}
       {/* Edit order modal */}
       <dialog id="my_modal_editOrder" className="modal">
         <div className="modal-box w-11/12 max-w-5xl">

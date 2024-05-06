@@ -24,7 +24,7 @@ const Filters = () => {
   //maybe an use effect for every time the content of the table is changing
 
   return (
-    <div className="collapse">
+    <div className="collapse font-medium">
       <input type="checkbox" className="peer" />
       <div className="collapse-title flex text-base-content">
         <svg
@@ -90,12 +90,12 @@ const Filters = () => {
         <div className="flex items-center gap-2">
           <button
             type="submit"
-            className="btn btn-info btn-sm"
+            className="btn btn-sm"
             onSubmit={searchOrders}
           >
             Apply
           </button>
-          <button className="btn btn-info btn-sm" onClick={clearFilters}>
+          <button className="btn btn-sm" onClick={clearFilters}>
             Clear
           </button>
         </div>

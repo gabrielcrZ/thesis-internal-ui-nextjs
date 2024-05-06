@@ -55,7 +55,7 @@ const Navbar = (props: any) => {
               ></path>
             </svg>
           </div>
-          <ul className="dropdown-content z-[1] menu p-1 shadow rounded-box w-52 text-gray-400">
+          <ul className="dropdown-content z-[1] menu p-1 shadow rounded-box w-52 text-gray-400 bg-base-100 font-medium">
             <li>
               <Link href="/users/settings">View user</Link>
             </li>
