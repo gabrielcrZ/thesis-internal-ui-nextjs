@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
-import Modal from "./Modal";
+import Link from "next/link";
 
 const DashboardTable = () => {
   const mockedStatusTooltip = [
@@ -81,35 +81,18 @@ const DashboardTable = () => {
               {faker.location.countryCode("alpha-2")}
             </td>
             <td>
-              <Modal
-                submitBtn="Check order"
-                btnName="View"
-                title={
-                  <div className="flex">
-                    <div className="flex-1">
-                      OrderNr. #{faker.string.numeric(6)}
-                    </div>
-                    <div className="flex-none">
-                      {
-                        mockedStatusBadge[
-                          Math.floor(Math.random() * mockedStatusTooltip.length)
-                        ]
-                      }
-                    </div>
-                  </div>
+              <button
+                className="btn btn-sm btn-info"
+                onClick={() =>
+                  (
+                    document.getElementById(
+                      "my_modal_view1"
+                    ) as HTMLDialogElement
+                  ).showModal()
                 }
               >
-                <div className="grid grid-cols-2 gap-1 font-bold text-gray-400">
-                  <p>• Date - {new Date().toLocaleDateString()}</p>
-                  <p>• Shipping From - Romania</p>
-                  <p>• Assigned shipment - s103</p>
-                  <p>• Shipping To - Spain</p>
-                  <p>• Revenue - 1500$</p>
-                  <p>• Current location - Romania</p>
-                  <p>• Estimated cost - 500$</p>
-                  <p>• Contact - 0712345678</p>
-                </div>
-              </Modal>
+                View
+              </button>
             </td>
           </tr>
           {/* row 2 */}
@@ -142,32 +125,18 @@ const DashboardTable = () => {
               {faker.location.countryCode("alpha-2")}
             </td>
             <td>
-              <Modal
-                submitBtn="Update"
-                btnName="View"
-                title={
-                  <div className="flex">
-                    <div className="flex-1">
-                      OrderNr. #{faker.string.numeric(6)}
-                    </div>
-                    <div className="flex-none">
-                      {
-                        mockedStatusBadge[
-                          Math.floor(Math.random() * mockedStatusTooltip.length)
-                        ]
-                      }
-                    </div>
-                  </div>
+              <button
+                className="btn btn-sm btn-info"
+                onClick={() =>
+                  (
+                    document.getElementById(
+                      "my_modal_view2"
+                    ) as HTMLDialogElement
+                  ).showModal()
                 }
               >
-                <div className="grid gap-1 font-bold text-neutral-content">
-                  <p>• Date - {new Date().toLocaleDateString()}</p>
-                  <p>• Shipping From - Romania</p>
-                  <p>• Shipping To - Spain</p>
-                  <p>• Weight - 0,5 Kg</p>
-                  <p>• Assigned shipment - s103</p>
-                </div>
-              </Modal>
+                View
+              </button>
             </td>
           </tr>
           {/* row 3 */}
@@ -200,32 +169,18 @@ const DashboardTable = () => {
               {faker.location.countryCode("alpha-2")}
             </td>
             <td>
-              <Modal
-                submitBtn="Update"
-                btnName="View"
-                title={
-                  <div className="flex">
-                    <div className="flex-1">
-                      OrderNr. #{faker.string.numeric(6)}
-                    </div>
-                    <div className="flex-none">
-                      {
-                        mockedStatusBadge[
-                          Math.floor(Math.random() * mockedStatusTooltip.length)
-                        ]
-                      }
-                    </div>
-                  </div>
+              <button
+                className="btn btn-sm btn-info"
+                onClick={() =>
+                  (
+                    document.getElementById(
+                      "my_modal_view3"
+                    ) as HTMLDialogElement
+                  ).showModal()
                 }
               >
-                <div className="grid gap-1 font-bold text-neutral-content">
-                  <p>• Date - {new Date().toLocaleDateString()}</p>
-                  <p>• Shipping From - Romania</p>
-                  <p>• Shipping To - Spain</p>
-                  <p>• Weight - 0,5 Kg</p>
-                  <p>• Assigned shipment - s103</p>
-                </div>
-              </Modal>
+                View
+              </button>
             </td>
           </tr>
           {/* row 4 */}
@@ -258,32 +213,18 @@ const DashboardTable = () => {
               {faker.location.countryCode("alpha-2")}
             </td>
             <td>
-              <Modal
-                submitBtn="Update"
-                btnName="View"
-                title={
-                  <div className="flex">
-                    <div className="flex-1">
-                      OrderNr. #{faker.string.numeric(6)}
-                    </div>
-                    <div className="flex-none">
-                      {
-                        mockedStatusBadge[
-                          Math.floor(Math.random() * mockedStatusTooltip.length)
-                        ]
-                      }
-                    </div>
-                  </div>
+              <button
+                className="btn btn-sm btn-info"
+                onClick={() =>
+                  (
+                    document.getElementById(
+                      "my_modal_view4"
+                    ) as HTMLDialogElement
+                  ).showModal()
                 }
               >
-                <div className="grid gap-1 font-bold text-neutral-content">
-                  <p>• Date - {new Date().toLocaleDateString()}</p>
-                  <p>• Shipping From - Romania</p>
-                  <p>• Shipping To - Spain</p>
-                  <p>• Weight - 0,5 Kg</p>
-                  <p>• Assigned shipment - s103</p>
-                </div>
-              </Modal>
+                View
+              </button>
             </td>
           </tr>
           {/* row 5 */}
@@ -316,38 +257,181 @@ const DashboardTable = () => {
               {faker.location.countryCode("alpha-2")}
             </td>
             <td>
-              <Modal
-                submitBtn="Update"
-                btnName="View"
-                title={
-                  <div className="flex">
-                    <div className="flex-1">
-                      OrderNr. #{faker.string.numeric(6)}
-                    </div>
-                    <div className="flex-none">
-                      {
-                        mockedStatusBadge[
-                          Math.floor(Math.random() * mockedStatusTooltip.length)
-                        ]
-                      }
-                    </div>
-                  </div>
+              <button
+                className="btn btn-sm btn-info"
+                onClick={() =>
+                  (
+                    document.getElementById(
+                      "my_modal_view5"
+                    ) as HTMLDialogElement
+                  ).showModal()
                 }
               >
-                <div className="grid gap-1 font-bold text-neutral-content">
-                  <p>• Date - {new Date().toLocaleDateString()}</p>
-                  <p>• Shipping From - Romania</p>
-                  <p>• Shipping To - Spain</p>
-                  <p>• Weight - 0,5 Kg</p>
-                  <p>• Assigned shipment - s103</p>
-                </div>
-              </Modal>
+                View
+              </button>
             </td>
           </tr>
         </tbody>
         {/* foot */}
         <tfoot></tfoot>
       </table>
+      {/* //View modals */}
+      <dialog id="my_modal_view1" className="modal">
+        <div className="modal-box w-11/12 max-w-xl">
+          <h3 className="font-bold text-l text-info">{`Order #${faker.string.numeric(
+            8
+          )}`}</h3>
+          <ul className="grid grid-cols-2 gap-1 text-sm font-medium text-gray-400 pt-2">
+            <li>• Date - {new Date().toLocaleDateString()}</li>
+            <li>• Shipping From - {faker.location.country()}</li>
+            <li>• Assigned shipment - #{faker.string.numeric()}</li>
+            <li>• Shipping To - {faker.location.country()}</li>
+            <li>• Revenue - {faker.number.int({ min: 1000, max: 60000 })}$</li>
+            <li>• Current location - {faker.location.country()}</li>
+            <li>
+              • Estimated cost - {faker.number.int({ min: 100, max: 50000 })}$
+            </li>
+            <li>• Contact - {faker.phone.number()}</li>
+          </ul>
+          <div className="modal-action">
+            <form className="flex gap-2" method="dialog">
+              <Link
+                className="btn"
+                href={`/orders/viewOrder?orderId=${faker.string.numeric(8)}`}
+              >
+                Check order
+              </Link>
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="my_modal_view2" className="modal">
+        <div className="modal-box w-11/12 max-w-xl">
+          <h3 className="font-bold text-l text-gray-500">{`Order #${faker.string.numeric(
+            8
+          )}`}</h3>
+          <ul className="grid grid-cols-2 gap-1 text-sm font-medium text-gray-400 pt-2">
+            <li>• Date - {new Date().toLocaleDateString()}</li>
+            <li>• Shipping From - {faker.location.country()}</li>
+            <li>• Assigned shipment - #{faker.string.numeric()}</li>
+            <li>• Shipping To - {faker.location.country()}</li>
+            <li>• Revenue - {faker.number.int({ min: 1000, max: 60000 })}$</li>
+            <li>• Current location - {faker.location.country()}</li>
+            <li>
+              • Estimated cost - {faker.number.int({ min: 100, max: 50000 })}$
+            </li>
+            <li>• Contact - {faker.phone.number()}</li>
+          </ul>
+          <div className="modal-action">
+            <form className="flex gap-2" method="dialog">
+              <Link
+                className="btn"
+                href={`/orders/viewOrder?orderId=${faker.string.numeric(8)}`}
+              >
+                Check order
+              </Link>
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="my_modal_view3" className="modal">
+        <div className="modal-box w-11/12 max-w-xl">
+          <h3 className="font-bold text-l text-gray-500">{`Order #${faker.string.numeric(
+            8
+          )}`}</h3>
+          <ul className="grid grid-cols-2 gap-1 text-sm font-medium text-gray-400 pt-2">
+            <li>• Date - {new Date().toLocaleDateString()}</li>
+            <li>• Shipping From - {faker.location.country()}</li>
+            <li>• Assigned shipment - #{faker.string.numeric()}</li>
+            <li>• Shipping To - {faker.location.country()}</li>
+            <li>• Revenue - {faker.number.int({ min: 1000, max: 60000 })}$</li>
+            <li>• Current location - {faker.location.country()}</li>
+            <li>
+              • Estimated cost - {faker.number.int({ min: 100, max: 50000 })}$
+            </li>
+            <li>• Contact - {faker.phone.number()}</li>
+          </ul>
+          <div className="modal-action">
+            <form className="flex gap-2" method="dialog">
+              <Link
+                className="btn"
+                href={`/orders/viewOrder?orderId=${faker.string.numeric(8)}`}
+              >
+                Check order
+              </Link>
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="my_modal_view4" className="modal">
+        <div className="modal-box w-11/12 max-w-xl">
+          <h3 className="font-bold text-l text-gray-500">{`Order #${faker.string.numeric(
+            8
+          )}`}</h3>
+          <ul className="grid grid-cols-2 gap-1 text-sm font-medium text-gray-400 pt-2">
+            <li>• Date - {new Date().toLocaleDateString()}</li>
+            <li>• Shipping From - {faker.location.country()}</li>
+            <li>• Assigned shipment - #{faker.string.numeric()}</li>
+            <li>• Shipping To - {faker.location.country()}</li>
+            <li>• Revenue - {faker.number.int({ min: 1000, max: 60000 })}$</li>
+            <li>• Current location - {faker.location.country()}</li>
+            <li>
+              • Estimated cost - {faker.number.int({ min: 100, max: 50000 })}$
+            </li>
+            <li>• Contact - {faker.phone.number()}</li>
+          </ul>
+          <div className="modal-action">
+            <form className="flex gap-2" method="dialog">
+              <Link
+                className="btn"
+                href={`/orders/viewOrder?orderId=${faker.string.numeric(8)}`}
+              >
+                Check order
+              </Link>
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="my_modal_view5" className="modal">
+        <div className="modal-box w-11/12 max-w-xl">
+          <h3 className="font-bold text-l text-gray-500">{`Order #${faker.string.numeric(
+            8
+          )}`}</h3>
+          <ul className="grid grid-cols-2 gap-1 text-sm font-medium text-gray-400 pt-2">
+            <li>• Date - {new Date().toLocaleDateString()}</li>
+            <li>• Shipping From - {faker.location.country()}</li>
+            <li>• Assigned shipment - #{faker.string.numeric()}</li>
+            <li>• Shipping To - {faker.location.country()}</li>
+            <li>• Revenue - {faker.number.int({ min: 1000, max: 60000 })}$</li>
+            <li>• Current location - {faker.location.country()}</li>
+            <li>
+              • Estimated cost - {faker.number.int({ min: 100, max: 50000 })}$
+            </li>
+            <li>• Contact - {faker.phone.number()}</li>
+          </ul>
+          <div className="modal-action">
+            <form className="flex gap-2" method="dialog">
+              <Link
+                className="btn"
+                href={`/orders/viewOrder?orderId=${faker.string.numeric(8)}`}
+              >
+                Check order
+              </Link>
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      {/* //View modals end */}
       <div className="join pr-5 float-right mt-1">
         <button className="join-item btn" onClick={pageDecrease}>
           «

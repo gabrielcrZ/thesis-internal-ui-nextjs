@@ -148,7 +148,7 @@ const ViewClientContent = () => {
                   <th>Last updated</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-400 font-bold">
+              <tbody className="text-gray-400 font-medium">
                 {/* row 1 */}
                 <tr className="hover">
                   <th>1</th>
