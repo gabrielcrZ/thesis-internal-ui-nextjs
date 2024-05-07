@@ -81,7 +81,7 @@ const OrdersTable = () => {
             </td>
             <td className="text-gray-500">
               <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
+                href={`clients/viewClient?clientId=${faker.string.numeric(8)}`}
               >
                 <div className="font-bold hover:text-info">
                   {faker.company.name()}
@@ -113,7 +113,7 @@ const OrdersTable = () => {
             </td>
             <td className="text-gray-500">
               <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
+                href={`clients/viewClient?clientId=${faker.string.numeric(8)}`}
               >
                 <div className="font-bold hover:text-info">
                   {faker.company.name()}
@@ -145,7 +145,7 @@ const OrdersTable = () => {
             </td>
             <td className="text-gray-500">
               <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
+                href={`clients/viewClient?clientId=${faker.string.numeric(8)}`}
               >
                 <div className="font-bold hover:text-info">
                   {faker.company.name()}
@@ -177,7 +177,7 @@ const OrdersTable = () => {
             </td>
             <td className="text-gray-500">
               <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
+                href={`clients/viewClient?clientId=${faker.string.numeric(8)}`}
               >
                 <div className="font-bold hover:text-info">
                   {faker.company.name()}
@@ -209,7 +209,7 @@ const OrdersTable = () => {
             </td>
             <td className="text-gray-500">
               <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
+                href={`clients/viewClient?clientId=${faker.string.numeric(8)}`}
               >
                 <div className="font-bold hover:text-info">
                   {faker.company.name()}
@@ -241,7 +241,7 @@ const OrdersTable = () => {
             </td>
             <td className="text-gray-500">
               <Link
-                href={`clients/viewClient?clientName=${faker.company.name()}`}
+                href={`clients/viewClient?clientId=${faker.string.numeric(8)}`}
               >
                 <div className="font-bold hover:text-info">
                   {faker.company.name()}

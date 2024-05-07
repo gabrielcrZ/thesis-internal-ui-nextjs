@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
+import Link from "next/link";
 
 const DeliveriesContent = () => {
   const mockedDeliveryStatus = [
@@ -35,12 +36,11 @@ const DeliveriesContent = () => {
   ];
 
   return (
-    //  at delivery you dont have an assigned transport, we'll have an assigned delivery in transports
     <div className="grid gap-5 px-2">
       <div className="flex justify-between gap-5">
         <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body font-bold">
-            <h1 className="card-title text-gray-500">Transports information</h1>
+            <h1 className="card-title text-gray-500">Deliveries information</h1>
             <p className="text-gray-400 font-medium text-sm flex gap-1">
               Available: 10
             </p>
@@ -91,7 +91,17 @@ const DeliveriesContent = () => {
               </thead>
               <tbody className="font-medium text-gray-400">
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewDelivery?deliveryId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedDeliveryType[
@@ -112,7 +122,17 @@ const DeliveriesContent = () => {
                   <td>{faker.date.anytime().toLocaleDateString()}</td>
                 </tr>
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewDelivery?deliveryId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedDeliveryType[
@@ -133,7 +153,17 @@ const DeliveriesContent = () => {
                   <td>{faker.date.anytime().toLocaleDateString()}</td>
                 </tr>
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewDelivery?deliveryId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedDeliveryType[
@@ -154,7 +184,17 @@ const DeliveriesContent = () => {
                   <td>{faker.date.anytime().toLocaleDateString()}</td>
                 </tr>
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewDelivery?deliveryId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedDeliveryType[
@@ -175,7 +215,17 @@ const DeliveriesContent = () => {
                   <td>{faker.date.anytime().toLocaleDateString()}</td>
                 </tr>
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewDelivery?deliveryId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedDeliveryType[
@@ -233,7 +283,17 @@ const DeliveriesContent = () => {
               </thead>
               <tbody className="font-medium text-gray-400">
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewTransport?transportId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedTransportTypes[
@@ -270,7 +330,17 @@ const DeliveriesContent = () => {
                   <td>#{faker.string.numeric(6)}</td>
                 </tr>
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewTransport?transportId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedTransportTypes[
@@ -307,7 +377,17 @@ const DeliveriesContent = () => {
                   <td>#{faker.string.numeric(6)}</td>
                 </tr>
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewTransport?transportId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedTransportTypes[
@@ -344,7 +424,17 @@ const DeliveriesContent = () => {
                   <td>#{faker.string.numeric(6)}</td>
                 </tr>
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewTransport?transportId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedTransportTypes[
@@ -381,7 +471,17 @@ const DeliveriesContent = () => {
                   <td>#{faker.string.numeric(6)}</td>
                 </tr>
                 <tr className="hover">
-                  <td>#{faker.string.numeric(6)}</td>
+                  <td className="text-gray-500">
+                    <Link
+                      href={`deliveries/viewTransport?transportId=${faker.string.numeric(
+                        8
+                      )}`}
+                    >
+                      <div className="font-bold hover:text-info">
+                        #{faker.string.numeric(6)}
+                      </div>
+                    </Link>
+                  </td>
                   <td>
                     {
                       mockedTransportTypes[
