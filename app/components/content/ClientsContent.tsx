@@ -2,8 +2,12 @@
 import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
 import Link from "next/link";
+import { clientFilters } from "../types/Types";
 
 const ClientsContent = () => {
+  //   const [filters, setFilters] = useState<clientFilters>();
+  const [clientEmail, setClientEmail] = useState("");
+  const [clientName, setClientName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const pageIncrease = () => {
     setCurrentPage(currentPage + 1);
@@ -12,15 +16,69 @@ const ClientsContent = () => {
     if (currentPage === 1) return;
     else setCurrentPage(currentPage - 1);
   };
+
+  const clearFilters = () => {
+    setClientEmail("");
+    setClientName("");
+  };
+
+  const mockedHasOrders = [
+    <div className="badge badge-success badge-xs">Yes</div>,
+    <div className="badge badge-error badge-xs">No</div>,
+  ];
   return (
     <div className="grid gap-5 px-2">
-      <div className="collapse collapse-arrow bg-base-200">
-        <input type="checkbox" />
-        <div className="collapse-title text-l font-bold text-gray-500">
+      <div className="collapse font-medium">
+        <input type="checkbox" className="peer" />
+        <div className="collapse-title flex gap-1 text-base-content">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="w-5 h-5"
+          >
+            <path
+              fillRule="evenodd"
+              d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+              clipRule="evenodd"
+            />
+          </svg>
           Search
         </div>
-        <div className="collapse-content">
-          <p>hello</p>
+        {/* remove overflow-x-auto because of the scroll bar that shows on the right side when collapsing, also in filters component */}
+        <div className="collapse-content flex gap-5 overflow-x-auto">
+          <form method="post" className="flex gap-5 text-gray-400">
+            <label className="input input-bordered flex items-center gap-2">
+              <input
+                type="text"
+                className="grow"
+                placeholder="#email"
+                value={clientEmail}
+                onChange={(e) => {
+                  setClientEmail(e.target.value);
+                }}
+              />
+              <span className="badge badge-ghost">optional</span>
+            </label>
+            <label className="input input-bordered flex items-center gap-2">
+              <input
+                type="text"
+                className="grow"
+                placeholder="#name"
+                value={clientName}
+                onChange={(e) => {
+                  setClientName(e.target.value);
+                }}
+              />
+              <span className="badge badge-ghost">optional</span>
+            </label>
+          </form>
+          <div className="flex gap-2 items-center">
+            <button className="btn btn-sm">Search</button>
+            <button className="btn btn-sm" onClick={clearFilters}>
+              Clear
+            </button>
+          </div>
         </div>
       </div>
       <div className="overflow-x-auto px-3">
@@ -29,6 +87,7 @@ const ClientsContent = () => {
           <thead>
             <tr className="text-info">
               <th>Email</th>
+              <th>Has Orders</th>
               <th>Registered On</th>
               <th>Name</th>
               <th>Address</th>
@@ -41,6 +100,13 @@ const ClientsContent = () => {
               {/* tr1 */}
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
+              </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
               </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
@@ -79,6 +145,13 @@ const ClientsContent = () => {
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
               </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
+              </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
               <td>{faker.location.streetAddress()}</td>
@@ -115,6 +188,13 @@ const ClientsContent = () => {
               {/* tr1 */}
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
+              </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
               </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
@@ -153,6 +233,13 @@ const ClientsContent = () => {
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
               </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
+              </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
               <td>{faker.location.streetAddress()}</td>
@@ -189,6 +276,13 @@ const ClientsContent = () => {
               {/* tr1 */}
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
+              </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
               </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
@@ -227,6 +321,13 @@ const ClientsContent = () => {
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
               </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
+              </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
               <td>{faker.location.streetAddress()}</td>
@@ -263,6 +364,13 @@ const ClientsContent = () => {
               {/* tr1 */}
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
+              </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
               </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
@@ -301,6 +409,13 @@ const ClientsContent = () => {
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
               </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
+              </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
               <td>{faker.location.streetAddress()}</td>
@@ -338,6 +453,13 @@ const ClientsContent = () => {
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
               </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
+              </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>
               <td>{faker.location.streetAddress()}</td>
@@ -374,6 +496,13 @@ const ClientsContent = () => {
               {/* tr1 */}
               <td className="text-gray-500 font-bold">
                 {faker.internet.email()}
+              </td>
+              <td>
+                {
+                  mockedHasOrders[
+                    Math.floor(Math.random() * mockedHasOrders.length)
+                  ]
+                }
               </td>
               <td>{faker.date.anytime().toLocaleDateString()}</td>
               <td>{faker.person.fullName()}</td>

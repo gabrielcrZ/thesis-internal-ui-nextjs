@@ -66,397 +66,445 @@ const MessagesContent = () => {
             <div className="card-actions justify-end"></div>
           </div>
         </div>
-        <div className="join join-vertical w-full bg-base-200 text-sm text-gray-400 font-bold shadow-xl">
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
+        <div className="collapse collapse-arrow bg-base-200 shadow-xl">
+          <input type="checkbox" />
+          <div className="collapse-title text-l text-gray-500 font-bold pl-8">
+            Show messages
           </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
+          <div className="collapse-content">
+            <div className="join join-vertical w-full bg-base-200 text-sm text-gray-400 font-bold">
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
+              <div className="collapse collapse-arrow join-item ">
+                <input type="radio" name="my-accordion-4" />
+                <div className="collapse-title flex gap-2">
+                  {
+                    randomBadges[
+                      Math.floor(Math.random() * randomBadges.length)
+                    ]
+                  }
+                  <p> {faker.date.anytime().toLocaleDateString()}</p>
+                  <p>-</p>
+                  <p>
+                    {
+                      randomMessages[
+                        Math.floor(Math.random() * randomMessages.length)
+                      ]
+                    }
+                  </p>
+                </div>
+                <div className="collapse-content">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr className="text-info">
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Reference</th>
+                      </tr>
+                    </thead>
+                    <tbody className="font-medium text-gray-400">
+                      <tr>
+                        <td>{faker.date.anytime().toLocaleDateString()}</td>
+                        <td>{faker.internet.email()}</td>
+                        <td>{faker.lorem.sentence()}</td>
+                        <td>#{faker.string.numeric(8)}</td>
+                      </tr>
+                    </tbody>
+                    {/* foot */}
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
-          </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
-          </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
-          </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
-          </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
-          </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
-          </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
-          </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
-            </div>
-          </div>
-          <div className="collapse collapse-arrow join-item ">
-            <input type="radio" name="my-accordion-4" />
-            <div className="collapse-title flex gap-2">
-              {randomBadges[Math.floor(Math.random() * randomBadges.length)]}
-              <p> {faker.date.anytime().toLocaleDateString()}</p>
-              <p>-</p>
-              <p>
-                {
-                  randomMessages[
-                    Math.floor(Math.random() * randomMessages.length)
-                  ]
-                }
-              </p>
-            </div>
-            <div className="collapse-content">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr className="text-info">
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Message</th>
-                    <th>Reference</th>
-                  </tr>
-                </thead>
-                <tbody className="font-medium text-gray-400">
-                  <tr>
-                    <td>{faker.date.anytime().toLocaleDateString()}</td>
-                    <td>{faker.internet.email()}</td>
-                    <td>{faker.lorem.sentence()}</td>
-                    <td>#{faker.string.numeric(8)}</td>
-                  </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot></tfoot>
-              </table>
+            <div className="join py-3 float-right">
+              <button className="join-item btn" onClick={pageDecrease}>
+                «
+              </button>
+              <button className="join-item btn ">{`Page ${currentPage}`}</button>
+              <button className="join-item btn " onClick={pageIncrease}>
+                »
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div className="join py-3 float-right">
-        <button className="join-item btn" onClick={pageDecrease}>
-          «
-        </button>
-        <button className="join-item btn ">{`Page ${currentPage}`}</button>
-        <button className="join-item btn " onClick={pageIncrease}>
-          »
-        </button>
       </div>
     </div>
   );

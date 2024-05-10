@@ -1,11 +1,16 @@
 export type filters = {
-  startDate: String;
-  endDate: String;
-  clientName: String;
-  orderId: String;
+  startDate: string;
+  endDate: string;
+  clientName: string;
+  orderId: string;
 };
 
 export type messageTemplate = {
-  sender: String;
-  text: String;
+  sender: string;
+  text: string;
+};
+
+export type clientFilters = {
+  email?: string;
+  name?: string;
 };
