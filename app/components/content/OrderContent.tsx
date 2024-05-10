@@ -4,7 +4,7 @@ import Filters from "../Filters";
 
 const OrderContent = () => {
   return (
-    <div className="grid">
+    <div className="grid gap-3">
       <Filters />
       <OrdersTable />
     </div>

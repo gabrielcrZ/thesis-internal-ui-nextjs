@@ -4,11 +4,10 @@ import DashboardTable from "../DashboardTable";
 import StackBarChart from "../charts/StackBarChart";
 import BarChart from "../charts/BarChart";
 import LineChart from "../charts/LineChart";
-import Toast from "../Toast";
 
 const MainContent = () => {
   return (
-    <div className="grid p-5">
+    <div className="grid px-2">
       {/* <Toast/> */}
       <Stats />
       <div className="grid grid-cols-2 mt-2">

@@ -4,3 +4,8 @@ export type filters = {
   clientName: String;
   orderId: String;
 };
+
+export type messageTemplate = {
+  sender: String;
+  text: String;
+};

@@ -25,7 +25,7 @@ const Filters = () => {
 
   return (
     <div className="collapse font-medium">
-      <input type="checkbox" className="peer" />
+      <input type="checkbox" className="peer"/>
       <div className="collapse-title flex text-base-content">
         <svg
           xmlns="http://www.w3.org/2000/svg"
