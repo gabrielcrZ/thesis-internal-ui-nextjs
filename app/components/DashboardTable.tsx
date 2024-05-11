@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const DashboardTable = () => {
   const mockedStatusTooltip = [
-    <div className="tooltip tooltip-success tooltip-right" data-tip="Shipped">
+    <div className="tooltip tooltip-success tooltip-right" data-tip="Delivered">
       <div className="badge badge-success badge-sm"></div>
     </div>,
     <div className="tooltip tooltip-info tooltip-right" data-tip="Ongoing">
@@ -24,7 +24,7 @@ const DashboardTable = () => {
 
   const mockedStatusBadge = [
     <div className="badge badge-info gap-2">Ongoing</div>,
-    <div className="badge badge-success gap-2">Shipped</div>,
+    <div className="badge badge-success gap-2">Delivered</div>,
     <div className="badge badge-warning gap-2">Unprocessed</div>,
     <div className="badge badge-error gap-2">Cancelled</div>,
   ];

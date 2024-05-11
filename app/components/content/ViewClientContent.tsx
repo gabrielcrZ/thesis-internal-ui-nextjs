@@ -292,7 +292,7 @@ const ViewClientContent = () => {
           <h3 className="font-bold text-lg text-gray-500">Delete client</h3>
           <p className="py-4 font-bold text-red-500">
             <form method="post">
-              {`Make sure client #${clientId} does not have any undergoing deliveries. Cancel the active deliveries first, otherwise this operation will fail!`}
+              {`Make sure client #${clientId} does not have any undergoing deliveries. Cancel any active deliveries first, otherwise this operation will fail!`}
             </form>
           </p>
           <div className="modal-action">

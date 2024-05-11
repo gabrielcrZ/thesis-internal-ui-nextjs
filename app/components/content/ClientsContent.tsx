@@ -72,13 +72,21 @@ const ClientsContent = () => {
               />
               <span className="badge badge-ghost">optional</span>
             </label>
+            <div className="flex gap-2 items-center">
+              <button className="btn btn-sm" type="submit">
+                Search
+              </button>
+              <button
+                className="btn btn-sm"
+                onClick={(e) => {
+                  e.preventDefault();
+                  clearFilters();
+                }}
+              >
+                Clear
+              </button>
+            </div>
           </form>
-          <div className="flex gap-2 items-center">
-            <button className="btn btn-sm">Search</button>
-            <button className="btn btn-sm" onClick={clearFilters}>
-              Clear
-            </button>
-          </div>
         </div>
       </div>
       <div className="overflow-x-auto px-3">

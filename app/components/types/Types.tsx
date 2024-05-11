@@ -14,3 +14,9 @@ export type clientFilters = {
   email?: string;
   name?: string;
 };
+
+export type clientSettings = {
+  email?: string;
+  oldPassword?: string;
+  newPassword?: string;
+};

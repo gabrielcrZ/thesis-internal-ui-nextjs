@@ -25,7 +25,7 @@ const Filters = () => {
 
   return (
     <div className="collapse font-medium">
-      <input type="checkbox" className="peer"/>
+      <input type="checkbox" className="peer" />
       <div className="collapse-title flex text-base-content">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -44,61 +44,69 @@ const Filters = () => {
         Filters
       </div>
       <div className="collapse-content flex gap-5 overflow-x-auto">
-        <div className="flex">
-          <input
-            type="date"
-            value={startDate}
-            className="input input-bordered text-gray-400"
-            onChange={(e) => {
-              setStartDate(e.target.value);
-            }}
-          />
-          <div className="divider divider-horizontal"></div>
-          <input
-            type="date"
-            value={endDate}
-            className="input input-bordered text-gray-400"
-            onChange={(e) => {
-              setEndDate(e.target.value);
-            }}
-          />
-        </div>
-        <label className="input input-bordered text-gray-400 flex items-center gap-2">
-          <input
-            type="text"
-            className="grow"
-            placeholder="#orderId"
-            value={orderId}
-            onChange={(e) => {
-              setOrderId(e.target.value);
-            }}
-          />
-          <span className="badge badge-ghost font-medium">optional</span>
-        </label>
-        <label className="input input-bordered text-gray-400 flex items-center gap-2">
-          <input
-            type="text"
-            className="grow"
-            placeholder="#client"
-            value={client}
-            onChange={(e) => {
-              setClient(e.target.value);
-            }}
-          />
-          <span className="badge badge-ghost font-medium">optional</span>
-        </label>
-        <div className="flex items-center gap-2">
-          <button
-            type="submit"
-            className="btn btn-sm"
-            onSubmit={searchOrders}
-          >
-            Apply
-          </button>
-          <button className="btn btn-sm" onClick={clearFilters}>
-            Clear
-          </button>
-        </div>
+        <form method="post" className="flex gap-3">
+          <div className="flex">
+            <input
+              type="date"
+              value={startDate}
+              className="input input-bordered text-gray-400"
+              onChange={(e) => {
+                setStartDate(e.target.value);
+              }}
+            />
+            <div className="divider divider-horizontal"></div>
+            <input
+              type="date"
+              value={endDate}
+              className="input input-bordered text-gray-400"
+              onChange={(e) => {
+                setEndDate(e.target.value);
+              }}
+            />
+          </div>
+          <label className="input input-bordered text-gray-400 flex items-center gap-2">
+            <input
+              type="text"
+              className="grow"
+              placeholder="orderId"
+              value={orderId}
+              onChange={(e) => {
+                setOrderId(e.target.value);
+              }}
+            />
+            <span className="badge badge-ghost font-medium">optional</span>
+          </label>
+          <label className="input input-bordered text-gray-400 flex items-center gap-2">
+            <input
+              type="text"
+              className="grow"
+              placeholder="client"
+              value={client}
+              onChange={(e) => {
+                setClient(e.target.value);
+              }}
+            />
+            <span className="badge badge-ghost font-medium">optional</span>
+          </label>
+          <div className="flex items-center gap-2">
+            <button
+              type="submit"
+              className="btn btn-sm"
+              onSubmit={searchOrders}
+            >
+              Apply
+            </button>
+            <button
+              className="btn btn-sm"
+              onClick={(e) => {
+                e.preventDefault();
+                clearFilters();
+              }}
+            >
+              Clear
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

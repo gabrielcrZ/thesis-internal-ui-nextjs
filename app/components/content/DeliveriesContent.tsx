@@ -10,13 +10,23 @@ const DeliveriesContent = () => {
   ];
 
   const mockedDeliveryType = ["Pickup", "Shipping", "Delivery"];
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageIncrease = () => {
-    setCurrentPage(currentPage + 1);
+  const [deliveryPage, setDeliveryPage] = useState(1);
+  const [transportsPage, setTransportPage] = useState(1);
+  const deliveryNext = () => {
+    setDeliveryPage(deliveryPage + 1);
   };
-  const pageDecrease = () => {
-    if (currentPage === 1) return;
-    else setCurrentPage(currentPage - 1);
+  const deliveryPrev = () => {
+    if (deliveryPage === 1) return;
+    else setDeliveryPage(deliveryPage - 1);
+  };
+
+  const transportsNext = () => {
+    setTransportPage(transportsPage + 1);
+  };
+
+  const transportsPrev = () => {
+    if (transportsPage === 1) return;
+    else setTransportPage(transportsPage - 1);
   };
 
   const mockedTransportTypes = ["Truck", "Van", "Plane", "Ship"];
@@ -144,20 +154,21 @@ const DeliveriesContent = () => {
                   </option>
                 </select>
               </label>
+              <div className="modal-action">
+                <div className="flex gap-2">
+                  {hasDeliveryAssigned ? (
+                    <button className="btn">Unassign</button>
+                  ) : (
+                    <button className="btn">Assign</button>
+                  )}
+                  <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn">Close</button>
+                  </form>
+                </div>
+              </div>
             </form>
           )}
-
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              {hasDeliveryAssigned ? (
-                <button className="btn">Unassign</button>
-              ) : (
-                <button className="btn">Assign</button>
-              )}
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       <dialog id="my_modal_updateDelivery" className="modal">
@@ -267,47 +278,59 @@ const DeliveriesContent = () => {
                 />
               </label>
             </div>
+            <div className="text-warning font-bold mt-5">
+              *If the delivery it's already ongoing, this operation may fail.
+            </div>
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button className="btn">Update</button>
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+                {/* if there is a button in form, it will close the modal */}
+              </div>
+            </div>
           </form>
-          <div className="text-warning font-bold mt-5">
-            *If the delivery it's already ongoing, updating operation may fail.
-          </div>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <button className="btn">Update</button>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       <dialog id="my_modal_deleteTransport" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg text-gray-500">Delete transport</h3>
-          <div className="text-red-500 font-bold">{`This action will delete transport #${faker.string.numeric(
-            6
-          )}. Before continuing make sure there is no delivery assigned to this transport, otherwise this operation will fail.`}</div>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <button className="btn">Proceed</button>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
+          <form method="post">
+            <h3 className="font-bold text-lg text-gray-500">
+              Delete transport
+            </h3>
+            <div className="text-red-500 font-bold">{`This action will delete transport #${faker.string.numeric(
+              6
+            )}. Before continuing, make sure there is no delivery assigned to this transport, otherwise this operation will fail.`}</div>
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button className="btn">Proceed</button>
+                <form method="dialog">
+                  {/* if there is a button in form, it will close the modal */}
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
+          </form>
         </div>
       </dialog>
       <dialog id="my_modal_cancelDelivery" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg text-gray-500">Cancel delivery</h3>
-          <div className="text-red-500 font-bold">{`This action will cancel delivery #${faker.string.numeric(
-            6
-          )}. Before continuing make sure that this delivery it's not assigned to any transport, otherwise this operation will fail.`}</div>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <button className="btn">Proceed</button>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
+          <form method="post">
+            <h3 className="font-bold text-lg text-gray-500">Cancel delivery</h3>
+            <div className="text-red-500 font-bold">{`This action will cancel delivery #${faker.string.numeric(
+              6
+            )}. Before continuing, make sure that this delivery it's not assigned to any transport, otherwise this operation will fail.`}</div>
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button className="btn">Proceed</button>
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+                {/* if there is a button in form, it will close the modal */}
+              </div>
+            </div>
+          </form>
         </div>
       </dialog>
       <dialog id="my_modal_addTransport" className="modal">
@@ -396,16 +419,18 @@ const DeliveriesContent = () => {
                 <input type="checkbox" className="checkbox checkbox-success" />
               </div>
             </div>
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button className="btn" type="submit">
+                  Create
+                </button>
+                <form method="dialog">
+                  {/* if there is a button in form, it will close the modal */}
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
           </form>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <button className="btn" type="submit">
-                Create
-              </button>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       <dialog id="my_modal_addDelivery" className="modal">
@@ -517,16 +542,18 @@ const DeliveriesContent = () => {
                 />
               </label>
             </div>
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button className="btn" type="submit">
+                  Create
+                </button>
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+                {/* if there is a button in form, it will close the modal */}
+              </div>
+            </div>
           </form>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <button className="btn" type="submit">
-                Create
-              </button>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       {/* //Deliveries modals end */}
@@ -866,11 +893,11 @@ const DeliveriesContent = () => {
               <tfoot></tfoot>
             </table>
             <div className="join py-3 float-right">
-              <button className="join-item btn" onClick={pageDecrease}>
+              <button className="join-item btn" onClick={deliveryPrev}>
                 «
               </button>
-              <button className="join-item btn ">{`Page ${currentPage}`}</button>
-              <button className="join-item btn " onClick={pageIncrease}>
+              <button className="join-item btn ">{`Page ${deliveryPage}`}</button>
+              <button className="join-item btn " onClick={deliveryNext}>
                 »
               </button>
             </div>
@@ -1293,11 +1320,11 @@ const DeliveriesContent = () => {
               <tfoot></tfoot>
             </table>
             <div className="join py-3 float-right">
-              <button className="join-item btn" onClick={pageDecrease}>
+              <button className="join-item btn" onClick={transportsPrev}>
                 «
               </button>
-              <button className="join-item btn ">{`Page ${currentPage}`}</button>
-              <button className="join-item btn " onClick={pageIncrease}>
+              <button className="join-item btn ">{`Page ${transportsPage}`}</button>
+              <button className="join-item btn " onClick={transportsNext}>
                 »
               </button>
             </div>

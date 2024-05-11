@@ -34,8 +34,8 @@ const ViewOrderContent = () => {
   const hasPickupAssigned = false;
 
   //Shipment cases
-  const hasAvailableShipments = false;
-  const isShippingSuccess = true;
+  const hasAvailableShipments = true;
+  const isShippingSuccess = false;
   const hasShipmentAssigned = false;
 
   //Delivery cases
@@ -238,24 +238,26 @@ const ViewOrderContent = () => {
                 .
               </div>
             )}
+            <div className="modal-action">
+              <div className="flex gap-2">
+                {/* if there is a button in form, it will close the modal */}
+                {hasPickupAssigned ? (
+                  <button className="btn" type="submit">
+                    Unassign
+                  </button>
+                ) : hasAvailablePickups && !isPickupSuccess ? (
+                  <button className="btn" type="submit">
+                    Assign
+                  </button>
+                ) : (
+                  <></>
+                )}
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
           </form>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              {hasPickupAssigned ? (
-                <button className="btn" type="submit">
-                  Unassign
-                </button>
-              ) : hasAvailablePickups && !isPickupSuccess ? (
-                <button className="btn" type="submit">
-                  Assign
-                </button>
-              ) : (
-                <></>
-              )}
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       {/* Pickup modal end */}
@@ -311,24 +313,26 @@ const ViewOrderContent = () => {
                 .
               </div>
             )}
+            <div className="modal-action">
+              <div className="flex gap-2">
+                {/* if there is a button in form, it will close the modal */}
+                {hasShipmentAssigned ? (
+                  <button className="btn" type="submit">
+                    Unassign
+                  </button>
+                ) : hasAvailableShipments && !isShippingSuccess ? (
+                  <button className="btn" type="submit">
+                    Assign
+                  </button>
+                ) : (
+                  <></>
+                )}
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
           </form>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              {hasShipmentAssigned ? (
-                <button className="btn" type="submit">
-                  Unassign
-                </button>
-              ) : hasAvailableShipments && !isShippingSuccess ? (
-                <button className="btn" type="submit">
-                  Assign
-                </button>
-              ) : (
-                <></>
-              )}
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       {/* Shipping modal end */}
@@ -384,27 +388,30 @@ const ViewOrderContent = () => {
                 .
               </div>
             )}
+            <div className="modal-action">
+              <div className="flex gap-2">
+                {/* if there is a button in form, it will close the modal */}
+                {hasDeliveryAssigned ? (
+                  <button className="btn" type="submit">
+                    Unassign
+                  </button>
+                ) : hasAvailableDeliveries && !isDeliverySuccess ? (
+                  <button className="btn" type="submit">
+                    Assign
+                  </button>
+                ) : (
+                  <></>
+                )}
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
           </form>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              {hasDeliveryAssigned ? (
-                <button className="btn" type="submit">
-                  Unassign
-                </button>
-              ) : hasAvailableDeliveries && !isDeliverySuccess ? (
-                <button className="btn" type="submit">
-                  Assign
-                </button>
-              ) : (
-                <></>
-              )}
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       {/* Delivery modal end */}
+
       {/* Cancel order modal */}
       <dialog
         id="my_modal_cancel"
@@ -414,25 +421,25 @@ const ViewOrderContent = () => {
           <h3 className="font-bold text-lg text-gray-500">
             Order cancellation
           </h3>
-          <p className="py-4 font-bold text-red-500">
-            <form method="post">
-              This action will cancel the current order. Make sure that
-              cancelling will not affect the current status of an existing
-              delivery!
-            </form>
-          </p>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <button className="btn" type="submit">
-                Proceed
-              </button>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
+          <form method="post" className="py-4 font-bold text-red-500">
+            This action will cancel the current order. Make sure that cancelling
+            will not affect the current status of an existing delivery!
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button className="btn" type="submit">
+                  Proceed
+                </button>
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+                {/* if there is a button in form, it will close the modal */}
+              </div>
+            </div>
+          </form>
         </div>
       </dialog>
       {/* Cancel order modal end */}
+
       {/* Edit order modal */}
       <dialog id="my_modal_editOrder" className="modal">
         <div className="modal-box w-11/12 max-w-5xl">
@@ -696,20 +703,21 @@ const ViewOrderContent = () => {
                 />
               </label>
             </div>
+            <div className="modal-action">
+              <div className="flex gap-2">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn" type="submit">
+                  Update order
+                </button>
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
           </form>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn" type="submit">
-                Update order
-              </button>
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       {/* Edit order modal end */}
-
       {/* modals end */}
       <div className="collapse collapse-arrow bg-base-200 shadow-xl">
         <input type="checkbox" />
@@ -808,6 +816,7 @@ const ViewOrderContent = () => {
           Order History
         </div>
         <div className="collapse-content">
+          {/* collapsed order history table */}
           <div className="overflow-x-auto">
             <table className="table">
               {/* head */}
