@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import Link from "next/link";
 
@@ -37,6 +37,12 @@ const DashboardTable = () => {
     if (currentPage === 1) return;
     else setCurrentPage(currentPage - 1);
   };
+
+  useEffect(() => {
+    console.log(
+      `A call was made because the pagination was changed. Pagination: ${currentPage}`
+    );
+  }, [currentPage]);
 
   return (
     <div className="overflow-x-auto">

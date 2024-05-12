@@ -28,9 +28,11 @@ const OrderContent = () => {
   };
 
   useEffect(() => {
-    console.log("A new call has been made because the pagination changed");
+    console.log(
+      `A new call has been made because the pagination changed. Pagination: ${currentPage}`
+    );
   }, [currentPage]);
-
+  
   const clearFilters = () => {
     setStartDate(defaultStartDate);
     setEndDate(defaultEndDate);

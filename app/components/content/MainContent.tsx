@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Stats from "../Stats";
 import DashboardTable from "../DashboardTable";
 import StackBarChart from "../charts/StackBarChart";
@@ -6,6 +7,10 @@ import BarChart from "../charts/BarChart";
 import LineChart from "../charts/LineChart";
 
 const MainContent = () => {
+  useEffect(() => {
+    console.log(`A call for dashboard metrics has been made`);
+  });
+
   return (
     <div className="grid px-2">
       {/* <Toast/> */}
@@ -22,7 +27,7 @@ const MainContent = () => {
       </div>
       <div className="grid grid-cols-2 mt-2">
         <div className="grid pt-2">
-          <DashboardTable/>
+          <DashboardTable />
         </div>
         <div className="grid pt-2 pl-2.5 justify-items-start">
           <LineChart />

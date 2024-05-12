@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { faker } from "@faker-js/faker";
+import { orderUpdates } from "../types/Types";
 
 const ViewOrderContent = () => {
   const mockedShippingStatus = [
@@ -26,7 +27,7 @@ const ViewOrderContent = () => {
   const [selectedPickup, setSelectedPickup] = useState("");
   const [selectedShipment, setSelectedShipment] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState("");
-  const [orderUpdates, setOrderUpdates] = useState<any>({});
+  const [orderUpdates, setOrderUpdates] = useState<orderUpdates>({});
 
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
@@ -49,44 +50,59 @@ const ViewOrderContent = () => {
   //Cancel order case
   const isOrderCancelled = false;
 
-  const assignPickup = () => {
+  useEffect(() => {
+    console.log(
+      `A call has been made for retrieving order details and additional info. orderId: ${orderId}`
+    );
+  });
+  const handleAssignPickup = () => {
+    setSelectedPickup("");
     console.log(
       `A call was made for assign pickup, orderId: ${orderId} and pickupId: ${selectedPickup}`
     );
   };
 
-  const unassignPickup = () => {
+  const handleUnassignPickup = () => {
     console.log(`A call was made for pickup unassign. orderId: ${orderId}`);
   };
 
-  const assignShipment = () => {
+  const handleAssignShipment = () => {
+    setSelectedShipment("");
     console.log(
       `A call was made for assign shipment, orderId: ${orderId} and shipmentId: ${selectedShipment}`
     );
   };
 
-  const unassignShipment = () => {
+  const handleUnassignShipment = () => {
     console.log(`A call was made for shipment unassign. orderId: ${orderId}`);
   };
 
-  const assignDelivery = () => {
+  const handleAssignDelivery = () => {
+    setSelectedDelivery("");
     console.log(
       `A call was made for assign delivery, orderId: ${orderId} and deliveryId: ${selectedDelivery}`
     );
   };
 
-  const unassignDelivery = () => {
+  const handleUnassignDelivery = () => {
     console.log(`A call was made for delivery unassign. orderId: ${orderId}`);
   };
 
-  const cancelOrder = () => {
+  const handleCancelOrder = () => {
     console.log(
       `A call for cancelling the order was mode. orderId: ${orderId}`
     );
   };
 
-  const updateOrder = () => {
-    `A call for updating the order was made. orderId: ${orderId} and updates: ${orderUpdates}`;
+  const handleUpdateOrder = () => {
+    // setOrderUpdates({}); with this the modal will not close after clicking on update order
+    console.log(
+      `A call for updating the order was made. orderId: ${orderId} and updates: ${JSON.stringify(
+        orderUpdates,
+        null,
+        4
+      )}`
+    );
   };
   return (
     <div className="grid gap-5 px-2">
@@ -283,14 +299,14 @@ const ViewOrderContent = () => {
               <div className="flex gap-2">
                 {/* if there is a button in form, it will close the modal */}
                 {hasPickupAssigned && !isPickupSuccess ? (
-                  <button className="btn" onClick={unassignPickup}>
+                  <button className="btn" onClick={handleUnassignPickup}>
                     Unassign
                   </button>
                 ) : hasAvailablePickups && !isPickupSuccess ? (
                   <button
                     className="btn"
                     disabled={selectedPickup === ""}
-                    onClick={assignPickup}
+                    onClick={handleAssignPickup}
                   >
                     Assign
                   </button>
@@ -359,14 +375,14 @@ const ViewOrderContent = () => {
               <div className="flex gap-2">
                 {/* if there is a button in form, it will close the modal */}
                 {hasShipmentAssigned && !isShippingSuccess ? (
-                  <button className="btn" onClick={unassignShipment}>
+                  <button className="btn" onClick={handleUnassignShipment}>
                     Unassign
                   </button>
                 ) : hasAvailableShipments && !isShippingSuccess ? (
                   <button
                     className="btn"
                     disabled={selectedShipment === ""}
-                    onClick={assignShipment}
+                    onClick={handleAssignShipment}
                   >
                     Assign
                   </button>
@@ -435,14 +451,14 @@ const ViewOrderContent = () => {
               <div className="flex gap-2">
                 {/* if there is a button in form, it will close the modal */}
                 {hasDeliveryAssigned && !isDeliverySuccess ? (
-                  <button className="btn" onClick={unassignDelivery}>
+                  <button className="btn" onClick={handleUnassignDelivery}>
                     Unassign
                   </button>
                 ) : hasAvailableDeliveries && !isDeliverySuccess ? (
                   <button
                     className="btn"
                     disabled={selectedDelivery === ""}
-                    onClick={assignDelivery}
+                    onClick={handleAssignDelivery}
                   >
                     Assign
                   </button>
@@ -466,12 +482,12 @@ const ViewOrderContent = () => {
           <h3 className="font-bold text-lg text-gray-500">
             Order cancellation
           </h3>
-          <form method="dialog" className="py-4 font-bold text-red-500">
+          <form method="dialog" className="font-bold text-red-500">
             This action will cancel the current order. Make sure that cancelling
             will not affect the current status of an existing delivery!
             <div className="modal-action">
               <div className="flex gap-2">
-                <button className="btn" onClick={cancelOrder}>
+                <button className="btn" onClick={handleCancelOrder}>
                   Proceed
                 </button>
                 <button className="btn">Close</button>
@@ -507,6 +523,16 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.location.country()}
                         className="input input-bordered w-full max-w-xs"
+                        value={orderUpdates.pickupDetails?.pickupCountry || ""}
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupCountry: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -517,6 +543,16 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.location.city()}
                         className="input input-bordered w-full max-w-xs"
+                        value={orderUpdates.pickupDetails?.pickupCity || ""}
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupCity: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -527,6 +563,16 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.location.streetAddress()}
                         className="input input-bordered w-full max-w-xs"
+                        value={orderUpdates.pickupDetails?.pickupAddress || ""}
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupAddress: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -537,6 +583,16 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder="Europe"
                         className="input input-bordered w-full max-w-xs"
+                        value={orderUpdates.pickupDetails?.pickupRegion || ""}
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupRegion: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -547,6 +603,16 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.string.numeric(4)}
                         className="input input-bordered w-full max-w-xs"
+                        value={orderUpdates.pickupDetails?.pickupId || ""}
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupId: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -559,6 +625,16 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder="Pickup success"
                         className="input input-bordered w-full max-w-xs"
+                        value={orderUpdates.pickupDetails?.pickupStatus || ""}
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupStatus: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -571,6 +647,22 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.internet.email()}
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.pickupDetails?.pickupClient
+                            ?.clientEmail || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupClient: {
+                                ...prevState.pickupDetails?.pickupClient,
+                                clientEmail: e.target.value,
+                              },
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -583,6 +675,22 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.person.fullName()}
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.pickupDetails?.pickupClient
+                            ?.clientName || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupClient: {
+                                ...prevState.pickupDetails?.pickupClient,
+                                clientName: e.target.value,
+                              },
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -595,6 +703,22 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.phone.number()}
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.pickupDetails?.pickupClient
+                            ?.clientPhone || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            pickupDetails: {
+                              ...prevState.pickupDetails,
+                              pickupClient: {
+                                ...prevState.pickupDetails?.pickupClient,
+                                clientPhone: e.target.value,
+                              },
+                            },
+                          }));
+                        }}
                       />
                     </label>
                   </div>
@@ -617,6 +741,18 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.location.country()}
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.shippingDetails?.shippingCountry || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingCountry: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -627,6 +763,16 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.location.city()}
                         className="input input-bordered w-full max-w-xs"
+                        value={orderUpdates.shippingDetails?.shippingCity || ""}
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingCity: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -637,6 +783,18 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.location.streetAddress()}
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.shippingDetails?.shippingAddress || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingAddress: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -647,6 +805,18 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder="Europe"
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.shippingDetails?.shippingRegion || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingRegion: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -659,6 +829,16 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.string.numeric(4)}
                         className="input input-bordered w-full max-w-xs"
+                        value={orderUpdates.shippingDetails?.shippingId || ""}
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingId: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -671,6 +851,18 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder="Pickup success"
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.shippingDetails?.shippingStatus || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingStatus: e.target.value,
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -683,6 +875,22 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.internet.email()}
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.shippingDetails?.shippingClient
+                            ?.clientEmail || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingClient: {
+                                ...prevState.shippingDetails?.shippingClient,
+                                clientEmail: e.target.value,
+                              },
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -695,6 +903,22 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.person.fullName()}
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.shippingDetails?.shippingClient
+                            ?.clientName || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingClient: {
+                                ...prevState.shippingDetails?.shippingClient,
+                                clientName: e.target.value,
+                              },
+                            },
+                          }));
+                        }}
                       />
                     </label>
                     <label className="form-control w-full max-w-xs">
@@ -707,6 +931,22 @@ const ViewOrderContent = () => {
                         type="text"
                         placeholder={faker.phone.number()}
                         className="input input-bordered w-full max-w-xs"
+                        value={
+                          orderUpdates.shippingDetails?.shippingClient
+                            ?.clientPhone || ""
+                        }
+                        onChange={(e) => {
+                          setOrderUpdates((prevState) => ({
+                            ...prevState,
+                            shippingDetails: {
+                              ...prevState.shippingDetails,
+                              shippingClient: {
+                                ...prevState.shippingDetails?.shippingClient,
+                                clientPhone: e.target.value,
+                              },
+                            },
+                          }));
+                        }}
                       />
                     </label>
                   </div>
@@ -723,6 +963,13 @@ const ViewOrderContent = () => {
                   type="text"
                   placeholder="Budapest"
                   className="input input-bordered w-full max-w-xs"
+                  value={orderUpdates.currentLocation || ""}
+                  onChange={(e) => {
+                    setOrderUpdates((prevState) => ({
+                      ...prevState,
+                      currentLocation: e.target.value,
+                    }));
+                  }}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -733,6 +980,13 @@ const ViewOrderContent = () => {
                   type="text"
                   placeholder="Assigned for pickup"
                   className="input input-bordered w-full max-w-xs"
+                  value={orderUpdates.currentStatus || ""}
+                  onChange={(e) => {
+                    setOrderUpdates((prevState) => ({
+                      ...prevState,
+                      currentStatus: e.target.value,
+                    }));
+                  }}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -743,6 +997,13 @@ const ViewOrderContent = () => {
                   type="text"
                   placeholder="400$"
                   className="input input-bordered w-full max-w-xs"
+                  value={orderUpdates.estimatedRevenue || ""}
+                  onChange={(e) => {
+                    setOrderUpdates((prevState) => ({
+                      ...prevState,
+                      estimatedRevenue: e.target.value,
+                    }));
+                  }}
                 />
               </label>
             </div>
@@ -756,7 +1017,7 @@ const ViewOrderContent = () => {
                 {/* if there is a button in form, it will close the modal */}
                 <button
                   className="btn"
-                  onClick={updateOrder}
+                  onClick={handleUpdateOrder}
                   disabled={Object.keys(orderUpdates).length === 0}
                 >
                   Update order

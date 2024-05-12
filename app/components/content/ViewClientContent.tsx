@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { faker } from "@faker-js/faker";
+import { clientUpdates } from "../types/Types";
 
 const ViewClientContent = () => {
   const searchParams = useSearchParams();
   const clientId = searchParams.get("clientId");
-
   const mockedShippingStatus = [
     <div className="badge">Unknown</div>,
     <div className="badge badge-success">At destination</div>,
@@ -14,6 +14,30 @@ const ViewClientContent = () => {
     <div className="badge badge-warning">Shipment not assigned</div>,
     <div className="badge badge-error">Order cancelled</div>,
   ];
+
+  const [clientUpdates, setClientUpdates] = useState<clientUpdates>({});
+
+  useEffect(() => {
+    console.log(
+      `A call has been made for retrieving client information. clientId: ${clientId}`
+    );
+  });
+
+  const handleDeleteClient = () => {
+    console.log(
+      `A call for deleting the client has been made. clientId: ${clientId}`
+    );
+  };
+
+  const handleUpdateClient = () => {
+    console.log(
+      `A call for updating the client has been made. clientId: ${clientId} and updates: ${JSON.stringify(
+        clientUpdates,
+        null,
+        4
+      )}`
+    );
+  };
 
   return (
     <div className="grid gap-5 px-2">
@@ -238,7 +262,7 @@ const ViewClientContent = () => {
       <dialog id="my_modal_updateClient" className="modal">
         <div className="modal-box w-6/12 max-w-5xl">
           <h3 className="font-bold text-lg text-gray-500">Update client</h3>
-          <form method="post">
+          <form method="dialog">
             <div className="flex gap-2 mt-2 font-bold text-gray-400">
               {/* //Update client inputs */}
               <label className="form-control w-full max-w-xs">
@@ -249,6 +273,13 @@ const ViewClientContent = () => {
                   type="text"
                   placeholder={faker.person.fullName()}
                   className="input input-bordered w-full max-w-xs"
+                  value={clientUpdates.clientName || ""}
+                  onChange={(e) => {
+                    setClientUpdates((prevState) => ({
+                      ...prevState,
+                      clientName: e.target.value,
+                    }));
+                  }}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -259,6 +290,13 @@ const ViewClientContent = () => {
                   type="text"
                   placeholder={faker.location.streetAddress()}
                   className="input input-bordered w-full max-w-xs"
+                  value={clientUpdates.clientAddress || ""}
+                  onChange={(e) => {
+                    setClientUpdates((prevState) => ({
+                      ...prevState,
+                      clientAddress: e.target.value,
+                    }));
+                  }}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -269,20 +307,27 @@ const ViewClientContent = () => {
                   type="text"
                   placeholder={faker.phone.number()}
                   className="input input-bordered w-full max-w-xs"
+                  value={clientUpdates.clientPhone || ""}
+                  onChange={(e) => {
+                    setClientUpdates((prevState) => ({
+                      ...prevState,
+                      clientPhone: e.target.value,
+                    }));
+                  }}
                 />
               </label>
               {/* //Update client inputs end */}
             </div>
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button className="btn" onClick={handleUpdateClient}>
+                  Update client
+                </button>
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
+              </div>
+            </div>
           </form>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <button className="btn" type="submit">
-                Update client
-              </button>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       {/* Update client modal end */}
@@ -290,20 +335,18 @@ const ViewClientContent = () => {
       <dialog id="my_modal_deleteClient" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg text-gray-500">Delete client</h3>
-          <p className="py-4 font-bold text-red-500">
-            <form method="post">
-              {`Make sure client #${clientId} does not have any undergoing deliveries. Cancel any active deliveries first, otherwise this operation will fail!`}
-            </form>
-          </p>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <button className="btn" type="submit">
-                Proceed
-              </button>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
+          <form method="dialog" className="font-bold text-red-500">
+            {`Make sure client #${clientId} does not have any undergoing deliveries. Cancel any active deliveries first, otherwise this operation will fail!`}
+            <div className="modal-action">
+              <div className="flex gap-2">
+                <button className="btn" onClick={handleDeleteClient}>
+                  Proceed
+                </button>
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
+              </div>
+            </div>
+          </form>
         </div>
       </dialog>
       {/* Delete client modal end */}
