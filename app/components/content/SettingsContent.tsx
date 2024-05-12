@@ -17,13 +17,12 @@ const SettingsContent = () => {
     if (currentPage === 1) return;
     else setCurrentPage(currentPage - 1);
   };
-  console.log(updateInfo);
   return (
     <div className="grid px-2 gap-5">
       <div className="card bg-base-200 shadow-xl w-1/3">
         <div className="card-body font-bold">
           <h1 className="card-title text-gray-500">
-            Settings - #LoggedAs gabrieltest@gmail.com
+            Settings - #Logged As gabrieltest@gmail.com
           </h1>
           <div className="text-red-500 text-sm font-bold flex gap-1">
             <svg

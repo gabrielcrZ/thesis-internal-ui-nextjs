@@ -24,41 +24,83 @@ const ViewOrderContent = () => {
   ];
 
   const [selectedPickup, setSelectedPickup] = useState("");
+  const [selectedShipment, setSelectedShipment] = useState("");
+  const [selectedDelivery, setSelectedDelivery] = useState("");
+  const [orderUpdates, setOrderUpdates] = useState<any>({});
 
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
 
   //Pickup cases
   const hasAvailablePickups = false;
-  const isPickupSuccess = true;
+  const isPickupSuccess = false;
   const hasPickupAssigned = false;
 
   //Shipment cases
-  const hasAvailableShipments = true;
+  const hasAvailableShipments = false;
   const isShippingSuccess = false;
   const hasShipmentAssigned = false;
 
   //Delivery cases
   const hasAvailableDeliveries = false;
-  const isDeliverySuccess = true;
+  const isDeliverySuccess = false;
   const hasDeliveryAssigned = false;
 
   //Cancel order case
   const isOrderCancelled = false;
 
+  const assignPickup = () => {
+    console.log(
+      `A call was made for assign pickup, orderId: ${orderId} and pickupId: ${selectedPickup}`
+    );
+  };
+
+  const unassignPickup = () => {
+    console.log(`A call was made for pickup unassign. orderId: ${orderId}`);
+  };
+
+  const assignShipment = () => {
+    console.log(
+      `A call was made for assign shipment, orderId: ${orderId} and shipmentId: ${selectedShipment}`
+    );
+  };
+
+  const unassignShipment = () => {
+    console.log(`A call was made for shipment unassign. orderId: ${orderId}`);
+  };
+
+  const assignDelivery = () => {
+    console.log(
+      `A call was made for assign delivery, orderId: ${orderId} and deliveryId: ${selectedDelivery}`
+    );
+  };
+
+  const unassignDelivery = () => {
+    console.log(`A call was made for delivery unassign. orderId: ${orderId}`);
+  };
+
+  const cancelOrder = () => {
+    console.log(
+      `A call for cancelling the order was mode. orderId: ${orderId}`
+    );
+  };
+
+  const updateOrder = () => {
+    `A call for updating the order was made. orderId: ${orderId} and updates: ${orderUpdates}`;
+  };
   return (
     <div className="grid gap-5 px-2">
       <div className="flex justify-between gap-5">
         <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body">
             <h1 className="card-title text-gray-500">{`Order #${orderId}`}</h1>
-            <p className="font-medium">
+            <div className="font-medium">
               {
                 mockedShippingStatus[
                   Math.floor(Math.random() * mockedShippingStatus.length)
                 ]
               }
-            </p>
+            </div>
             <div className="card-actions justify-end font-medium">
               {!isOrderCancelled ? (
                 <div className="dropdown dropdown-hover dropdown-end">
@@ -162,8 +204,8 @@ const ViewOrderContent = () => {
         <div className="card w-full bg-base-200 text-gray-500 shadow-xl">
           <div className="card-body">
             <h2 className="card-title">Assigned delivery #Not assigned</h2>
-            <p className="text-sm">Delivery type: N/A</p>
-            <p className="text-red-500 font-bold">
+            <div className="text-sm">Delivery type: N/A</div>
+            <div className="text-red-500 font-bold">
               This order has not been processed
               <div
                 className="tooltip"
@@ -182,7 +224,7 @@ const ViewOrderContent = () => {
                   />
                 </svg>
               </div>
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -194,7 +236,7 @@ const ViewOrderContent = () => {
       >
         <div className="modal-box">
           <h3 className="font-bold text-lg text-gray-500">Pickup process</h3>
-          <form method="post">
+          <form method="dialog">
             {isPickupSuccess ? (
               <div className="text-success font-bold">
                 {`Order #${orderId} has been already picked up.`}
@@ -217,10 +259,9 @@ const ViewOrderContent = () => {
                   onChange={(e) => {
                     setSelectedPickup(e.target.value);
                   }}
+                  defaultValue={"Select pickup"}
                 >
-                  <option disabled selected>
-                    Select pickup
-                  </option>
+                  <option disabled>Select pickup</option>
                   <option value={faker.string.numeric(8)}>Pickup #1</option>
                   <option value={faker.string.numeric(8)}>Pickup #2</option>
                   <option value={faker.string.numeric(8)}>Pickup #3</option>
@@ -241,20 +282,22 @@ const ViewOrderContent = () => {
             <div className="modal-action">
               <div className="flex gap-2">
                 {/* if there is a button in form, it will close the modal */}
-                {hasPickupAssigned ? (
-                  <button className="btn" type="submit">
+                {hasPickupAssigned && !isPickupSuccess ? (
+                  <button className="btn" onClick={unassignPickup}>
                     Unassign
                   </button>
                 ) : hasAvailablePickups && !isPickupSuccess ? (
-                  <button className="btn" type="submit">
+                  <button
+                    className="btn"
+                    disabled={selectedPickup === ""}
+                    onClick={assignPickup}
+                  >
                     Assign
                   </button>
                 ) : (
                   <></>
                 )}
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn">Close</button>
               </div>
             </div>
           </form>
@@ -269,7 +312,7 @@ const ViewOrderContent = () => {
       >
         <div className="modal-box">
           <h3 className="font-bold text-lg text-gray-500">Shipping process</h3>
-          <form method="post">
+          <form method="dialog">
             {isShippingSuccess ? (
               <div className="text-success font-bold">
                 {`Order #${orderId} has been already shipped.`}
@@ -290,12 +333,11 @@ const ViewOrderContent = () => {
                 <select
                   className="select select-bordered text-gray-500"
                   onChange={(e) => {
-                    setSelectedPickup(e.target.value);
+                    setSelectedShipment(e.target.value);
                   }}
+                  defaultValue={"Select shipment"}
                 >
-                  <option disabled selected>
-                    Select shipment
-                  </option>
+                  <option disabled>Select shipment</option>
                   <option value={faker.string.numeric(8)}>Shipment #1</option>
                   <option value={faker.string.numeric(8)}>Shipment #2</option>
                   <option value={faker.string.numeric(8)}>Shipment #3</option>
@@ -316,20 +358,22 @@ const ViewOrderContent = () => {
             <div className="modal-action">
               <div className="flex gap-2">
                 {/* if there is a button in form, it will close the modal */}
-                {hasShipmentAssigned ? (
-                  <button className="btn" type="submit">
+                {hasShipmentAssigned && !isShippingSuccess ? (
+                  <button className="btn" onClick={unassignShipment}>
                     Unassign
                   </button>
                 ) : hasAvailableShipments && !isShippingSuccess ? (
-                  <button className="btn" type="submit">
+                  <button
+                    className="btn"
+                    disabled={selectedShipment === ""}
+                    onClick={assignShipment}
+                  >
                     Assign
                   </button>
                 ) : (
                   <></>
                 )}
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn">Close</button>
               </div>
             </div>
           </form>
@@ -344,7 +388,7 @@ const ViewOrderContent = () => {
       >
         <div className="modal-box">
           <h3 className="font-bold text-lg text-gray-500">Delivery process</h3>
-          <form method="post">
+          <form method="dialog">
             {isDeliverySuccess ? (
               <div className="text-success font-bold">
                 {`Order #${orderId} has been already successfully delivered.`}
@@ -365,12 +409,11 @@ const ViewOrderContent = () => {
                 <select
                   className="select select-bordered text-gray-500"
                   onChange={(e) => {
-                    setSelectedPickup(e.target.value);
+                    setSelectedDelivery(e.target.value);
                   }}
+                  defaultValue={"Select delivery"}
                 >
-                  <option disabled selected>
-                    Select delivery
-                  </option>
+                  <option disabled>Select delivery</option>
                   <option value={faker.string.numeric(8)}>Delivery #1</option>
                   <option value={faker.string.numeric(8)}>Delivery #2</option>
                   <option value={faker.string.numeric(8)}>Delivery #3</option>
@@ -391,20 +434,22 @@ const ViewOrderContent = () => {
             <div className="modal-action">
               <div className="flex gap-2">
                 {/* if there is a button in form, it will close the modal */}
-                {hasDeliveryAssigned ? (
-                  <button className="btn" type="submit">
+                {hasDeliveryAssigned && !isDeliverySuccess ? (
+                  <button className="btn" onClick={unassignDelivery}>
                     Unassign
                   </button>
                 ) : hasAvailableDeliveries && !isDeliverySuccess ? (
-                  <button className="btn" type="submit">
+                  <button
+                    className="btn"
+                    disabled={selectedDelivery === ""}
+                    onClick={assignDelivery}
+                  >
                     Assign
                   </button>
                 ) : (
                   <></>
                 )}
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn">Close</button>
               </div>
             </div>
           </form>
@@ -421,17 +466,15 @@ const ViewOrderContent = () => {
           <h3 className="font-bold text-lg text-gray-500">
             Order cancellation
           </h3>
-          <form method="post" className="py-4 font-bold text-red-500">
+          <form method="dialog" className="py-4 font-bold text-red-500">
             This action will cancel the current order. Make sure that cancelling
             will not affect the current status of an existing delivery!
             <div className="modal-action">
               <div className="flex gap-2">
-                <button className="btn" type="submit">
+                <button className="btn" onClick={cancelOrder}>
                   Proceed
                 </button>
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn">Close</button>
                 {/* if there is a button in form, it will close the modal */}
               </div>
             </div>
@@ -446,7 +489,7 @@ const ViewOrderContent = () => {
           <h3 className="font-bold text-lg text-gray-500">
             Update order #{orderId}
           </h3>
-          <form method="post">
+          <form method="dialog">
             <div className="grid gap-2 mt-2">
               <div className="collapse collapse-arrow bg-base-200">
                 <input type="checkbox" />
@@ -703,15 +746,22 @@ const ViewOrderContent = () => {
                 />
               </label>
             </div>
+            {Object.keys(orderUpdates).length === 0 && (
+              <div className="text-warning pt-3 text-sm font-bold">
+                *No order changes were found. Update order option was disabled!
+              </div>
+            )}
             <div className="modal-action">
               <div className="flex gap-2">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn" type="submit">
+                <button
+                  className="btn"
+                  onClick={updateOrder}
+                  disabled={Object.keys(orderUpdates).length === 0}
+                >
                   Update order
                 </button>
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn">Close</button>
               </div>
             </div>
           </form>

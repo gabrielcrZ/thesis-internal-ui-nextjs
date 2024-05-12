@@ -1,4 +1,4 @@
-export type filters = {
+export type orderFilters = {
   startDate: string;
   endDate: string;
   clientName: string;
@@ -19,4 +19,14 @@ export type clientSettings = {
   email?: string;
   oldPassword?: string;
   newPassword?: string;
+};
+
+export type credentials = {
+  email?: string;
+  password?: string;
+};
+
+export type loginErrors = {
+  emailError?: string;
+  passwordError?: string;
 };
