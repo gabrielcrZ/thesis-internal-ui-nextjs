@@ -68,3 +68,52 @@ export type clientUpdates = {
   clientAddress?: string;
   clientPhone?: string;
 };
+
+export type newDelivery = {
+  deliveryType?: string;
+  placeOfDeparture?: {
+    departureRegion?: string;
+    departureCity?: string;
+    departureAddress?: string;
+  };
+  placeOfDelivery?: {
+    deliveryRegion?: string;
+    deliveryCity?: string;
+    deliveryAddress?: string;
+  };
+};
+
+export type newTransport = {
+  transportType?: string;
+  transportLocation?: {
+    transportRegion?: string;
+    transportCity?: string;
+  };
+  transportCapabilities?: {
+    canPickup?: boolean;
+    canShip?: boolean;
+    availableRegions?: string[];
+    transportCapacity?: string;
+  };
+};
+
+export type deliveriesValidation = {
+  addTransport?: boolean;
+  addDelivery?: boolean;
+  updateTransport?: boolean;
+  updateDelivery?: boolean;
+};
+
+export type deliveryUpdates = {
+  deliveryType?: string;
+  placeOfDeparture?: {
+    departureRegion?: string;
+    departureCity?: string;
+    departureAddress?: string;
+  };
+  placeOfDelivery?: {
+    deliveryRegion?: string;
+    deliveryCity?: string;
+    deliveryAddress?: string;
+  };
+};

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 const MessagesContent = () => {
@@ -28,13 +28,19 @@ const MessagesContent = () => {
     <p className="badge badge-success badge-sm"></p>,
   ];
 
+  useEffect(() => {
+    console.log(
+      `A call has been made because the pagination changed. Pagination: ${currentPage}`
+    );
+  }, [currentPage]);
+
   return (
     <div className="px-2">
       <div className="grid gap-5">
         <div className="card bg-base-200 shadow-xl w-1/3">
           <div className="card-body font-bold">
             <h1 className="card-title text-gray-500">Messages library</h1>
-            <p className="font-medium text-l grid gap-2">
+            <div className="font-medium text-l grid gap-2">
               <div className="text-info text-sm font-bold flex gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +68,7 @@ const MessagesContent = () => {
                 </svg>
                 Unchecked 10
               </div>
-            </p>
+            </div>
             <div className="card-actions justify-end"></div>
           </div>
         </div>
@@ -81,15 +87,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -123,15 +129,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -165,15 +171,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -207,15 +213,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -249,15 +255,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -291,15 +297,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -333,15 +339,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -375,15 +381,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -417,15 +423,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">
@@ -459,15 +465,15 @@ const MessagesContent = () => {
                       Math.floor(Math.random() * randomBadges.length)
                     ]
                   }
-                  <p> {faker.date.anytime().toLocaleDateString()}</p>
-                  <p>-</p>
-                  <p>
+                  <div> {faker.date.anytime().toLocaleDateString()}</div>
+                  <div>-</div>
+                  <div>
                     {
                       randomMessages[
                         Math.floor(Math.random() * randomMessages.length)
                       ]
                     }
-                  </p>
+                  </div>
                 </div>
                 <div className="collapse-content">
                   <table className="table">

@@ -1,6 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
+import {
+  deliveriesValidation,
+  deliveryUpdates,
+  newDelivery,
+  newTransport,
+} from "../types/Types";
 
 const DeliveriesContent = () => {
   const mockedDeliveryStatus = [
@@ -12,6 +18,72 @@ const DeliveriesContent = () => {
   const mockedDeliveryType = ["Pickup", "Shipping", "Delivery"];
   const [deliveryPage, setDeliveryPage] = useState(1);
   const [transportsPage, setTransportPage] = useState(1);
+  const [newDelivery, setNewDelivery] = useState<newDelivery>({});
+  const [newTransport, setNewTransport] = useState<newTransport>({
+    transportCapabilities: {
+      canPickup: false,
+      canShip: false,
+    },
+  });
+  const [deliveryUpdates, setDeliveryUpdates] = useState<deliveryUpdates>({});
+  const [isFormValid, setIsFormValid] = useState<deliveriesValidation>({
+    addTransport: false,
+    addDelivery: false,
+    updateDelivery: false,
+    updateTransport: false,
+  });
+  const [selectedDelivery, setSelectedDelivery] = useState("");
+
+  const validateAddDelivery = () => {
+    const formValidationState = () => {
+      if (
+        newDelivery.deliveryType &&
+        newDelivery.placeOfDelivery?.deliveryAddress &&
+        newDelivery.placeOfDelivery.deliveryCity &&
+        newDelivery.placeOfDelivery.deliveryRegion &&
+        newDelivery.placeOfDeparture?.departureAddress &&
+        newDelivery.placeOfDeparture.departureCity &&
+        newDelivery.placeOfDeparture.departureRegion
+      )
+        return true;
+      return false;
+    };
+    setIsFormValid((prevState) => ({
+      ...prevState,
+      addDelivery: formValidationState(),
+    }));
+  };
+
+  const validateAddTransport = () => {
+    const formValidationState = () => {
+      if (
+        newTransport.transportType &&
+        newTransport.transportLocation?.transportCity &&
+        newTransport.transportLocation?.transportRegion &&
+        newTransport.transportCapabilities?.availableRegions &&
+        (newTransport.transportCapabilities?.canPickup ||
+          !newTransport.transportCapabilities?.canPickup) &&
+        (newTransport.transportCapabilities?.canShip ||
+          !newTransport.transportCapabilities?.canShip) &&
+        newTransport.transportCapabilities?.transportCapacity
+      )
+        return true;
+      return false;
+    };
+    setIsFormValid((prevState) => ({
+      ...prevState,
+      addTransport: formValidationState(),
+    }));
+  };
+
+  useEffect(() => {
+    validateAddDelivery();
+  }, [newDelivery]);
+
+  useEffect(() => {
+    validateAddTransport();
+  }, [newTransport]);
+
   const deliveryNext = () => {
     setDeliveryPage(deliveryPage + 1);
   };
@@ -29,6 +101,73 @@ const DeliveriesContent = () => {
     else setTransportPage(transportsPage - 1);
   };
 
+  const handleAddDelivery = () => {
+    setNewDelivery({});
+    console.log(
+      `A call has been made for adding a new delivery. deliveryInfo: ${JSON.stringify(
+        newDelivery,
+        null,
+        4
+      )}`
+    );
+  };
+
+  const handleAddTransport = () => {
+    setNewTransport({});
+    console.log(
+      `A call has been made for adding a new transport, transportInfo: ${JSON.stringify(
+        newTransport,
+        null,
+        4
+      )}`
+    );
+  };
+
+  const handleUpdateDelivery = () => {
+    // setDeliveryUpdates({}); same case as update order details, the modal will not close
+    console.log(
+      `A call for updating a delivery has been made, deliveryUpdates: ${JSON.stringify(
+        deliveryUpdates,
+        null,
+        4
+      )}`
+    );
+  };
+
+  const handleAssignDelivery = () => {
+    console.log(`A call has been made for transport delivery assign`);
+  };
+
+  const handleUnassignDelivery = () => {
+    console.log(`A call has been made for transport delivery unassign`);
+  };
+
+  const handleDeleteTransport = () => {
+    console.log(`A call has been made to delete transport`);
+  };
+
+  const handleCancelDelivery = () => {
+    console.log("A call for canceling a delivery has been made");
+  };
+
+  useEffect(() => {
+    console.log(
+      `A call has been made to retrieve deliveries and transport information`
+    );
+  }, []);
+
+  useEffect(() => {
+    console.log(
+      "A call has been made because transports pagination has changed"
+    );
+  }, [transportsPage]);
+
+  useEffect(() => {
+    console.log(
+      `A call has been made because deliveries pagination has changed`
+    );
+  }, [deliveryPage]);
+
   const mockedTransportTypes = ["Truck", "Van", "Plane", "Ship"];
   const mockedTransportCapabilities = [
     <div className="badge badge-success badge-sm">Yes</div>,
@@ -45,7 +184,7 @@ const DeliveriesContent = () => {
   ];
 
   const hasDeliveryAssigned = false;
-  const isDeliveryProcessed = true;
+  const hasTransportAvailableDeliveries = true;
 
   return (
     <div className="grid gap-5 px-2">
@@ -53,11 +192,11 @@ const DeliveriesContent = () => {
         <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body font-bold">
             <h1 className="card-title text-gray-500">Deliveries information</h1>
-            <p className="font-medium text-l grid gap-2">
+            <div className="font-medium text-l grid gap-2">
               <div className="badge badge-info">Started: 10</div>
               <div className="badge badge-warning">In progress: 10</div>
               <div className="badge badge-success">Finished: 10</div>
-            </p>
+            </div>
             <div className="card-actions justify-end">
               <button
                 className="btn btn-info"
@@ -85,13 +224,13 @@ const DeliveriesContent = () => {
         <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body font-bold">
             <h1 className="card-title text-gray-500">Transports information</h1>
-            <p className="font-medium text-l grid gap-2">
+            <div className="font-medium text-l grid gap-2">
               <div className="badge badge-info">Available: 10</div>
               <div className="badge badge-warning">
                 Assigned to deliveries: 10
               </div>
               <div className="badge badge-success">In transit: 10</div>
-            </p>
+            </div>
             <div className="card-actions justify-end">
               <button
                 className="btn btn-info"
@@ -122,24 +261,28 @@ const DeliveriesContent = () => {
       <dialog id="my_modal_assignDelivery" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg text-gray-500">Assign delivery</h3>
-          {hasDeliveryAssigned ? (
-            <div className="text-warning font-bold">{`Transport #${faker.string.numeric(
-              6
-            )} has an active delivery assigned to it (id: ${faker.string.numeric(
-              6
-            )}). You can proceed with the unassign operation or return back to deliveries overview.`}</div>
-          ) : (
-            <form method="post">
+          <form method="dialog">
+            {hasDeliveryAssigned ? (
+              <div className="text-warning font-bold">{`Transport #${faker.string.numeric(
+                6
+              )} has an active delivery assigned to it (id: ${faker.string.numeric(
+                6
+              )}). You can proceed with the unassign operation or return back to deliveries overview.`}</div>
+            ) : hasTransportAvailableDeliveries ? (
               <label className="form-control w-full max-w-sm">
                 <div className="label">
                   <span className="label-text text-info font-bold">
                     Select delivery to be assigned
                   </span>
                 </div>
-                <select className="select select-bordered text-gray-500">
-                  <option disabled selected>
-                    Select delivery
-                  </option>
+                <select
+                  className="select select-bordered text-gray-500"
+                  value={"Select delivery"}
+                  onChange={(e) => {
+                    setSelectedDelivery(e.target.value);
+                  }}
+                >
+                  <option disabled>Select delivery</option>
                   <option value={faker.string.numeric(6)}>
                     #{faker.string.numeric(6)}
                   </option>
@@ -154,37 +297,63 @@ const DeliveriesContent = () => {
                   </option>
                 </select>
               </label>
-              <div className="modal-action">
-                <div className="flex gap-2">
-                  {hasDeliveryAssigned ? (
-                    <button className="btn">Unassign</button>
-                  ) : (
-                    <button className="btn">Assign</button>
-                  )}
-                  <form method="dialog">
-                    {/* if there is a button in form, it will close the modal */}
-                    <button className="btn">Close</button>
-                  </form>
-                </div>
+            ) : (
+              <div className="text-red-500 font-bold">
+                No available deliveries were found for this transport. Consider
+                adding one, then retry this operation.
               </div>
-            </form>
-          )}
+            )}
+            <div className="modal-action">
+              <div className="flex gap-2">
+                {hasDeliveryAssigned ? (
+                  <button className="btn" onClick={handleUnassignDelivery}>
+                    Unassign
+                  </button>
+                ) : !hasTransportAvailableDeliveries ? (
+                  <></>
+                ) : (
+                  <button
+                    className="btn"
+                    onClick={handleAssignDelivery}
+                    disabled={selectedDelivery === ""}
+                  >
+                    Assign
+                  </button>
+                )}
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
+              </div>
+            </div>
+          </form>
         </div>
       </dialog>
       <dialog id="my_modal_updateDelivery" className="modal">
         <div className="modal-box w-11/12 max-w-4xl">
           <h3 className="font-bold text-lg text-gray-500">Update delivery</h3>
-          <form className="text-gray-400" method="post">
+          {Object.keys(deliveryUpdates).length === 0 && (
+            <div className="text-warning text-sm font-bold py-2">
+              *Update delivery form was not filled in. Update option was
+              disabled.
+            </div>
+          )}
+          <form className="text-gray-400" method="dialog">
             <label className="form-control w-full max-w-sm">
               <div className="label">
                 <span className="label-text text-info font-bold">
                   Delivery type
                 </span>
               </div>
-              <select className="select select-bordered text-gray-500">
-                <option disabled selected>
-                  Select type
-                </option>
+              <select
+                className="select select-bordered text-gray-500"
+                defaultValue={"Select type"}
+                onChange={(e) => {
+                  setDeliveryUpdates((prevState) => ({
+                    ...prevState,
+                    deliveryType: e.target.value,
+                  }));
+                }}
+              >
+                <option disabled>Select type</option>
                 <option value="Pickup">Pickup</option>
                 <option value="Shipping">Shipping</option>
                 <option value="Delivery">Delivery</option>
@@ -197,10 +366,20 @@ const DeliveriesContent = () => {
                     Departure region
                   </span>
                 </div>
-                <select className="select select-bordered  text-gray-500">
-                  <option disabled selected>
-                    Select region
-                  </option>
+                <select
+                  className="select select-bordered  text-gray-500"
+                  defaultValue={"Select region"}
+                  onChange={(e) => {
+                    setDeliveryUpdates((prevState) => ({
+                      ...prevState,
+                      placeOfDeparture: {
+                        ...prevState.placeOfDeparture,
+                        departureRegion: e.target.value,
+                      },
+                    }));
+                  }}
+                >
+                  <option disabled>Select region</option>
                   <option value="Africa">Africa</option>
                   <option value="Asia">Asia</option>
                   <option value="Central America">Central America</option>
@@ -214,12 +393,22 @@ const DeliveriesContent = () => {
               <label className="form-control w-full max-w-xs">
                 <div className="label">
                   <span className="label-text text-info font-bold">
-                    Departure country
+                    Departure city
                   </span>
                 </div>
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
+                  value={deliveryUpdates.placeOfDeparture?.departureCity || ""}
+                  onChange={(e) => {
+                    setDeliveryUpdates((prevState) => ({
+                      ...prevState,
+                      placeOfDeparture: {
+                        ...prevState.placeOfDeparture,
+                        departureCity: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -231,6 +420,18 @@ const DeliveriesContent = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
+                  value={
+                    deliveryUpdates.placeOfDeparture?.departureAddress || ""
+                  }
+                  onChange={(e) => {
+                    setDeliveryUpdates((prevState) => ({
+                      ...prevState,
+                      placeOfDeparture: {
+                        ...prevState.placeOfDeparture,
+                        departureAddress: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </label>
             </div>
@@ -241,10 +442,20 @@ const DeliveriesContent = () => {
                     Delivery region
                   </span>
                 </div>
-                <select className="select select-bordered  text-gray-500">
-                  <option disabled selected>
-                    Select region
-                  </option>
+                <select
+                  className="select select-bordered  text-gray-500"
+                  defaultValue={"Select region"}
+                  onChange={(e) => {
+                    setDeliveryUpdates((prevState) => ({
+                      ...prevState,
+                      placeOfDelivery: {
+                        ...prevState.placeOfDelivery,
+                        deliveryRegion: e.target.value,
+                      },
+                    }));
+                  }}
+                >
+                  <option disabled>Select region</option>
                   <option value="Africa">Africa</option>
                   <option value="Asia">Asia</option>
                   <option value="Central America">Central America</option>
@@ -258,12 +469,22 @@ const DeliveriesContent = () => {
               <label className="form-control w-full max-w-xs">
                 <div className="label">
                   <span className="label-text text-info font-bold">
-                    Delivery country
+                    Delivery city
                   </span>
                 </div>
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
+                  value={deliveryUpdates.placeOfDelivery?.deliveryRegion || ""}
+                  onChange={(e) => {
+                    setDeliveryUpdates((prevState) => ({
+                      ...prevState,
+                      placeOfDelivery: {
+                        ...prevState.placeOfDelivery,
+                        deliveryCity: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -275,18 +496,32 @@ const DeliveriesContent = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
+                  value={deliveryUpdates.placeOfDelivery?.deliveryAddress || ""}
+                  onChange={(e) => {
+                    setDeliveryUpdates((prevState) => ({
+                      ...prevState,
+                      placeOfDelivery: {
+                        ...prevState.placeOfDelivery,
+                        deliveryAddress: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </label>
             </div>
-            <div className="text-warning font-bold mt-5">
+            <div className="text-warning font-bold text-sm py-3">
               *If the delivery it's already ongoing, this operation may fail.
             </div>
             <div className="modal-action">
               <div className="flex gap-2">
-                <button className="btn">Update</button>
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button
+                  className="btn"
+                  disabled={Object.keys(deliveryUpdates).length === 0}
+                  onClick={handleUpdateDelivery}
+                >
+                  Update
+                </button>
+                <button className="btn">Close</button>
                 {/* if there is a button in form, it will close the modal */}
               </div>
             </div>
@@ -295,7 +530,7 @@ const DeliveriesContent = () => {
       </dialog>
       <dialog id="my_modal_deleteTransport" className="modal">
         <div className="modal-box">
-          <form method="post">
+          <form method="dialog">
             <h3 className="font-bold text-lg text-gray-500">
               Delete transport
             </h3>
@@ -304,11 +539,11 @@ const DeliveriesContent = () => {
             )}. Before continuing, make sure there is no delivery assigned to this transport, otherwise this operation will fail.`}</div>
             <div className="modal-action">
               <div className="flex gap-2">
-                <button className="btn">Proceed</button>
-                <form method="dialog">
-                  {/* if there is a button in form, it will close the modal */}
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn" onClick={handleDeleteTransport}>
+                  Proceed
+                </button>
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
               </div>
             </div>
           </form>
@@ -316,17 +551,17 @@ const DeliveriesContent = () => {
       </dialog>
       <dialog id="my_modal_cancelDelivery" className="modal">
         <div className="modal-box">
-          <form method="post">
+          <form method="dialog">
             <h3 className="font-bold text-lg text-gray-500">Cancel delivery</h3>
             <div className="text-red-500 font-bold">{`This action will cancel delivery #${faker.string.numeric(
               6
             )}. Before continuing, make sure that this delivery it's not assigned to any transport, otherwise this operation will fail.`}</div>
             <div className="modal-action">
               <div className="flex gap-2">
-                <button className="btn">Proceed</button>
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn" onClick={handleCancelDelivery}>
+                  Proceed
+                </button>
+                <button className="btn">Close</button>
                 {/* if there is a button in form, it will close the modal */}
               </div>
             </div>
@@ -338,17 +573,29 @@ const DeliveriesContent = () => {
           <h3 className="font-bold text-lg text-gray-500">
             Create new transport
           </h3>
-          <form className="text-gray-400 font-medium" method="post">
+          {!isFormValid.addTransport && (
+            <div className="text-warning font-bold text-sm py-2">
+              *Add transport form was not filled in. Create option was disabled.
+            </div>
+          )}
+          <form className="text-gray-400 font-medium" method="dialog">
             <label className="form-control w-full max-w-sm">
               <div className="label">
                 <span className="label-text text-info font-bold">
                   {`Select transport type`}
                 </span>
               </div>
-              <select className="select select-bordered text-gray-500">
-                <option disabled selected>
-                  Select type
-                </option>
+              <select
+                className="select select-bordered text-gray-500"
+                defaultValue={"Select type"}
+                onChange={(e) => {
+                  setNewTransport((prevState) => ({
+                    ...prevState,
+                    transportType: e.target.value,
+                  }));
+                }}
+              >
+                <option disabled>Select type</option>
                 <option value="Truck">Truck</option>
                 <option value="Van">Van</option>
                 <option value="Plane">Plane</option>
@@ -361,10 +608,20 @@ const DeliveriesContent = () => {
                   Delivery regions
                 </span>
               </div>
-              <select className="select select-bordered  text-gray-500">
-                <option disabled selected>
-                  Select regions
-                </option>
+              <select
+                className="select select-bordered  text-gray-500"
+                defaultValue={"Select regions"}
+                onChange={(e) => {
+                  setNewTransport((prevState) => ({
+                    ...prevState,
+                    transportCapabilities: {
+                      ...prevState.transportCapabilities,
+                      availableRegions: [e.target.value],
+                    },
+                  }));
+                }}
+              >
+                <option disabled>Select regions</option>
                 <option value="Africa">Africa</option>
                 <option value="Asia">Asia</option>
                 <option value="Central America">Central America</option>
@@ -378,23 +635,52 @@ const DeliveriesContent = () => {
             <label className="form-control w-full max-w-xs">
               <div className="label">
                 <span className="label-text text-info font-bold">
-                  Assigned Region
+                  Assigned region
                 </span>
               </div>
-              <input
-                type="text"
-                className="input input-bordered w-full max-w-xs"
-              />
+              <select
+                className="select select-bordered  text-gray-500"
+                defaultValue={"Select region"}
+                onChange={(e) => {
+                  setNewTransport((prevState) => ({
+                    ...prevState,
+                    transportLocation: {
+                      ...prevState.transportLocation,
+                      transportRegion: e.target.value,
+                    },
+                  }));
+                }}
+              >
+                <option disabled>Select region</option>
+                <option value="Africa">Africa</option>
+                <option value="Asia">Asia</option>
+                <option value="Central America">Central America</option>
+                <option value="Europe">Europe</option>
+                <option value="Middle East">Middle East</option>
+                <option value="North America">North America</option>
+                <option value="Pacific">Pacific</option>
+                <option value="South America">South America</option>
+              </select>
             </label>
             <label className="form-control w-full max-w-xs">
               <div className="label">
                 <span className="label-text text-info font-bold">
-                  Assigned Country
+                  Assigned city
                 </span>
               </div>
               <input
                 type="text"
                 className="input input-bordered w-full max-w-xs"
+                value={newTransport.transportLocation?.transportCity || ""}
+                onChange={(e) => {
+                  setNewTransport((prevState) => ({
+                    ...prevState,
+                    transportLocation: {
+                      ...prevState.transportLocation,
+                      transportCity: e.target.value,
+                    },
+                  }));
+                }}
               />
             </label>
 
@@ -407,27 +693,65 @@ const DeliveriesContent = () => {
               <input
                 type="number"
                 className="input input-bordered w-full max-w-xs"
+                value={
+                  newTransport.transportCapabilities?.transportCapacity || ""
+                }
+                onChange={(e) => {
+                  setNewTransport((prevState) => ({
+                    ...prevState,
+                    transportCapabilities: {
+                      ...prevState.transportCapabilities,
+                      transportCapacity: e.target.value,
+                    },
+                  }));
+                }}
               />
             </label>
             <div className="flex gap-5 mt-4 justify-center">
               <div className="flex gap-2">
                 <span className="text-gray-500 font-medium">Pickup</span>
-                <input type="checkbox" className="checkbox checkbox-success" />
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-success"
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      transportCapabilities: {
+                        ...prevState.transportCapabilities,
+                        canPickup: e.target.value === "on" ? true : false,
+                      },
+                    }));
+                  }}
+                />
               </div>
               <div className="flex gap-2">
                 <span className="text-gray-500 font-medium">Shipping</span>
-                <input type="checkbox" className="checkbox checkbox-success" />
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-success"
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      transportCapabilities: {
+                        ...prevState.transportCapabilities,
+                        canShip: e.target.value === "on" ? true : false,
+                      },
+                    }));
+                  }}
+                />
               </div>
             </div>
             <div className="modal-action">
               <div className="flex gap-2">
-                <button className="btn" type="submit">
+                <button
+                  className="btn"
+                  onClick={handleAddTransport}
+                  disabled={!isFormValid.addTransport}
+                >
                   Create
                 </button>
-                <form method="dialog">
-                  {/* if there is a button in form, it will close the modal */}
-                  <button className="btn">Close</button>
-                </form>
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
               </div>
             </div>
           </form>
@@ -438,17 +762,29 @@ const DeliveriesContent = () => {
           <h3 className="font-bold text-lg text-gray-500">
             Create new delivery
           </h3>
-          <form className="text-gray-400 font-medium" method="post">
+          {!isFormValid.addDelivery && (
+            <div className="text-warning font-bold text-sm pt-3">
+              *Add delivery form was not filled in. Create option was disabled.
+            </div>
+          )}
+          <form className="text-gray-400 font-medium" method="dialog">
             <label className="form-control w-full max-w-sm">
               <div className="label">
                 <span className="label-text text-info font-bold">
                   Delivery type
                 </span>
               </div>
-              <select className="select select-bordered  text-gray-500">
-                <option disabled selected>
-                  Select type
-                </option>
+              <select
+                className="select select-bordered  text-gray-500"
+                defaultValue={"Select type"}
+                onChange={(e) => {
+                  setNewDelivery((prevState) => ({
+                    ...prevState,
+                    deliveryType: e.target.value,
+                  }));
+                }}
+              >
+                <option disabled>Select type</option>
                 <option value="Pickup">Pickup</option>
                 <option value="Shipping">Shipping</option>
                 <option value="Delivery">Delivery</option>
@@ -461,10 +797,20 @@ const DeliveriesContent = () => {
                     Departure region
                   </span>
                 </div>
-                <select className="select select-bordered  text-gray-500">
-                  <option disabled selected>
-                    Select region
-                  </option>
+                <select
+                  className="select select-bordered  text-gray-500"
+                  defaultValue={"Select region"}
+                  onChange={(e) => {
+                    setNewDelivery((prevState) => ({
+                      ...prevState,
+                      placeOfDeparture: {
+                        ...prevState.placeOfDeparture,
+                        departureRegion: e.target.value,
+                      },
+                    }));
+                  }}
+                >
+                  <option disabled>Select region</option>
                   <option value="Africa">Africa</option>
                   <option value="Asia">Asia</option>
                   <option value="Central America">Central America</option>
@@ -478,12 +824,22 @@ const DeliveriesContent = () => {
               <label className="form-control w-full max-w-xs">
                 <div className="label">
                   <span className="label-text text-info font-bold">
-                    Departure country
+                    Departure city
                   </span>
                 </div>
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
+                  value={newDelivery.placeOfDeparture?.departureCity || ""}
+                  onChange={(e) => {
+                    setNewDelivery((prevState) => ({
+                      ...prevState,
+                      placeOfDeparture: {
+                        ...prevState.placeOfDeparture,
+                        departureCity: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -495,6 +851,16 @@ const DeliveriesContent = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
+                  value={newDelivery.placeOfDeparture?.departureAddress || ""}
+                  onChange={(e) => {
+                    setNewDelivery((prevState) => ({
+                      ...prevState,
+                      placeOfDeparture: {
+                        ...prevState.placeOfDeparture,
+                        departureAddress: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </label>
             </div>
@@ -505,10 +871,20 @@ const DeliveriesContent = () => {
                     Delivery region
                   </span>
                 </div>
-                <select className="select select-bordered  text-gray-500">
-                  <option disabled selected>
-                    Select region
-                  </option>
+                <select
+                  className="select select-bordered  text-gray-500"
+                  defaultValue={"Select region"}
+                  onChange={(e) => {
+                    setNewDelivery((prevState) => ({
+                      ...prevState,
+                      placeOfDelivery: {
+                        ...prevState.placeOfDelivery,
+                        deliveryRegion: e.target.value,
+                      },
+                    }));
+                  }}
+                >
+                  <option disabled>Select region</option>
                   <option value="Africa">Africa</option>
                   <option value="Asia">Asia</option>
                   <option value="Central America">Central America</option>
@@ -522,12 +898,22 @@ const DeliveriesContent = () => {
               <label className="form-control w-full max-w-xs">
                 <div className="label">
                   <span className="label-text text-info font-bold">
-                    Delivery country
+                    Delivery city
                   </span>
                 </div>
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
+                  value={newDelivery.placeOfDelivery?.deliveryCity || ""}
+                  onChange={(e) => {
+                    setNewDelivery((prevState) => ({
+                      ...prevState,
+                      placeOfDelivery: {
+                        ...prevState.placeOfDelivery,
+                        deliveryCity: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -539,17 +925,30 @@ const DeliveriesContent = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
+                  value={newDelivery.placeOfDelivery?.deliveryAddress || ""}
+                  onChange={(e) => {
+                    setNewDelivery((prevState) => ({
+                      ...prevState,
+                      placeOfDelivery: {
+                        ...prevState.placeOfDelivery,
+                        deliveryAddress: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </label>
             </div>
+
             <div className="modal-action">
               <div className="flex gap-2">
-                <button className="btn" type="submit">
+                <button
+                  className="btn"
+                  disabled={!isFormValid.addDelivery}
+                  onClick={handleAddDelivery}
+                >
                   Create
                 </button>
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn">Close</button>
                 {/* if there is a button in form, it will close the modal */}
               </div>
             </div>

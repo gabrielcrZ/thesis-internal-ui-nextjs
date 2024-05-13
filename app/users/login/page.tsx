@@ -67,7 +67,7 @@ const Login = () => {
                   }}
                 />
                 {loginErrors.emailError && showValidation && (
-                  <label className="label text-sm text-red-500 font-bold">
+                  <label className="label text-sm text-warning font-bold">
                     {loginErrors.emailError}
                   </label>
                 )}
@@ -88,7 +88,7 @@ const Login = () => {
                   }}
                 />
                 {loginErrors.passwordError && showValidation && (
-                  <label className="label text-sm text-red-500 font-bold">
+                  <label className="label text-sm text-warning font-bold">
                     {loginErrors.passwordError}
                   </label>
                 )}

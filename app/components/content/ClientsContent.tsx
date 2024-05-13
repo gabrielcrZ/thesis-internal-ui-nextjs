@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import Link from "next/link";
-import { clientFilters } from "../types/Types";
 
 const ClientsContent = () => {
   //   const [filters, setFilters] = useState<clientFilters>();
@@ -22,10 +21,23 @@ const ClientsContent = () => {
     setClientName("");
   };
 
+  useEffect(() => {
+    console.log(
+      `A call has been made because pagination has changed. Pagination: ${currentPage}`
+    );
+  }, [currentPage]);
+
   const mockedHasOrders = [
     <div className="badge badge-success badge-xs">Yes</div>,
     <div className="badge badge-error badge-xs">No</div>,
   ];
+
+  const handleSearchClients = () => {
+    console.log(
+      `A call for client search has been made. Client email: ${clientEmail} and Client name: ${clientName}`
+    );
+  };
+
   return (
     <div className="grid gap-5 px-2">
       <div className="collapse font-medium">
@@ -73,7 +85,14 @@ const ClientsContent = () => {
               <span className="badge badge-ghost">optional</span>
             </label>
             <div className="flex gap-2 items-center">
-              <button className="btn btn-sm" type="submit">
+              <button
+                className="btn btn-sm"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSearchClients();
+                }}
+                disabled={clientEmail === "" && clientName === ""}
+              >
                 Search
               </button>
               <button

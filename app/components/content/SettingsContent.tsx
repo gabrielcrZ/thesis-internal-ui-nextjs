@@ -1,14 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { clientSettings } from "../types/Types";
 
 const SettingsContent = () => {
-  const [updateInfo, setUpdateInfo] = useState<clientSettings>({
-    email: "",
-    oldPassword: "",
-    newPassword: "",
-  });
+  const [updateInfo, setUpdateInfo] = useState<clientSettings>({});
   const [currentPage, setCurrentPage] = useState(1);
   const pageIncrease = () => {
     setCurrentPage(currentPage + 1);
@@ -17,6 +13,28 @@ const SettingsContent = () => {
     if (currentPage === 1) return;
     else setCurrentPage(currentPage - 1);
   };
+
+  useEffect(() => {
+    console.log(
+      `A call has been made for retrieving data or pagination changes. Pagination ${currentPage}`
+    );
+  }, [currentPage]);
+
+  const handleUpdateUser = () => {
+    setUpdateInfo({
+      email: "",
+      oldPassword: "",
+      newPassword: "",
+    });
+    console.log(
+      `A call for updating user information has been made. Updates: ${JSON.stringify(
+        updateInfo,
+        null,
+        4
+      )}`
+    );
+  };
+
   return (
     <div className="grid px-2 gap-5">
       <div className="card bg-base-200 shadow-xl w-1/3">
@@ -58,10 +76,10 @@ const SettingsContent = () => {
                 className="input input-bordered w-full max-w-xs"
                 value={updateInfo?.email}
                 onChange={(e) => {
-                  setUpdateInfo({
-                    ...updateInfo,
+                  setUpdateInfo((prevState) => ({
+                    ...prevState,
                     email: e.target.value,
-                  });
+                  }));
                 }}
               />
             </label>
@@ -76,10 +94,10 @@ const SettingsContent = () => {
                 className="input input-bordered w-full max-w-xs"
                 value={updateInfo?.oldPassword}
                 onChange={(e) => {
-                  setUpdateInfo({
-                    ...updateInfo,
+                  setUpdateInfo((prevState) => ({
+                    ...prevState,
                     oldPassword: e.target.value,
-                  });
+                  }));
                 }}
               />
             </label>
@@ -94,14 +112,22 @@ const SettingsContent = () => {
                 className="input input-bordered w-full max-w-xs"
                 value={updateInfo?.newPassword}
                 onChange={(e) => {
-                  setUpdateInfo({
-                    ...updateInfo,
+                  setUpdateInfo((prevState) => ({
+                    ...prevState,
                     newPassword: e.target.value,
-                  });
+                  }));
                 }}
               />
             </label>
-            <button className="btn self-end" type="submit">
+            <button
+              className="btn self-end"
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                handleUpdateUser();
+              }}
+              disabled={Object.keys(updateInfo).length === 0}
+            >
               Send
             </button>
           </form>

@@ -33,17 +33,17 @@ const ViewOrderContent = () => {
   const orderId = searchParams.get("orderId");
 
   //Pickup cases
-  const hasAvailablePickups = false;
+  const hasAvailablePickups = true;
   const isPickupSuccess = false;
   const hasPickupAssigned = false;
 
   //Shipment cases
-  const hasAvailableShipments = false;
+  const hasAvailableShipments = true;
   const isShippingSuccess = false;
   const hasShipmentAssigned = false;
 
   //Delivery cases
-  const hasAvailableDeliveries = false;
+  const hasAvailableDeliveries = true;
   const isDeliverySuccess = false;
   const hasDeliveryAssigned = false;
 
@@ -56,7 +56,7 @@ const ViewOrderContent = () => {
     );
   });
   const handleAssignPickup = () => {
-    setSelectedPickup("");
+    // setSelectedPickup("");
     console.log(
       `A call was made for assign pickup, orderId: ${orderId} and pickupId: ${selectedPickup}`
     );
@@ -67,7 +67,7 @@ const ViewOrderContent = () => {
   };
 
   const handleAssignShipment = () => {
-    setSelectedShipment("");
+    // setSelectedShipment("");
     console.log(
       `A call was made for assign shipment, orderId: ${orderId} and shipmentId: ${selectedShipment}`
     );
@@ -78,7 +78,7 @@ const ViewOrderContent = () => {
   };
 
   const handleAssignDelivery = () => {
-    setSelectedDelivery("");
+    // setSelectedDelivery("");
     console.log(
       `A call was made for assign delivery, orderId: ${orderId} and deliveryId: ${selectedDelivery}`
     );
@@ -95,7 +95,6 @@ const ViewOrderContent = () => {
   };
 
   const handleUpdateOrder = () => {
-    // setOrderUpdates({}); with this the modal will not close after clicking on update order
     console.log(
       `A call for updating the order was made. orderId: ${orderId} and updates: ${JSON.stringify(
         orderUpdates,
@@ -103,7 +102,9 @@ const ViewOrderContent = () => {
         4
       )}`
     );
+    // setOrderUpdates({});
   };
+
   return (
     <div className="grid gap-5 px-2">
       <div className="flex justify-between gap-5">
