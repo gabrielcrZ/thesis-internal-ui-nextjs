@@ -23,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-function LineChart() {
+function LineChart(props: any) {
   const options: any = {
     responsive: true,
     plugins: {
@@ -41,8 +41,8 @@ function LineChart() {
       {
         fill: true,
         label: `Shipped orders - ${new Date().getFullYear()}`,
-        data: labels.map(() => {
-          return Math.random() * 100 + 500;
+        data: labels.map((el, index) => {
+          return props.data[index];
         }),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",

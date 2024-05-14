@@ -33,18 +33,18 @@ const ViewOrderContent = () => {
   const orderId = searchParams.get("orderId");
 
   //Pickup cases
-  const hasAvailablePickups = true;
-  const isPickupSuccess = false;
+  const hasAvailablePickups = false;
+  const isPickupSuccess = true;
   const hasPickupAssigned = false;
 
   //Shipment cases
-  const hasAvailableShipments = true;
-  const isShippingSuccess = false;
+  const hasAvailableShipments = false;
+  const isShippingSuccess = true;
   const hasShipmentAssigned = false;
 
   //Delivery cases
-  const hasAvailableDeliveries = true;
-  const isDeliverySuccess = false;
+  const hasAvailableDeliveries = false;
+  const isDeliverySuccess = true;
   const hasDeliveryAssigned = false;
 
   //Cancel order case

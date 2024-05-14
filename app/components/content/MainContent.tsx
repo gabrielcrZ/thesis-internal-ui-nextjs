@@ -7,6 +7,42 @@ import BarChart from "../charts/BarChart";
 import LineChart from "../charts/LineChart";
 
 const MainContent = () => {
+  const lineChartData = [
+    Math.random() * 100 + 500,
+    Math.random() * 100 + 500,
+    Math.random() * 100 + 500,
+    Math.random() * 100 + 500,
+  ];
+  const stackedBarChartData = [
+    [
+      Math.random() * 100 + 500,
+      Math.random() * 100 + 500,
+      Math.random() * 100 + 500,
+    ],
+    [
+      Math.random() * 100 + 500,
+      Math.random() * 100 + 500,
+      Math.random() * 100 + 500,
+    ],
+    [
+      Math.random() * 100 + 500,
+      Math.random() * 100 + 500,
+      Math.random() * 100 + 500,
+    ],
+    [
+      Math.random() * 100 + 500,
+      Math.random() * 100 + 500,
+      Math.random() * 100 + 500,
+    ],
+  ];
+
+  const barChartData = [
+    [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
+    [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
+    [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
+    [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
+  ];
+
   useEffect(() => {
     console.log(`A call for dashboard metrics has been made`);
   });
@@ -17,12 +53,12 @@ const MainContent = () => {
       <Stats />
       <div className="grid grid-cols-2 mt-2">
         <div className="grid pt-2">
-          <StackBarChart />
+          <StackBarChart data={stackedBarChartData} />
           {/* Invisible element for chart resizing bug */}
           <div className="opacity-0">.</div>
         </div>
         <div className="grid pt-2 justify-items-start">
-          <BarChart />
+          <BarChart data={barChartData} />
         </div>
       </div>
       <div className="grid grid-cols-2 mt-2">
@@ -30,7 +66,7 @@ const MainContent = () => {
           <DashboardTable />
         </div>
         <div className="grid pt-2 pl-2.5 justify-items-start">
-          <LineChart />
+          <LineChart data={lineChartData} />
         </div>
       </div>
     </div>

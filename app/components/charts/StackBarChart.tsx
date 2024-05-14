@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-function StackBarChart() {
+function StackBarChart(props: any) {
   const options = {
     responsive: true,
     scales: {
@@ -39,22 +39,22 @@ function StackBarChart() {
     datasets: [
       {
         label: "Picked up",
-        data: labels.map(() => {
-          return Math.random() * 1000 + 500;
+        data: labels.map((el, index) => {
+          return props.data[index][0];
         }),
         backgroundColor: "rgba(255, 99, 132, 1)",
       },
       {
         label: "Shipped",
-        data: labels.map(() => {
-          return Math.random() * 1000 + 500;
+        data: labels.map((el, index) => {
+          return props.data[index][1];
         }),
         backgroundColor: "rgba(53, 162, 235, 1)",
       },
       {
         label: "Delivered",
-        data: labels.map(() => {
-          return Math.random() * 1000 + 500;
+        data: labels.map((el, index) => {
+          return props.data[index][2];
         }),
         backgroundColor: "rgba(235, 162, 235, 1)",
       },

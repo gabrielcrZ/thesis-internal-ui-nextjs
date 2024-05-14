@@ -262,6 +262,9 @@ const ViewClientContent = () => {
       <dialog id="my_modal_updateClient" className="modal">
         <div className="modal-box w-6/12 max-w-5xl">
           <h3 className="font-bold text-lg text-gray-500">Update client</h3>
+          <div className="text-warning font-bold py-2 text-sm">
+            No updates were provided. Update option has been disabled.
+          </div>
           <form method="dialog">
             <div className="flex gap-2 mt-2 font-bold text-gray-400">
               {/* //Update client inputs */}
@@ -320,7 +323,11 @@ const ViewClientContent = () => {
             </div>
             <div className="modal-action">
               <div className="flex gap-2">
-                <button className="btn" onClick={handleUpdateClient}>
+                <button
+                  className="btn"
+                  onClick={handleUpdateClient}
+                  disabled={Object.keys(clientUpdates).length === 0}
+                >
                   Update client
                 </button>
                 {/* if there is a button in form, it will close the modal */}

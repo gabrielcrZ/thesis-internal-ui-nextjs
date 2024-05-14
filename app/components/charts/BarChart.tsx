@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-function BarChart() {
+function BarChart(props: any) {
   const options: any = {
     responsive: true,
     plugins: {
@@ -36,15 +36,15 @@ function BarChart() {
     datasets: [
       {
         label: `${new Date().getFullYear() - 1}`,
-        data: labels.map(() => {
-          return Math.random() * 1000 + 500;
+        data: labels.map((el, index) => {
+          return props.data[index][0];
         }),
         backgroundColor: "rgba(255, 99, 132, 1)",
       },
       {
         label: `${new Date().getFullYear()}`,
-        data: labels.map(() => {
-          return Math.random() * 1000 + 500;
+        data: labels.map((el, index) => {
+          return props.data[index][0];
         }),
         backgroundColor: "rgba(53, 162, 235, 1)",
       },
