@@ -25,7 +25,11 @@ const DeliveriesContent = () => {
       canShip: false,
     },
   });
-  const [deliveryUpdates, setDeliveryUpdates] = useState<deliveryUpdates>({});
+  const [deliveryUpdates, setDeliveryUpdates] = useState<deliveryUpdates>({
+    deliveryType: undefined,
+    placeOfDelivery: undefined,
+    placeOfDeparture: undefined,
+  });
   const [isFormValid, setIsFormValid] = useState<deliveriesValidation>({
     addTransport: false,
     addDelivery: false,
@@ -33,6 +37,7 @@ const DeliveriesContent = () => {
     updateTransport: false,
   });
   const [selectedDelivery, setSelectedDelivery] = useState("");
+  const [isAssignDelivery, setIsAssignDelivery] = useState(false);
 
   const validateAddDelivery = () => {
     const formValidationState = () => {
@@ -76,6 +81,38 @@ const DeliveriesContent = () => {
     }));
   };
 
+  const validateUpdateDelivery = () => {
+    const formValidationState = () => {
+      if (
+        deliveryUpdates.deliveryType !== undefined ||
+        deliveryUpdates.placeOfDelivery !== undefined ||
+        deliveryUpdates.placeOfDeparture !== undefined
+      )
+        return true;
+      return false;
+    };
+    setIsFormValid((prevState) => ({
+      ...prevState,
+      updateDelivery: formValidationState(),
+    }));
+  };
+
+  const clearDeliveryUpdates = () => {
+    setDeliveryUpdates({
+      placeOfDelivery: undefined,
+      placeOfDeparture: undefined,
+      deliveryType: undefined,
+    });
+  };
+
+  const validateAssignDelivery = () => {
+    setIsAssignDelivery(selectedDelivery !== "");
+  };
+
+  useEffect(() => {
+    validateAssignDelivery();
+  }, [selectedDelivery]);
+
   useEffect(() => {
     validateAddDelivery();
   }, [newDelivery]);
@@ -83,6 +120,10 @@ const DeliveriesContent = () => {
   useEffect(() => {
     validateAddTransport();
   }, [newTransport]);
+
+  useEffect(() => {
+    validateUpdateDelivery();
+  }, [deliveryUpdates]);
 
   const deliveryNext = () => {
     setDeliveryPage(deliveryPage + 1);
@@ -113,7 +154,12 @@ const DeliveriesContent = () => {
   };
 
   const handleAddTransport = () => {
-    setNewTransport({});
+    setNewTransport({
+      transportCapabilities: {
+        canPickup: false,
+        canShip: false,
+      },
+    });
     console.log(
       `A call has been made for adding a new transport, transportInfo: ${JSON.stringify(
         newTransport,
@@ -124,7 +170,6 @@ const DeliveriesContent = () => {
   };
 
   const handleUpdateDelivery = () => {
-    // setDeliveryUpdates({}); same case as update order details, the modal will not close
     console.log(
       `A call for updating a delivery has been made, deliveryUpdates: ${JSON.stringify(
         deliveryUpdates,
@@ -132,10 +177,12 @@ const DeliveriesContent = () => {
         4
       )}`
     );
+    clearDeliveryUpdates();
   };
 
   const handleAssignDelivery = () => {
     console.log(`A call has been made for transport delivery assign`);
+    setSelectedDelivery("");
   };
 
   const handleUnassignDelivery = () => {
@@ -277,7 +324,7 @@ const DeliveriesContent = () => {
                 </div>
                 <select
                   className="select select-bordered text-gray-500"
-                  value={"Select delivery"}
+                  defaultValue={"Select delivery"}
                   onChange={(e) => {
                     setSelectedDelivery(e.target.value);
                   }}
@@ -315,7 +362,7 @@ const DeliveriesContent = () => {
                   <button
                     className="btn"
                     onClick={handleAssignDelivery}
-                    disabled={selectedDelivery === ""}
+                    disabled={!isAssignDelivery}
                   >
                     Assign
                   </button>
@@ -475,7 +522,7 @@ const DeliveriesContent = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-xs"
-                  value={deliveryUpdates.placeOfDelivery?.deliveryRegion || ""}
+                  value={deliveryUpdates.placeOfDelivery?.deliveryCity || ""}
                   onChange={(e) => {
                     setDeliveryUpdates((prevState) => ({
                       ...prevState,
@@ -516,7 +563,7 @@ const DeliveriesContent = () => {
               <div className="flex gap-2">
                 <button
                   className="btn"
-                  disabled={Object.keys(deliveryUpdates).length === 0}
+                  disabled={!isFormValid.updateDelivery}
                   onClick={handleUpdateDelivery}
                 >
                   Update

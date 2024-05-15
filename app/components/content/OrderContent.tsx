@@ -32,7 +32,7 @@ const OrderContent = () => {
       `A new call has been made because the pagination changed. Pagination: ${currentPage}`
     );
   }, [currentPage]);
-  
+
   const clearFilters = () => {
     setStartDate(defaultStartDate);
     setEndDate(defaultEndDate);
@@ -43,7 +43,7 @@ const OrderContent = () => {
   const searchOrders = () => {
     let payload: orderFilters = {
       startDate: startDate,
-      endDate: endDate,
+      endDate: endDate, 
       orderId: orderId,
       clientName: client,
     };
@@ -51,6 +51,7 @@ const OrderContent = () => {
       `A call has been made with payload: ${payload.clientName}, ${payload.orderId}, ${payload.startDate}, ${payload.endDate}`
     );
     setCurrentPage(1);
+    clearFilters();
   };
   return (
     <div className="grid gap-3">

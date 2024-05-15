@@ -15,7 +15,32 @@ const ViewClientContent = () => {
     <div className="badge badge-error">Order cancelled</div>,
   ];
 
-  const [clientUpdates, setClientUpdates] = useState<clientUpdates>({});
+  const [clientUpdates, setClientUpdates] = useState<clientUpdates>({
+    clientAddress: undefined,
+    clientName: undefined,
+    clientPhone: undefined,
+  });
+  const [isUpdateValid, setIsUpdateValid] = useState(false);
+
+  const clearClientUpdates = () => {
+    setClientUpdates({
+      clientAddress: undefined,
+      clientName: undefined,
+      clientPhone: undefined,
+    });
+  };
+
+  const validateClientUpdates = () => {
+    return (
+      clientUpdates.clientAddress !== undefined ||
+      clientUpdates.clientName !== undefined ||
+      clientUpdates.clientPhone !== undefined
+    );
+  };
+
+  useEffect(() => {
+    setIsUpdateValid(validateClientUpdates());
+  });
 
   useEffect(() => {
     console.log(
@@ -37,6 +62,7 @@ const ViewClientContent = () => {
         4
       )}`
     );
+    clearClientUpdates();
   };
 
   return (
@@ -262,9 +288,11 @@ const ViewClientContent = () => {
       <dialog id="my_modal_updateClient" className="modal">
         <div className="modal-box w-6/12 max-w-5xl">
           <h3 className="font-bold text-lg text-gray-500">Update client</h3>
-          <div className="text-warning font-bold py-2 text-sm">
-            No updates were provided. Update option has been disabled.
-          </div>
+          {!isUpdateValid && (
+            <div className="text-warning font-bold py-2 text-sm">
+              No updates were provided. Update option has been disabled.
+            </div>
+          )}
           <form method="dialog">
             <div className="flex gap-2 mt-2 font-bold text-gray-400">
               {/* //Update client inputs */}
@@ -326,7 +354,7 @@ const ViewClientContent = () => {
                 <button
                   className="btn"
                   onClick={handleUpdateClient}
-                  disabled={Object.keys(clientUpdates).length === 0}
+                  disabled={!isUpdateValid}
                 >
                   Update client
                 </button>

@@ -36,6 +36,8 @@ const ClientsContent = () => {
     console.log(
       `A call for client search has been made. Client email: ${clientEmail} and Client name: ${clientName}`
     );
+    clearFilters();
+    setCurrentPage(1);
   };
 
   return (

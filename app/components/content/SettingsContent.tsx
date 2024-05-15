@@ -21,11 +21,7 @@ const SettingsContent = () => {
   }, [currentPage]);
 
   const handleUpdateUser = () => {
-    setUpdateInfo({
-      email: "",
-      oldPassword: "",
-      newPassword: "",
-    });
+    setUpdateInfo({});
     console.log(
       `A call for updating user information has been made. Updates: ${JSON.stringify(
         updateInfo,
@@ -74,7 +70,7 @@ const SettingsContent = () => {
               <input
                 type="text"
                 className="input input-bordered w-full max-w-xs"
-                value={updateInfo?.email}
+                value={updateInfo?.email || ""}
                 onChange={(e) => {
                   setUpdateInfo((prevState) => ({
                     ...prevState,
@@ -92,7 +88,7 @@ const SettingsContent = () => {
               <input
                 type="text"
                 className="input input-bordered w-full max-w-xs"
-                value={updateInfo?.oldPassword}
+                value={updateInfo?.oldPassword || ""}
                 onChange={(e) => {
                   setUpdateInfo((prevState) => ({
                     ...prevState,
@@ -110,7 +106,7 @@ const SettingsContent = () => {
               <input
                 type="text"
                 className="input input-bordered w-full max-w-xs"
-                value={updateInfo?.newPassword}
+                value={updateInfo?.newPassword || ""}
                 onChange={(e) => {
                   setUpdateInfo((prevState) => ({
                     ...prevState,

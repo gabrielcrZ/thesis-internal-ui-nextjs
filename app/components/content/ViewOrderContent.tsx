@@ -24,27 +24,75 @@ const ViewOrderContent = () => {
     "Delivery success",
   ];
 
-  const [selectedPickup, setSelectedPickup] = useState("");
-  const [selectedShipment, setSelectedShipment] = useState("");
-  const [selectedDelivery, setSelectedDelivery] = useState("");
-  const [orderUpdates, setOrderUpdates] = useState<orderUpdates>({});
+  const [selectedPickup, setSelectedPickup] = useState<any>("");
+  const [selectedShipment, setSelectedShipment] = useState<any>("");
+  const [selectedDelivery, setSelectedDelivery] = useState<any>("");
+  const [orderUpdates, setOrderUpdates] = useState<orderUpdates>({
+    pickupDetails: undefined,
+    shippingDetails: undefined,
+    estimatedRevenue: undefined,
+    currentLocation: undefined,
+    currentStatus: undefined,
+  });
+  const [isUpdateValid, setIsUpdateValid] = useState(false);
+  const [isAssignPickup, setIsAssignPickup] = useState(false);
+  const [isAssignShipping, setIsAssignShipping] = useState(false);
+  const [isAssignDelivery, setIsAssignDelivery] = useState(false);
+
+  const validateOrderUpdate = () => {
+    return (
+      orderUpdates.pickupDetails !== undefined ||
+      orderUpdates.shippingDetails !== undefined ||
+      orderUpdates.currentLocation !== undefined ||
+      orderUpdates.currentStatus !== undefined ||
+      orderUpdates.estimatedRevenue !== undefined
+    );
+  };
+
+  const validateAssignPickup = () => {
+    setIsAssignPickup(selectedPickup !== "");
+  };
+
+  useEffect(() => {
+    validateAssignPickup();
+  }, [selectedPickup]);
+
+  const validateAssignShipping = () => {
+    setIsAssignShipping(selectedShipment !== "");
+  };
+
+  useEffect(() => {
+    validateAssignShipping();
+  }, [selectedShipment]);
+
+  const validateAssignDelivery = () => {
+    setIsAssignDelivery(selectedDelivery !== "");
+  };
+
+  useEffect(() => {
+    validateAssignDelivery();
+  }, [selectedDelivery]);
+
+  useEffect(() => {
+    setIsUpdateValid(validateOrderUpdate());
+  }, [orderUpdates]);
 
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
 
   //Pickup cases
-  const hasAvailablePickups = false;
-  const isPickupSuccess = true;
+  const hasAvailablePickups = true;
+  const isPickupSuccess = false;
   const hasPickupAssigned = false;
 
   //Shipment cases
-  const hasAvailableShipments = false;
-  const isShippingSuccess = true;
+  const hasAvailableShipments = true;
+  const isShippingSuccess = false;
   const hasShipmentAssigned = false;
 
   //Delivery cases
-  const hasAvailableDeliveries = false;
-  const isDeliverySuccess = true;
+  const hasAvailableDeliveries = true;
+  const isDeliverySuccess = false;
   const hasDeliveryAssigned = false;
 
   //Cancel order case
@@ -55,8 +103,9 @@ const ViewOrderContent = () => {
       `A call has been made for retrieving order details and additional info. orderId: ${orderId}`
     );
   });
+
   const handleAssignPickup = () => {
-    // setSelectedPickup("");
+    setSelectedPickup("");
     console.log(
       `A call was made for assign pickup, orderId: ${orderId} and pickupId: ${selectedPickup}`
     );
@@ -67,7 +116,7 @@ const ViewOrderContent = () => {
   };
 
   const handleAssignShipment = () => {
-    // setSelectedShipment("");
+    setSelectedShipment("");
     console.log(
       `A call was made for assign shipment, orderId: ${orderId} and shipmentId: ${selectedShipment}`
     );
@@ -78,7 +127,7 @@ const ViewOrderContent = () => {
   };
 
   const handleAssignDelivery = () => {
-    // setSelectedDelivery("");
+    setSelectedDelivery("");
     console.log(
       `A call was made for assign delivery, orderId: ${orderId} and deliveryId: ${selectedDelivery}`
     );
@@ -102,7 +151,13 @@ const ViewOrderContent = () => {
         4
       )}`
     );
-    // setOrderUpdates({});
+    setOrderUpdates({
+      pickupDetails: undefined,
+      shippingDetails: undefined,
+      estimatedRevenue: undefined,
+      currentLocation: undefined,
+      currentStatus: undefined,
+    });
   };
 
   return (
@@ -306,7 +361,7 @@ const ViewOrderContent = () => {
                 ) : hasAvailablePickups && !isPickupSuccess ? (
                   <button
                     className="btn"
-                    disabled={selectedPickup === ""}
+                    disabled={!isAssignPickup}
                     onClick={handleAssignPickup}
                   >
                     Assign
@@ -382,7 +437,7 @@ const ViewOrderContent = () => {
                 ) : hasAvailableShipments && !isShippingSuccess ? (
                   <button
                     className="btn"
-                    disabled={selectedShipment === ""}
+                    disabled={!isAssignShipping}
                     onClick={handleAssignShipment}
                   >
                     Assign
@@ -458,7 +513,7 @@ const ViewOrderContent = () => {
                 ) : hasAvailableDeliveries && !isDeliverySuccess ? (
                   <button
                     className="btn"
-                    disabled={selectedDelivery === ""}
+                    disabled={!isAssignDelivery}
                     onClick={handleAssignDelivery}
                   >
                     Assign
@@ -998,7 +1053,7 @@ const ViewOrderContent = () => {
                   type="text"
                   placeholder="400$"
                   className="input input-bordered w-full max-w-xs"
-                  value={orderUpdates.estimatedRevenue || ""}
+                  value={orderUpdates.estimatedRevenue || undefined}
                   onChange={(e) => {
                     setOrderUpdates((prevState) => ({
                       ...prevState,
@@ -1008,7 +1063,7 @@ const ViewOrderContent = () => {
                 />
               </label>
             </div>
-            {Object.keys(orderUpdates).length === 0 && (
+            {!isUpdateValid && (
               <div className="text-warning pt-3 text-sm font-bold">
                 *No order changes were found. Update order option was disabled!
               </div>
@@ -1018,8 +1073,10 @@ const ViewOrderContent = () => {
                 {/* if there is a button in form, it will close the modal */}
                 <button
                   className="btn"
-                  onClick={handleUpdateOrder}
-                  disabled={Object.keys(orderUpdates).length === 0}
+                  onClick={() => {
+                    handleUpdateOrder();
+                  }}
+                  disabled={!isUpdateValid}
                 >
                   Update order
                 </button>
