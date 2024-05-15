@@ -151,6 +151,7 @@ const DeliveriesContent = () => {
         4
       )}`
     );
+    setDeliveryPage(1);
   };
 
   const handleAddTransport = () => {
@@ -167,6 +168,7 @@ const DeliveriesContent = () => {
         4
       )}`
     );
+    setTransportPage(1);
   };
 
   const handleUpdateDelivery = () => {
