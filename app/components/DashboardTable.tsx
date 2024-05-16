@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import Link from "next/link";
 
-const DashboardTable = () => {
+const DashboardTable = (props: any) => {
   const mockedStatusTooltip = [
     <div className="tooltip tooltip-success tooltip-right" data-tip="Delivered">
       <div className="badge badge-success badge-sm"></div>
@@ -443,7 +443,13 @@ const DashboardTable = () => {
           «
         </button>
         <button className="join-item btn">{`Page ${currentPage}`}</button>
-        <button className="join-item btn" onClick={pageIncrease}>
+        <button
+          className="join-item btn"
+          onClick={() => {
+            pageIncrease();
+            props.onClick;
+          }}
+        >
           »
         </button>
       </div>

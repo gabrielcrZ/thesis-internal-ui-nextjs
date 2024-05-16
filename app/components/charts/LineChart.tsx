@@ -40,7 +40,7 @@ function LineChart(props: any) {
     datasets: [
       {
         fill: true,
-        label: `Shipped orders - ${new Date().getFullYear()}`,
+        label: `Operational costs - ${new Date().getFullYear()}`,
         data: labels.map((el, index) => {
           return props.data[index];
         }),

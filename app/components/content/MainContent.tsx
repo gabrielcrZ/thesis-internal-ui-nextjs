@@ -1,12 +1,20 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Stats from "../Stats";
 import DashboardTable from "../DashboardTable";
 import StackBarChart from "../charts/StackBarChart";
 import BarChart from "../charts/BarChart";
 import LineChart from "../charts/LineChart";
+import { getDashboardMetrics } from "@/app/requests/Requests";
 
 const MainContent = () => {
+  const [dashboardMetrics, setDashboardMetrics] = useState<any>();
+
+  useEffect(() => {
+    console.log(`A call for dashboard metrics has been made`);
+    getDashboardMetrics();
+  }, []);
+
   const lineChartData = [
     Math.random() * 100 + 500,
     Math.random() * 100 + 500,
@@ -43,10 +51,6 @@ const MainContent = () => {
     [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
   ];
 
-  useEffect(() => {
-    console.log(`A call for dashboard metrics has been made`);
-  });
-
   return (
     <div className="grid px-2">
       {/* <Toast/> */}
@@ -63,7 +67,7 @@ const MainContent = () => {
       </div>
       <div className="grid grid-cols-2 mt-2">
         <div className="grid pt-2">
-          <DashboardTable />
+          <DashboardTable onClick={console.log(dashboardMetrics)} />
         </div>
         <div className="grid pt-2 pl-2.5 justify-items-start">
           <LineChart data={lineChartData} />

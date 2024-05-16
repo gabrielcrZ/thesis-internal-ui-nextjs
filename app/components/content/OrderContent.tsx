@@ -51,7 +51,6 @@ const OrderContent = () => {
       `A call has been made with payload: ${payload.clientName}, ${payload.orderId}, ${payload.startDate}, ${payload.endDate}`
     );
     setCurrentPage(1);
-    clearFilters();
   };
   return (
     <div className="grid gap-3">
