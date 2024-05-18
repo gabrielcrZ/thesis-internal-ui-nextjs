@@ -2,8 +2,23 @@
 import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import Link from "next/link";
+import useSWR from "swr";
+
+const fetcher = (url: any) =>
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
 
 const DashboardTable = () => {
+  const { data, error } = useSWR(
+    "http://localhost:3001/api/get-dashboard-metrics",
+    fetcher
+  );
+  console.log(data);
+
   const mockedStatusTooltip = [
     <div className="tooltip tooltip-success tooltip-right" data-tip="Delivered">
       <div className="badge badge-success badge-sm"></div>
@@ -38,11 +53,11 @@ const DashboardTable = () => {
     else setCurrentPage(currentPage - 1);
   };
 
-  useEffect(() => {
-    console.log(
-      `A call was made because the pagination was changed. Pagination: ${currentPage}`
-    );
-  }, [currentPage]);
+  // useEffect(() => {
+  //   console.log(
+  //     `A call was made because the pagination was changed. Pagination: ${currentPage}`
+  //   );
+  // }, [currentPage]);
 
   return (
     <div className="overflow-x-auto">
