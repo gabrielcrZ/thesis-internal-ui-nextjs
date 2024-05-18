@@ -3,7 +3,9 @@ import OrderContent from "../components/content/OrderContent";
 
 const Orders = () => {
   return (
-    <OrderContent/>
+    <div className="grid content-center">
+      <OrderContent />
+    </div>
   );
 };
 

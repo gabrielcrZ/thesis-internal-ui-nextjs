@@ -2,22 +2,24 @@
 import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import Link from "next/link";
-import useSWR from "swr";
-
-const fetcher = (url: any) =>
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => res.json());
+// import useSWR from "swr";
 
 const DashboardTable = () => {
-  const { data, error } = useSWR(
-    "http://localhost:3001/api/get-dashboard-metrics",
-    fetcher
-  );
-  console.log(data);
+  // const fetcher = (url: any) =>
+  //   fetch(url, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   }).then((res) => res.json());
+
+  // const { data, error } = useSWR(
+  //   "http://localhost:3001/api/get-dashboard-metrics",
+  //   fetcher
+  // );
+  // console.log(data);
+  const [tableData, setTableData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const mockedStatusTooltip = [
     <div className="tooltip tooltip-success tooltip-right" data-tip="Delivered">
@@ -53,11 +55,23 @@ const DashboardTable = () => {
     else setCurrentPage(currentPage - 1);
   };
 
-  // useEffect(() => {
-  //   console.log(
-  //     `A call was made because the pagination was changed. Pagination: ${currentPage}`
-  //   );
-  // }, [currentPage]);
+  useEffect(() => {
+    fetch("http://localhost:3001/api/get-dashboard-table-contents", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pageNumber: currentPage }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTableData(data);
+        setIsLoading(false);
+      });
+  }, [currentPage]);
+
+  if (isLoading && tableData)
+    return (
+      <span className="loading loading-ring loading-lg text-gray-500 justify-self-center"></span>
+    );
 
   return (
     <div className="overflow-x-auto">

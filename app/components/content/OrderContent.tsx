@@ -18,6 +18,8 @@ const OrderContent = () => {
   const [endDate, setEndDate] = useState(defaultEndDate);
   const [orderId, setOrderId] = useState("");
   const [client, setClient] = useState("");
+  const [tableData, setTableData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const pageIncrease = () => {
     setCurrentPage(currentPage + 1);
@@ -28,9 +30,16 @@ const OrderContent = () => {
   };
 
   useEffect(() => {
-    console.log(
-      `A new call has been made because the pagination changed. Pagination: ${currentPage}`
-    );
+    fetch("http://localhost:3001/api/get-orders-table-contents", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pageNumber: currentPage }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTableData(data);
+        setIsLoading(false);
+      });
   }, [currentPage]);
 
   const clearFilters = () => {
@@ -43,7 +52,7 @@ const OrderContent = () => {
   const searchOrders = () => {
     let payload: orderFilters = {
       startDate: startDate,
-      endDate: endDate, 
+      endDate: endDate,
       orderId: orderId,
       clientName: client,
     };
@@ -52,8 +61,16 @@ const OrderContent = () => {
     );
     setCurrentPage(1);
   };
+
+  console.log(tableData);
+  if (isLoading && tableData)
+    return (
+      <span className="loading loading-ring loading-lg text-gray-500 justify-self-center"></span>
+    );
+
   return (
-    <div className="grid gap-3">
+    // <div className="grid gap-2">
+    <div>
       <div className="collapse font-medium">
         <input type="checkbox" className="peer" />
         <div className="collapse-title flex text-base-content">
