@@ -1,69 +1,98 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { orderFilters } from "../types/Types";
-import { faker } from "@faker-js/faker";
+import { ordersFilters } from "../types/Types";
+// import { faker } from "@faker-js/faker";
 import Link from "next/link";
+import {
+  convertMongoDate,
+  getShippingStatus,
+  getCurrentLocation,
+} from "../helpers/Helpers";
 
 const OrderContent = () => {
-  const mockedShippingStatus = [
-    <div className="badge badge-success">At destination</div>,
-    <div className="badge badge-info">In progress</div>,
-    <div className="badge badge-warning">Not processed</div>,
-    <div className="badge badge-error">Cancelled</div>,
-  ];
+  // const mockedShippingStatus = [
+  //   <div className="badge badge-success">At destination</div>,
+  //   <div className="badge badge-info">In progress</div>,
+  //   <div className="badge badge-warning">Not processed</div>,
+  //   <div className="badge badge-error">Cancelled</div>,
+  // ];
+
   const defaultStartDate = `${new Date().getFullYear()}-01-01`;
   const defaultEndDate = `${new Date().getFullYear()}-12-31`;
-  const [currentPage, setCurrentPage] = useState(1);
-  const [startDate, setStartDate] = useState(defaultStartDate);
-  const [endDate, setEndDate] = useState(defaultEndDate);
-  const [orderId, setOrderId] = useState("");
-  const [client, setClient] = useState("");
-  const [tableData, setTableData] = useState<any>(null);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [startDate, setStartDate] = useState(defaultStartDate);
+  // const [endDate, setEndDate] = useState(defaultEndDate);
+  // const [orderId, setOrderId] = useState("");
+  // const [client, setClient] = useState("");
+  const [tableData, setTableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filters, setFilters] = useState<ordersFilters>({
+    timeFilter: {
+      startDate: defaultStartDate,
+      endDate: defaultEndDate,
+    },
+    filters: {},
+    pageNumber: 1,
+  });
 
   const pageIncrease = () => {
-    setCurrentPage(currentPage + 1);
+    setFilters((prevState) => ({
+      ...prevState,
+      pageNumber: prevState.pageNumber + 1,
+    }));
   };
   const pageDecrease = () => {
-    if (currentPage === 1) return;
-    else setCurrentPage(currentPage - 1);
+    if (filters.pageNumber === 1) return;
+    else
+      setFilters((prevState) => ({
+        ...prevState,
+        pageNumber: prevState.pageNumber - 1,
+      }));
   };
 
   useEffect(() => {
     fetch("http://localhost:3001/api/get-orders-table-contents", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pageNumber: currentPage }),
+      body: JSON.stringify(filters),
     })
       .then((res) => res.json())
       .then((data) => {
-        setTableData(data);
+        setTableData(data.orders);
         setIsLoading(false);
       });
-  }, [currentPage]);
+  }, [filters.pageNumber]);
 
   const clearFilters = () => {
-    setStartDate(defaultStartDate);
-    setEndDate(defaultEndDate);
-    setOrderId("");
-    setClient("");
+    setFilters({
+      timeFilter: {
+        startDate: defaultStartDate,
+        endDate: defaultEndDate,
+      },
+      filters: {},
+      pageNumber: 1,
+    });
+    // to add call when clearingFilters to get the unfiltered data
   };
 
-  const searchOrders = () => {
-    let payload: orderFilters = {
-      startDate: startDate,
-      endDate: endDate,
-      orderId: orderId,
-      clientName: client,
-    };
-    console.log(
-      `A call has been made with payload: ${payload.clientName}, ${payload.orderId}, ${payload.startDate}, ${payload.endDate}`
-    );
-    setCurrentPage(1);
+  const searchFilteredOrders = () => {
+    setFilters((prevState) => ({
+      ...prevState,
+      pageNumber: 1,
+    }));
+    fetch("http://localhost:3001/api/get-orders-table-contents", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(filters),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTableData(data.orders);
+        setIsLoading(false);
+      });
   };
 
-  console.log(tableData);
-  if (isLoading && tableData)
+  if (isLoading)
     return (
       <span className="loading loading-ring loading-lg text-gray-500 justify-self-center"></span>
     );
@@ -95,19 +124,31 @@ const OrderContent = () => {
             <div className="flex">
               <input
                 type="date"
-                value={startDate}
+                value={filters.timeFilter?.startDate || defaultStartDate}
                 className="input input-bordered text-gray-400"
                 onChange={(e) => {
-                  setStartDate(e.target.value);
+                  setFilters((prevState) => ({
+                    ...prevState,
+                    timeFilter: {
+                      ...prevState.timeFilter,
+                      startDate: e.target.value,
+                    },
+                  }));
                 }}
               />
               <div className="divider divider-horizontal"></div>
               <input
                 type="date"
-                value={endDate}
+                value={filters.timeFilter?.endDate || defaultEndDate}
                 className="input input-bordered text-gray-400"
                 onChange={(e) => {
-                  setEndDate(e.target.value);
+                  setFilters((prevState) => ({
+                    ...prevState,
+                    timeFilter: {
+                      ...prevState.timeFilter,
+                      endDate: e.target.value,
+                    },
+                  }));
                 }}
               />
             </div>
@@ -116,9 +157,15 @@ const OrderContent = () => {
                 type="text"
                 className="grow"
                 placeholder="orderId"
-                value={orderId}
+                value={filters.filters?.orderId || ""}
                 onChange={(e) => {
-                  setOrderId(e.target.value);
+                  setFilters((prevState) => ({
+                    ...prevState,
+                    filters: {
+                      ...prevState.filters,
+                      orderId: e.target.value,
+                    },
+                  }));
                 }}
               />
               <span className="badge badge-ghost font-medium">optional</span>
@@ -128,24 +175,25 @@ const OrderContent = () => {
                 type="text"
                 className="grow"
                 placeholder="client"
-                value={client}
+                value={filters.filters?.clientName || ""}
                 onChange={(e) => {
-                  setClient(e.target.value);
+                  setFilters((prevState) => ({
+                    ...prevState,
+                    filters: {
+                      ...prevState.filters,
+                      clientName: e.target.value,
+                    },
+                  }));
                 }}
               />
               <span className="badge badge-ghost font-medium">optional</span>
             </label>
           </form>
           <div className="flex items-center gap-2">
-            <button className="btn btn-sm" onClick={searchOrders}>
+            <button className="btn btn-sm" onClick={searchFilteredOrders}>
               Apply
             </button>
-            <button
-              className="btn btn-sm"
-              onClick={(e) => {
-                clearFilters();
-              }}
-            >
+            <button className="btn btn-sm" onClick={clearFilters}>
               Clear
             </button>
           </div>
@@ -160,14 +208,45 @@ const OrderContent = () => {
               <th>Client</th>
               <th>Date</th>
               <th>Deliver To</th>
-              <th>Status</th>
+              <th>Shipping Status</th>
               <th>Location</th>
               <th>LastUpdated</th>
             </tr>
           </thead>
           <tbody>
+            {tableData &&
+              tableData.map((el, index) => {
+                return (
+                  <tr key={el._id} className="hover">
+                    <td className="text-gray-500">
+                      <Link
+                        href={`orders/viewOrder?orderId=${tableData[index]._id}`}
+                      >
+                        <div className="font-bold hover:text-info">{`#${tableData[index]._id}`}</div>
+                      </Link>
+                    </td>
+                    <td className="text-gray-500">
+                      <Link
+                        href={`clients/viewClient?clientId=${tableData[index].clientId}`}
+                      >
+                        <div className="font-bold hover:text-info">
+                          {
+                            tableData[index].pickupDetails.pickupClient
+                              .clientName
+                          }
+                        </div>
+                      </Link>
+                    </td>
+                    <td>{convertMongoDate(tableData[index].createdAt)}</td>
+                    <td>{tableData[index].shippingDetails.shippingCountry}</td>
+                    <td>{getShippingStatus(tableData[index])}</td>
+                    <td>{getCurrentLocation(tableData[index])}</td>
+                    <td>{convertMongoDate(tableData[index].updatedAt)}</td>
+                  </tr>
+                );
+              })}
             {/* tr1 */}
-            <tr className="hover">
+            {/* <tr className="hover">
               <td className="text-gray-500">
                 <Link
                   href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
@@ -199,211 +278,7 @@ const OrderContent = () => {
               </td>
               <td>{faker.location.country()}</td>
               <td>{faker.date.anytime().toDateString()}</td>
-            </tr>
-            {/* tr2 */}
-            <tr className="hover">
-              <td className="text-gray-500">
-                <Link
-                  href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-                >
-                  <div className="font-bold hover:text-info">{`#${faker.string.numeric(
-                    8
-                  )}`}</div>
-                </Link>
-              </td>
-              <td className="text-gray-500">
-                <Link
-                  href={`clients/viewClient?clientId=${faker.string.numeric(
-                    8
-                  )}`}
-                >
-                  <div className="font-bold hover:text-info">
-                    {faker.company.name()}
-                  </div>
-                </Link>
-              </td>
-              <td>{faker.date.anytime().toDateString()}</td>
-              <td>{faker.location.countryCode("alpha-3")}</td>
-              <td>
-                {
-                  mockedShippingStatus[
-                    Math.floor(Math.random() * mockedShippingStatus.length)
-                  ]
-                }
-              </td>
-              <td>{faker.location.country()}</td>
-              <td>{faker.date.anytime().toDateString()}</td>
-            </tr>
-            {/* tr3 */}
-            <tr className="hover">
-              <td className="text-gray-500">
-                <Link
-                  href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-                >
-                  <div className="font-bold hover:text-info">{`#${faker.string.numeric(
-                    8
-                  )}`}</div>
-                </Link>
-              </td>
-              <td className="text-gray-500">
-                <Link
-                  href={`clients/viewClient?clientId=${faker.string.numeric(
-                    8
-                  )}`}
-                >
-                  <div className="font-bold hover:text-info">
-                    {faker.company.name()}
-                  </div>
-                </Link>
-              </td>
-              <td>{faker.date.anytime().toDateString()}</td>
-              <td>{faker.location.countryCode("alpha-3")}</td>
-              <td>
-                {
-                  mockedShippingStatus[
-                    Math.floor(Math.random() * mockedShippingStatus.length)
-                  ]
-                }
-              </td>
-              <td>{faker.location.country()}</td>
-              <td>{faker.date.anytime().toDateString()}</td>
-            </tr>
-            {/* tr4 */}
-            <tr className="hover">
-              <td className="text-gray-500">
-                <Link
-                  href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-                >
-                  <div className="font-bold hover:text-info">{`#${faker.string.numeric(
-                    8
-                  )}`}</div>
-                </Link>
-              </td>
-              <td className="text-gray-500">
-                <Link
-                  href={`clients/viewClient?clientId=${faker.string.numeric(
-                    8
-                  )}`}
-                >
-                  <div className="font-bold hover:text-info">
-                    {faker.company.name()}
-                  </div>
-                </Link>
-              </td>
-              <td>{faker.date.anytime().toDateString()}</td>
-              <td>{faker.location.countryCode("alpha-3")}</td>
-              <td>
-                {
-                  mockedShippingStatus[
-                    Math.floor(Math.random() * mockedShippingStatus.length)
-                  ]
-                }
-              </td>
-              <td>{faker.location.country()}</td>
-              <td>{faker.date.anytime().toDateString()}</td>
-            </tr>
-            {/* tr5 */}
-            <tr className="hover">
-              <td className="text-gray-500">
-                <Link
-                  href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-                >
-                  <div className="font-bold hover:text-info">{`#${faker.string.numeric(
-                    8
-                  )}`}</div>
-                </Link>
-              </td>
-              <td className="text-gray-500">
-                <Link
-                  href={`clients/viewClient?clientId=${faker.string.numeric(
-                    8
-                  )}`}
-                >
-                  <div className="font-bold hover:text-info">
-                    {faker.company.name()}
-                  </div>
-                </Link>
-              </td>
-              <td>{faker.date.anytime().toDateString()}</td>
-              <td>{faker.location.countryCode("alpha-3")}</td>
-              <td>
-                {
-                  mockedShippingStatus[
-                    Math.floor(Math.random() * mockedShippingStatus.length)
-                  ]
-                }
-              </td>
-              <td>{faker.location.country()}</td>
-              <td>{faker.date.anytime().toDateString()}</td>
-            </tr>
-            {/* tr6 */}
-            <tr className="hover">
-              <td className="text-gray-500">
-                <Link
-                  href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-                >
-                  <div className="font-bold hover:text-info">{`#${faker.string.numeric(
-                    8
-                  )}`}</div>
-                </Link>
-              </td>
-              <td className="text-gray-500">
-                <Link
-                  href={`clients/viewClient?clientId=${faker.string.numeric(
-                    8
-                  )}`}
-                >
-                  <div className="font-bold hover:text-info">
-                    {faker.company.name()}
-                  </div>
-                </Link>
-              </td>
-              <td>{faker.date.anytime().toDateString()}</td>
-              <td>{faker.location.countryCode("alpha-3")}</td>
-              <td>
-                {
-                  mockedShippingStatus[
-                    Math.floor(Math.random() * mockedShippingStatus.length)
-                  ]
-                }
-              </td>
-              <td>{faker.location.country()}</td>
-              <td>{faker.date.anytime().toDateString()}</td>
-            </tr>
-            {/* tr7 */}
-            <tr className="hover">
-              <td className="text-gray-500">
-                <Link
-                  href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-                >
-                  <div className="font-bold hover:text-info">{`#${faker.string.numeric(
-                    8
-                  )}`}</div>
-                </Link>
-              </td>
-              <td className="text-gray-500">
-                <Link
-                  href={`clients/viewClient?clientId=${faker.string.numeric(
-                    8
-                  )}`}
-                >
-                  <div className="font-bold hover:text-info">
-                    {faker.company.name()}
-                  </div>
-                </Link>
-              </td>
-              <td>{faker.date.anytime().toDateString()}</td>
-              <td>{faker.location.countryCode("alpha-3")}</td>
-              <td>
-                {
-                  mockedShippingStatus[
-                    Math.floor(Math.random() * mockedShippingStatus.length)
-                  ]
-                }
-              </td>
-              <td>{faker.location.country()}</td>
-              <td>{faker.date.anytime().toDateString()}</td>
-            </tr>
+            </tr> */}
           </tbody>
           {/* foot */}
           <tfoot></tfoot>
@@ -412,7 +287,7 @@ const OrderContent = () => {
           <button className="join-item btn" onClick={pageDecrease}>
             «
           </button>
-          <button className="join-item btn ">{`Page ${currentPage}`}</button>
+          <button className="join-item btn ">{`Page ${filters.pageNumber}`}</button>
           <button className="join-item btn " onClick={pageIncrease}>
             »
           </button>

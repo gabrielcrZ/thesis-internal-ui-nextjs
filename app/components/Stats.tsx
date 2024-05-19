@@ -1,6 +1,6 @@
 import React from "react";
 
-const Stats = () => {
+const Stats = (props: any) => {
   return (
     <div className="stats shadow">
       <div className="stat">
@@ -20,7 +20,7 @@ const Stats = () => {
           </svg>
         </div>
         <div className="stat-title">Total Orders</div>
-        <div className="stat-value">31K</div>
+        <div className="stat-value">{props.data.totalOrders / 1000}k</div>
         <div className="stat-desc">Jan 1st - Dec 31st</div>
       </div>
 
@@ -41,8 +41,14 @@ const Stats = () => {
           </svg>
         </div>
         <div className="stat-title">Unprocessed Orders</div>
-        <div className="stat-value">4,2K</div>
-        <div className="stat-desc">↗︎ 400 (22%)</div>
+        <div className="stat-value">
+          {props.data.unprocessedOrders.currentYear / 1000}k
+        </div>
+        <div className="stat-desc">{`${
+          props.data.unprocessedOrders.absoluteIncrease > 0 ? "↗︎" : "↘︎"
+        } ${props.data.unprocessedOrders.absoluteIncrease / 1000} (${
+          props.data.unprocessedOrders.relativeIncrease
+        }%)`}</div>
       </div>
 
       <div className="stat">
@@ -62,8 +68,14 @@ const Stats = () => {
           </svg>
         </div>
         <div className="stat-title">Operational Costs</div>
-        <div className="stat-value">102K</div>
-        <div className="stat-desc">↘︎ 90 (14%)</div>
+        <div className="stat-value">
+          {props.data.operationalCosts.currentYear / 1000}k
+        </div>
+        <div className="stat-desc">{`${
+          props.data.operationalCosts.absoluteIncrease > 0 ? "↗︎" : "↘︎"
+        } ${props.data.operationalCosts.absoluteIncrease / 1000}k (${
+          props.data.operationalCosts.relativeIncrease
+        }%)`}</div>
       </div>
       <div className="stat">
         <div className="stat-figure text-secondary">
@@ -82,8 +94,14 @@ const Stats = () => {
           </svg>
         </div>
         <div className="stat-title">Revenue</div>
-        <div className="stat-value">1K</div>
-        <div className="stat-desc">↘︎ 90 (14%)</div>
+        <div className="stat-value">
+          {props.data.revenue.currentYear / 1000}k
+        </div>
+        <div className="stat-desc">{`${
+          props.data.revenue.absoluteIncrease > 0 ? "↗︎" : "↘︎"
+        } ${props.data.revenue.absoluteIncrease / 1000}k (${
+          props.data.revenue.relativeIncrease
+        }%)`}</div>
       </div>
     </div>
   );

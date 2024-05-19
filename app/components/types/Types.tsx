@@ -1,8 +1,13 @@
-export type orderFilters = {
-  startDate: string;
-  endDate: string;
-  clientName: string;
-  orderId: string;
+export type ordersFilters = {
+  timeFilter?: {
+    startDate?: string;
+    endDate?: string;
+  };
+  pageNumber: number;
+  filters?: {
+    clientName?: string;
+    orderId?: string;
+  };
 };
 
 export type messageTemplate = {
@@ -115,5 +120,86 @@ export type deliveryUpdates = {
     deliveryRegion?: string;
     deliveryCity?: string;
     deliveryAddress?: string;
+  };
+};
+
+export type chartsData = {
+  cards: {
+    totalOrders: number;
+    unprocessedOrders: {
+      thisYear: number;
+      lastYear: number;
+    };
+    operationalCosts: {
+      thisYear: number;
+      lastYear: 0;
+    };
+    revenue: {
+      thisYear: number;
+      lastYear: number;
+    };
+  };
+  stackedBarChart: {
+    pickedUp: {
+      Q1: number;
+      Q2: number;
+      Q3: number;
+      Q4: number;
+    };
+    shipped: {
+      Q1: number;
+      Q2: number;
+      Q3: number;
+      Q4: number;
+    };
+    delivered: {
+      Q1: number;
+      Q2: number;
+      Q3: number;
+      Q4: number;
+    };
+  };
+  barChart: {
+    Q1: {
+      currentYear: number;
+      lastYear: number;
+    };
+    Q2: {
+      currentYear: number;
+      lastYear: number;
+    };
+    Q3: {
+      currentYear: number;
+      lastYear: number;
+    };
+    Q4: {
+      currentYear: number;
+      lastYear: number;
+    };
+  };
+  lineChart: {
+    Q1: number;
+    Q2: number;
+    Q3: number;
+    Q4: number;
+  };
+};
+
+export type cardsData = {
+  totalOrders: number;
+  unprocessedOrders: {
+    currentYear: number;
+    absoluteIncrease: number;
+    relativeIncrease: number;
+  };
+  operationalCosts: {
+    currentYear: number;
+    absoluteIncrease: number;
+    relativeIncrease: number;
+  };
+  revenue: {
+    currentYear: number;
+    absoluteIncrease: number;
+    relativeIncrease: number;
   };
 };

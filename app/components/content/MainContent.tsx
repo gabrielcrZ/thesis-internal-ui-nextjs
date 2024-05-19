@@ -5,51 +5,80 @@ import StackBarChart from "../charts/StackBarChart";
 import BarChart from "../charts/BarChart";
 import LineChart from "../charts/LineChart";
 import { getDashboardMetrics } from "@/app/requests/Requests";
+import { cardsData, chartsData } from "../types/Types";
 
 const MainContent = async () => {
-  const data = await getDashboardMetrics();
-  // console.log(data);
-  
+  const data: chartsData = await getDashboardMetrics();
+
   const lineChartData = [
-    Math.random() * 100 + 500,
-    Math.random() * 100 + 500,
-    Math.random() * 100 + 500,
-    Math.random() * 100 + 500,
+    data.lineChart.Q1,
+    data.lineChart.Q2,
+    data.lineChart.Q3,
+    data.lineChart.Q4,
   ];
   const stackedBarChartData = [
     [
-      Math.random() * 100 + 500,
-      Math.random() * 100 + 500,
-      Math.random() * 100 + 500,
+      data.stackedBarChart.pickedUp?.Q1,
+      data.stackedBarChart.shipped.Q1,
+      data.stackedBarChart.delivered.Q1,
     ],
     [
-      Math.random() * 100 + 500,
-      Math.random() * 100 + 500,
-      Math.random() * 100 + 500,
+      data.stackedBarChart.pickedUp.Q2,
+      data.stackedBarChart.shipped.Q2,
+      data.stackedBarChart.delivered.Q2,
     ],
     [
-      Math.random() * 100 + 500,
-      Math.random() * 100 + 500,
-      Math.random() * 100 + 500,
+      data.stackedBarChart.pickedUp.Q3,
+      data.stackedBarChart.shipped.Q3,
+      data.stackedBarChart.delivered.Q3,
     ],
     [
-      Math.random() * 100 + 500,
-      Math.random() * 100 + 500,
-      Math.random() * 100 + 500,
+      data.stackedBarChart.pickedUp.Q4,
+      data.stackedBarChart.shipped.Q4,
+      data.stackedBarChart.delivered.Q4,
     ],
   ];
 
   const barChartData = [
-    [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
-    [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
-    [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
-    [Math.random() * 1000 + 500, Math.random() * 1000 + 500],
+    [data.barChart.Q1.lastYear, data.barChart.Q1.currentYear],
+    [data.barChart.Q2.lastYear, data.barChart.Q2.currentYear],
+    [data.barChart.Q3.lastYear, data.barChart.Q3.currentYear],
+    [data.barChart.Q4.lastYear, data.barChart.Q4.currentYear],
   ];
+
+  const cardsData: cardsData = {
+    totalOrders: data.cards.totalOrders,
+    unprocessedOrders: {
+      currentYear: data.cards.unprocessedOrders.thisYear,
+      absoluteIncrease:
+        data.cards.unprocessedOrders.thisYear -
+        data.cards.unprocessedOrders.lastYear,
+      relativeIncrease:
+        data.cards.unprocessedOrders.thisYear /
+        data.cards.unprocessedOrders.lastYear,
+    },
+    operationalCosts: {
+      currentYear: data.cards.operationalCosts.thisYear,
+      absoluteIncrease:
+        data.cards.operationalCosts.thisYear -
+        data.cards.operationalCosts.lastYear,
+      relativeIncrease:
+        data.cards.operationalCosts.thisYear /
+        data.cards.operationalCosts.lastYear,
+    },
+    revenue: {
+      currentYear: data.cards.revenue.thisYear,
+      absoluteIncrease:
+        data.cards.revenue.thisYear - data.cards.revenue.lastYear,
+      relativeIncrease:
+        data.cards.revenue.thisYear / data.cards.revenue.lastYear,
+    },
+  };
 
   return (
     <div className="grid px-2">
       {/* <Toast/> */}
-      <Stats />
+      <Stats data={cardsData} />
       <div className="grid grid-cols-2 mt-2">
         <div className="grid pt-2">
           <StackBarChart data={stackedBarChartData} />

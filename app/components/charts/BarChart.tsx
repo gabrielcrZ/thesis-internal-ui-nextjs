@@ -44,7 +44,7 @@ function BarChart(props: any) {
       {
         label: `${new Date().getFullYear()}`,
         data: labels.map((el, index) => {
-          return props.data[index][0];
+          return props.data[index][1];
         }),
         backgroundColor: "rgba(53, 162, 235, 1)",
       },
