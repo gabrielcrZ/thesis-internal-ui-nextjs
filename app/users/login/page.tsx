@@ -10,10 +10,32 @@ const Login = () => {
   const [clientCreds, setClientCreds] = useState<credentials>({});
   const [showValidation, setShowValidation] = useState(false);
 
-  const checkCredentials = () => {
+  const checkCredentials = async () => {
     if (isFormValid) {
-      router.push("/");
+      await handleUserLogin().then(() => {
+        if (localStorage.getItem("auth-token")) router.push("/");
+      });
     } else setShowValidation(true);
+  };
+
+  const handleUserLogin = async () => {
+    try {
+      const response: any = await fetch(
+        "http://localhost:3001/api/require-token",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(clientCreds),
+        }
+      );
+
+      const responseBody = await response.json();
+      if (!response.ok) throw new Error(responseBody.msg);
+
+      localStorage.setItem("auth-token", responseBody.token);
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {

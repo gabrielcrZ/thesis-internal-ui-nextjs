@@ -13,7 +13,7 @@ export const convertMongoDate = (date: string) => {
 
   return new Date(
     `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`
-  ).toDateString();
+  ).toLocaleDateString();
 };
 
 export const getShippingStatus = (tableData: any) => {
@@ -32,4 +32,40 @@ export const getCurrentLocation = (tableData: any) => {
     return tableData.shippingDetails.shippingCountry;
 
   return tableData.pickupDetails.pickupCountry;
+};
+
+export const mapOrderStatusTooltip = (status: string) => {
+  switch (status) {
+    case "Registered by client":
+      return (
+        <div
+          className="tooltip tooltip-warning tooltip-right"
+          data-tip="Unprocessed"
+        >
+          <div className="badge badge-warning badge-sm"></div>
+        </div>
+      );
+    case "Cancelled":
+      return (
+        <div
+          className="tooltip tooltip-error tooltip-right"
+          data-tip="Cancelled"
+        >
+          <div className="badge badge-error badge-sm"></div>
+        </div>
+      );
+    case "Delivered to final destination":
+      <div
+        className="tooltip tooltip-success tooltip-right"
+        data-tip="Delivered"
+      >
+        <div className="badge badge-success badge-sm"></div>
+      </div>;
+    default:
+      return (
+        <div className="tooltip tooltip-info tooltip-right" data-tip="Ongoing">
+          <div className="badge badge-info badge-sm"></div>
+        </div>
+      );
+  }
 };

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import React from "react";
 
-const Indicator = () => {
+const Indicator = (props: any) => {
   return (
     <div className="indicator my-2 px-2">
       <Link href="/messages">
-        <span className="indicator-item badge badge-info">25</span>
+        <span className="indicator-item badge badge-info">
+          {props.messagesCount}
+        </span>
         <button className="btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"

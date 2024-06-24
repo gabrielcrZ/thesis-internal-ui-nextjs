@@ -1,27 +1,32 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Drawer = (props: any) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setIsOpen((prevState) => !prevState);
   };
 
-  const checkPathIsLogin = () => {
-    return pathname === "/users/login";
-  };
+  useEffect(() => {
+    if (!localStorage.getItem("auth-token")) router.push("/users/login");
+  }, []);
+
+  const isLoginPath = pathname === "/users/login";
 
   return (
-    <div className={!checkPathIsLogin() && isOpen ? "drawer lg:drawer-open" : "drawer"}>
+    <div
+      className={!isLoginPath && isOpen ? "drawer lg:drawer-open" : "drawer"}
+    >
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
-        <Navbar isLoginPath={checkPathIsLogin()} onClick={handleDrawerOpen} />
+        <Navbar isLoginPath={isLoginPath} onClick={handleDrawerOpen} />
         {props.children}
       </div>
       <div className="drawer-side">

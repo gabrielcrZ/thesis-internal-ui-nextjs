@@ -4,8 +4,8 @@ import DashboardTable from "../DashboardTable";
 import StackBarChart from "../charts/StackBarChart";
 import BarChart from "../charts/BarChart";
 import LineChart from "../charts/LineChart";
-import { getDashboardMetrics } from "@/app/requests/Requests";
 import { cardsData, chartsData } from "../types/Types";
+import { getDashboardMetrics } from "@/app/fetch";
 
 const MainContent = async () => {
   const data: chartsData = await getDashboardMetrics();

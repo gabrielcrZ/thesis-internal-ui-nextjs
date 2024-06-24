@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import Link from "next/link";
+import { convertMongoDate, mapOrderStatusTooltip } from "./helpers/Helpers";
 // import useSWR from "swr";
 
 const DashboardTable = () => {
@@ -18,7 +19,7 @@ const DashboardTable = () => {
   //   fetcher
   // );
   // console.log(data);
-  const [tableData, setTableData] = useState<any>(null);
+  const [tableData, setTableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const mockedStatusTooltip = [
@@ -63,12 +64,12 @@ const DashboardTable = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setTableData(data);
+        setTableData(data.orders);
         setIsLoading(false);
       });
   }, [currentPage]);
 
-  if (isLoading && tableData)
+  if (isLoading)
     return (
       <span className="loading loading-ring loading-lg text-gray-500 justify-self-center"></span>
     );
@@ -87,7 +88,49 @@ const DashboardTable = () => {
         </thead>
         <tbody>
           {/* row 1 */}
-          <tr className="hover">
+          {tableData &&
+            tableData.map((el, index) => {
+              return (
+                <tr key={el._id} className="hover">
+                  <td>
+                    <div className="flex items-center gap-3 pl-3">
+                      {mapOrderStatusTooltip(el.currentStatus)}
+                      <div>
+                        <div className="text-gray-400">#{el._id}</div>
+                        <div className="badge badge-ghost badge-sm">
+                          {el.shippingDetails.shippingCity}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="text-gray-400">
+                    {convertMongoDate(el.createdAt)}
+                    <br />
+                    <span className="badge badge-ghost badge-sm">
+                      {el.pickupDetails.pickupClient.clientName}
+                    </span>
+                  </td>
+                  <td className="text-gray-400">
+                    {el.shippingDetails.shippingCountry}
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-sm btn-info"
+                      onClick={() =>
+                        (
+                          document.getElementById(
+                            `my_modal_view${index + 1}`
+                          ) as HTMLDialogElement
+                        ).showModal()
+                      }
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          {/* <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -129,9 +172,9 @@ const DashboardTable = () => {
                 View
               </button>
             </td>
-          </tr>
+          </tr> */}
           {/* row 2 */}
-          <tr className="hover">
+          {/* <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -173,9 +216,9 @@ const DashboardTable = () => {
                 View
               </button>
             </td>
-          </tr>
+          </tr> */}
           {/* row 3 */}
-          <tr className="hover">
+          {/* <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -217,9 +260,9 @@ const DashboardTable = () => {
                 View
               </button>
             </td>
-          </tr>
+          </tr> */}
           {/* row 4 */}
-          <tr className="hover">
+          {/* <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -261,9 +304,9 @@ const DashboardTable = () => {
                 View
               </button>
             </td>
-          </tr>
+          </tr> */}
           {/* row 5 */}
-          <tr className="hover">
+          {/* <tr className="hover">
             <td>
               <div className="flex items-center gap-3 pl-3">
                 {
@@ -305,7 +348,7 @@ const DashboardTable = () => {
                 View
               </button>
             </td>
-          </tr>
+          </tr> */}
         </tbody>
         {/* foot */}
         <tfoot></tfoot>

@@ -21,7 +21,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
       >
-        <Drawer> {children}</Drawer>
+        <Drawer>{children}</Drawer>
         <Footer />
       </body>
       {/* <body className={inter.className}>
@@ -30,8 +30,4 @@ export default function RootLayout({
       </body>  */}
     </html>
   );
-}
-
-function Loading() {
-  return <h2 className="text-primary">🌀 Loading...</h2>;
 }

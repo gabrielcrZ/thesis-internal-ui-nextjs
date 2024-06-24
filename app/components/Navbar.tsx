@@ -1,9 +1,30 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import ThemeController from "./ThemeController";
 import Indicator from "./Indicator";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Navbar = (props: any) => {
+  const [messagesCount, setMessagesCount] = useState(0);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth-token");
+    router.push("/users/login");
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:3001/api/get-unchecked-messages", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setMessagesCount(data.count);
+      });
+  }, []);
+
   return (
     <div className="navbar">
       {!props.isLoginPath && (
@@ -35,7 +56,7 @@ const Navbar = (props: any) => {
       </div>
       {!props.isLoginPath && (
         <div className="flex-none">
-          <Indicator />
+          <Indicator messagesCount={messagesCount} />
         </div>
       )}
       {!props.isLoginPath && (
@@ -59,8 +80,8 @@ const Navbar = (props: any) => {
             <li>
               <Link href="/users/settings">View user</Link>
             </li>
-            <li>
-              <Link href="/users/login">Logout</Link>
+            <li onClick={handleLogout}>
+              <div>Logout</div>
             </li>
           </ul>
         </div>
