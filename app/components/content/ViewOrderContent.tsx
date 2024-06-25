@@ -5,6 +5,8 @@ import { faker } from "@faker-js/faker";
 import { orderUpdates } from "../types/Types";
 
 const ViewOrderContent = () => {
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get("orderId") || "";
   const mockedShippingStatus = [
     <div className="badge">Unknown</div>,
     <div className="badge badge-success">At destination</div>,
@@ -23,7 +25,7 @@ const ViewOrderContent = () => {
     "Assign delivery",
     "Delivery success",
   ];
-
+  const [orderDetails, setOrderDetails] = useState<any>({});
   const [selectedPickup, setSelectedPickup] = useState<any>("");
   const [selectedShipment, setSelectedShipment] = useState<any>("");
   const [selectedDelivery, setSelectedDelivery] = useState<any>("");
@@ -77,8 +79,17 @@ const ViewOrderContent = () => {
     setIsUpdateValid(validateOrderUpdate());
   }, [orderUpdates]);
 
-  const searchParams = useSearchParams();
-  const orderId = searchParams.get("orderId");
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/get-order-content/${orderId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then((res) =>
+      res.json().then((data) => {
+        console.log(data);
+        setOrderDetails(data);
+      })
+    );
+  }, []);
 
   //Pickup cases
   const hasAvailablePickups = true;
@@ -97,12 +108,6 @@ const ViewOrderContent = () => {
 
   //Cancel order case
   const isOrderCancelled = false;
-
-  useEffect(() => {
-    console.log(
-      `A call has been made for retrieving order details and additional info. orderId: ${orderId}`
-    );
-  });
 
   const handleAssignPickup = () => {
     setSelectedPickup("");

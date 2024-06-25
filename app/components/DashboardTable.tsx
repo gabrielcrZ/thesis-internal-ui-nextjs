@@ -354,38 +354,44 @@ const DashboardTable = () => {
         <tfoot></tfoot>
       </table>
       {/* //View modals */}
-      <dialog id="my_modal_view1" className="modal">
-        <div className="modal-box w-11/12 max-w-xl">
-          <h3 className="font-bold text-l text-info">{`Order #${faker.string.numeric(
-            8
-          )}`}</h3>
-          <ul className="grid grid-cols-2 gap-1 text-sm font-medium text-gray-400 pt-2">
-            <li>• Date - {new Date().toLocaleDateString()}</li>
-            <li>• Shipping From - {faker.location.country()}</li>
-            <li>• Assigned shipment - #{faker.string.numeric()}</li>
-            <li>• Shipping To - {faker.location.country()}</li>
-            <li>• Revenue - {faker.number.int({ min: 1000, max: 60000 })}$</li>
-            <li>• Current location - {faker.location.country()}</li>
-            <li>
-              • Estimated cost - {faker.number.int({ min: 100, max: 50000 })}$
-            </li>
-            <li>• Contact - {faker.phone.number()}</li>
-          </ul>
-          <div className="modal-action">
-            <form className="flex gap-2" method="dialog">
-              <Link
-                className="btn"
-                href={`/orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-              >
-                Check order
-              </Link>
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
-      <dialog id="my_modal_view2" className="modal">
+      {tableData &&
+        tableData.map((el, index) => {
+          return (
+            <dialog
+              key={`${el._id}-modal`}
+              id={`my_modal_view${index + 1}`}
+              className="modal"
+            >
+              <div className="modal-box w-11/12 max-w-xl">
+                <h3 className="font-bold text-l text-info">{`Order #${el._id}`}</h3>
+                <ul className="grid grid-cols-2 gap-1 text-sm font-medium text-gray-400 pt-2">
+                  <li>• Date - {convertMongoDate(el.createdAt)}</li>
+                  <li>• Shipping From - {el.pickupDetails.pickupCity}</li>
+                  <li>
+                    • Assigned Shipment - {el.shippingDetails.shippingId ?? "Not assigned"}
+                  </li>
+                  <li>• Shipping To - {el.shippingDetails.shippingCity}</li>
+                  <li>• Revenue - {el.estimatedRevenue}$</li>
+                  <li>• Current Location - {el.currentLocation}</li>
+                  <li>• Last Updated - {convertMongoDate(el.updatedAt)}</li>
+                  <li>• Current Status - {el.currentStatus}</li>
+                </ul>
+                <div className="modal-action">
+                  <form className="flex gap-2" method="dialog">
+                    <Link
+                      className="btn"
+                      href={`/orders/viewOrder?orderId=${el._id}`}
+                    >
+                      Check order
+                    </Link>
+                    <button className="btn">Close</button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
+          );
+        })}
+      {/* <dialog id="my_modal_view2" className="modal">
         <div className="modal-box w-11/12 max-w-xl">
           <h3 className="font-bold text-l text-gray-500">{`Order #${faker.string.numeric(
             8
@@ -410,7 +416,6 @@ const DashboardTable = () => {
               >
                 Check order
               </Link>
-              {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>
@@ -441,7 +446,6 @@ const DashboardTable = () => {
               >
                 Check order
               </Link>
-              {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>
@@ -472,7 +476,6 @@ const DashboardTable = () => {
               >
                 Check order
               </Link>
-              {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>
@@ -503,12 +506,11 @@ const DashboardTable = () => {
               >
                 Check order
               </Link>
-              {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>
         </div>
-      </dialog>
+      </dialog> */}
       {/* //View modals end */}
       <div className="join pr-5 float-right mt-1">
         <button className="join-item btn" onClick={pageDecrease}>

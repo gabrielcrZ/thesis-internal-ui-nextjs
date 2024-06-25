@@ -63,3 +63,22 @@ export const getDashboardMetrics = async () => {
 //     console.log(error.message);
 //   }
 // };
+
+// export const getShippingOrder = async (orderId: string) => {
+//   try {
+//     const response: any = await fetch(
+//       `http://localhost:3001/api/get-order/${orderId}`,
+//       {
+//         method: "GET",
+//         headers: { "Content-Type": "application/json" },
+//       }
+//     );
+
+//     const responseBody = await response.json();
+//     if (!response.ok) throw new Error(responseBody.msg);
+
+//     return responseBody.data.order;
+//   } catch (error: any) {
+//     console.log(error.message);
+//   }
+// };
