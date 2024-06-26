@@ -69,3 +69,16 @@ export const mapOrderStatusTooltip = (status: string) => {
       );
   }
 };
+
+export const getOrderStatusBadge = (orderStatus: string) => {
+  switch (orderStatus) {
+    case "Cancelled":
+      return <div className="badge badge-error">Order cancelled</div>;
+    case "Registered by client":
+      return <div className="badge badge-warning">Order Not Processed</div>;
+    case "Delivered to final destination":
+      return <div className="badge badge-success">Order At destination</div>;
+    default:
+      return <div className="badge badge-info">Order In progress</div>;
+  }
+};

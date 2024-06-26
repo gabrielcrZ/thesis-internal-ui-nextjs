@@ -3,17 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { faker } from "@faker-js/faker";
 import { orderUpdates } from "../types/Types";
+import { getOrderStatusBadge } from "../helpers/Helpers";
 
 const ViewOrderContent = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
-  const mockedShippingStatus = [
-    <div className="badge">Unknown</div>,
-    <div className="badge badge-success">At destination</div>,
-    <div className="badge badge-info">Shipment in progress</div>,
-    <div className="badge badge-warning">Shipment not assigned</div>,
-    <div className="badge badge-error">Order cancelled</div>,
-  ];
+  // const mockedShippingStatus = [
+  //   <div className="badge badge-success">Order At destination</div>,
+  //   <div className="badge badge-info">Order In progress</div>,
+  //   <div className="badge badge-warning">Order Not Processed</div>,
+  //   <div className="badge badge-error">Order cancelled</div>,
+  // ];
 
   const mockedUpdateType = [
     "Create Order",
@@ -92,22 +92,29 @@ const ViewOrderContent = () => {
   }, []);
 
   //Pickup cases
-  const hasAvailablePickups = true;
-  const isPickupSuccess = false;
-  const hasPickupAssigned = false;
+  const hasAvailablePickups = orderDetails.availablePickups?.length != 0;
+  const isPickupSuccess =
+    orderDetails.order?.pickupDetails.pickupStatus == "Success";
+  const hasPickupAssigned = orderDetails.order?.pickupDetails.pickupId != null;
 
   //Shipment cases
-  const hasAvailableShipments = true;
-  const isShippingSuccess = false;
-  const hasShipmentAssigned = false;
+  const hasAvailableShipments = orderDetails.availableShippings?.length != 0;
+  const isShippingSuccess =
+    orderDetails.order?.shippingDetails.shippingStatus == "Success";
+  const hasShipmentAssigned =
+    orderDetails.order?.shippingDetails.shippingId != null;
 
   //Delivery cases
-  const hasAvailableDeliveries = true;
-  const isDeliverySuccess = false;
-  const hasDeliveryAssigned = false;
+  const hasAvailableDeliveries = orderDetails.availableDeliveries?.length != 0;
+  const isDeliverySuccess =
+    orderDetails.order?.shippingDetails.shippingStatus == "Success" &&
+    orderDetails.order?.currentStatus == "Delivered to final destination";
+  const hasDeliveryAssigned =
+    orderDetails.order?.shippingDetails.shippingId != null &&
+    orderDetails.order?.currentStatus == "In delivery process";
 
   //Cancel order case
-  const isOrderCancelled = false;
+  const isOrderCancelled = orderDetails.order?.currentStatus == "Cancelled";
 
   const handleAssignPickup = () => {
     setSelectedPickup("");
@@ -172,11 +179,7 @@ const ViewOrderContent = () => {
           <div className="card-body">
             <h1 className="card-title text-gray-500">{`Order #${orderId}`}</h1>
             <div className="font-medium">
-              {
-                mockedShippingStatus[
-                  Math.floor(Math.random() * mockedShippingStatus.length)
-                ]
-              }
+              {getOrderStatusBadge(orderDetails.order?.currentStatus)}
             </div>
             <div className="card-actions justify-end font-medium">
               {!isOrderCancelled ? (
@@ -280,8 +283,20 @@ const ViewOrderContent = () => {
         </div>
         <div className="card w-full bg-base-200 text-gray-500 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title">Assigned delivery #Not assigned</h2>
-            <div className="text-sm">Delivery type: N/A</div>
+            <h2 className="card-title">{`Assigned delivery #${
+              orderDetails.order?.pickupDetails.pickupId != null
+                ? orderDetails.order?.pickupDetails.pickupId
+                : orderDetails.order?.shippingDetails.shippingId != null
+                ? orderDetails.order?.shippingDetails.shippingId
+                : "Not assigned"
+            }`}</h2>
+            <div className="text-sm">{`Delivery type: ${
+              orderDetails.order?.pickupDetails.pickupId
+                ? "Pickup"
+                : orderDetails.order?.shippingDetails.shippingId
+                ? "Shipping/Delivery"
+                : "N/A"
+            }`}</div>
             <div className="text-red-500 font-bold">
               This order has not been processed
               <div
