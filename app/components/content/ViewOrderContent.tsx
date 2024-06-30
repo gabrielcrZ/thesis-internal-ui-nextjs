@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { faker } from "@faker-js/faker";
 import { orderUpdates } from "../types/Types";
-import { getOrderStatusBadge } from "../helpers/Helpers";
+import { mapDeliveryMessage, mapOrderStatusBadge } from "../helpers/Helpers";
+import { useRouter } from "next/navigation";
 
 const ViewOrderContent = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
   // const mockedShippingStatus = [
@@ -85,7 +87,6 @@ const ViewOrderContent = () => {
       headers: { "Content-Type": "application/json" },
     }).then((res) =>
       res.json().then((data) => {
-        console.log(data);
         setOrderDetails(data);
       })
     );
@@ -123,8 +124,24 @@ const ViewOrderContent = () => {
     );
   };
 
-  const handleUnassignPickup = () => {
-    console.log(`A call was made for pickup unassign. orderId: ${orderId}`);
+  const handleUnassignPickup = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/unassign-pickup`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ order: orderId }),
+        });
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   const handleAssignShipment = () => {
@@ -179,7 +196,7 @@ const ViewOrderContent = () => {
           <div className="card-body">
             <h1 className="card-title text-gray-500">{`Order #${orderId}`}</h1>
             <div className="font-medium">
-              {getOrderStatusBadge(orderDetails.order?.currentStatus)}
+              {mapOrderStatusBadge(orderDetails.order?.currentStatus)}
             </div>
             <div className="card-actions justify-end font-medium">
               {!isOrderCancelled ? (
@@ -297,26 +314,7 @@ const ViewOrderContent = () => {
                 ? "Shipping/Delivery"
                 : "N/A"
             }`}</div>
-            <div className="text-red-500 font-bold">
-              This order has not been processed
-              <div
-                className="tooltip"
-                data-tip="Consider assigning a pickup for this order in order to begin the delivery process."
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
+            {mapDeliveryMessage(orderDetails.order?.currentStatus)}
           </div>
         </div>
       </div>
@@ -354,11 +352,11 @@ const ViewOrderContent = () => {
                   defaultValue={"Select pickup"}
                 >
                   <option disabled>Select pickup</option>
-                  <option value={faker.string.numeric(8)}>Pickup #1</option>
-                  <option value={faker.string.numeric(8)}>Pickup #2</option>
-                  <option value={faker.string.numeric(8)}>Pickup #3</option>
-                  <option value={faker.string.numeric(8)}>Pickup #4</option>
-                  <option value={faker.string.numeric(8)}>Pickup #5</option>
+                  {orderDetails.availablePickups?.map((el: any, index: any) => {
+                    return (
+                      <option value={el._id}>{`Pickup #${el._id}`}</option>
+                    );
+                  })}
                 </select>
               </label>
             ) : (

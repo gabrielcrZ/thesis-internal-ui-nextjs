@@ -5,8 +5,8 @@ import { ordersFilters } from "../types/Types";
 import Link from "next/link";
 import {
   convertMongoDate,
-  getShippingStatus,
-  getCurrentLocation,
+  mapShippingStatus,
+  mapCurrentLocation,
 } from "../helpers/Helpers";
 
 const OrderContent = () => {
@@ -239,8 +239,8 @@ const OrderContent = () => {
                     </td>
                     <td>{convertMongoDate(tableData[index].createdAt)}</td>
                     <td>{tableData[index].shippingDetails.shippingCountry}</td>
-                    <td>{getShippingStatus(tableData[index])}</td>
-                    <td>{getCurrentLocation(tableData[index])}</td>
+                    <td>{mapShippingStatus(tableData[index])}</td>
+                    <td>{mapCurrentLocation(tableData[index])}</td>
                     <td>{convertMongoDate(tableData[index].updatedAt)}</td>
                   </tr>
                 );
