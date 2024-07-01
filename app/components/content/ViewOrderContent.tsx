@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { faker } from "@faker-js/faker";
 import { orderUpdates } from "../types/Types";
-import { mapDeliveryMessage, mapOrderStatusBadge } from "../helpers/Helpers";
+import { convertMongoDate, mapDeliveryMessage, mapOrderStatusBadge } from "../helpers/Helpers";
 import { useRouter } from "next/navigation";
 
 const ViewOrderContent = () => {
@@ -246,27 +246,51 @@ const ViewOrderContent = () => {
     }
   };
 
-  const handleCancelOrder = () => {
-    console.log(
-      `A call for cancelling the order was mode. orderId: ${orderId}`
-    );
+  const handleCancelOrder = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/cancel-order`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ orderId: orderId }),
+        });
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleUpdateOrder = () => {
-    console.log(
-      `A call for updating the order was made. orderId: ${orderId} and updates: ${JSON.stringify(
-        orderUpdates,
-        null,
-        4
-      )}`
-    );
-    setOrderUpdates({
-      pickupDetails: undefined,
-      shippingDetails: undefined,
-      estimatedRevenue: undefined,
-      currentLocation: undefined,
-      currentStatus: undefined,
-    });
+  const handleUpdateOrder = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/update-order/${orderId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify(orderUpdates),
+        });
+      }
+      setOrderUpdates({
+        pickupDetails: undefined,
+        shippingDetails: undefined,
+        estimatedRevenue: undefined,
+        currentLocation: undefined,
+        currentStatus: undefined,
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -673,7 +697,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.location.country()}
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupCountry
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={orderUpdates.pickupDetails?.pickupCountry || ""}
                         onChange={(e) => {
@@ -693,7 +719,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.location.city()}
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupCity
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={orderUpdates.pickupDetails?.pickupCity || ""}
                         onChange={(e) => {
@@ -713,7 +741,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.location.streetAddress()}
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupAddress
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={orderUpdates.pickupDetails?.pickupAddress || ""}
                         onChange={(e) => {
@@ -733,7 +763,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder="Europe"
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupRegion
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={orderUpdates.pickupDetails?.pickupRegion || ""}
                         onChange={(e) => {
@@ -753,7 +785,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.string.numeric(4)}
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupId ?? "None"
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={orderUpdates.pickupDetails?.pickupId || ""}
                         onChange={(e) => {
@@ -775,7 +809,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder="Pickup success"
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupStatus
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={orderUpdates.pickupDetails?.pickupStatus || ""}
                         onChange={(e) => {
@@ -797,7 +833,10 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.internet.email()}
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupClient
+                            .clientEmail
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.pickupDetails?.pickupClient
@@ -825,7 +864,10 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.person.fullName()}
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupClient
+                            .clientName
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.pickupDetails?.pickupClient
@@ -853,7 +895,10 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.phone.number()}
+                        placeholder={
+                          orderDetails.order?.pickupDetails.pickupClient
+                            .clientPhone
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.pickupDetails?.pickupClient
@@ -891,7 +936,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.location.country()}
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingCountry
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.shippingDetails?.shippingCountry || ""
@@ -913,7 +960,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.location.city()}
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingCity
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={orderUpdates.shippingDetails?.shippingCity || ""}
                         onChange={(e) => {
@@ -933,7 +982,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.location.streetAddress()}
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingAddress
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.shippingDetails?.shippingAddress || ""
@@ -955,7 +1006,9 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder="Europe"
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingRegion
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.shippingDetails?.shippingRegion || ""
@@ -979,7 +1032,10 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.string.numeric(4)}
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingId ??
+                          "None"
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={orderUpdates.shippingDetails?.shippingId || ""}
                         onChange={(e) => {
@@ -996,12 +1052,14 @@ const ViewOrderContent = () => {
                     <label className="form-control w-full max-w-xs">
                       <div className="label">
                         <span className="label-text text-info">
-                          Delivery status
+                          Shipping status
                         </span>
                       </div>
                       <input
                         type="text"
-                        placeholder="Pickup success"
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingStatus
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.shippingDetails?.shippingStatus || ""
@@ -1025,7 +1083,10 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.internet.email()}
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingClient
+                            .clientEmail
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.shippingDetails?.shippingClient
@@ -1053,7 +1114,10 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.person.fullName()}
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingClient
+                            .clientName
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.shippingDetails?.shippingClient
@@ -1081,7 +1145,10 @@ const ViewOrderContent = () => {
                       </div>
                       <input
                         type="text"
-                        placeholder={faker.phone.number()}
+                        placeholder={
+                          orderDetails.order?.shippingDetails.shippingClient
+                            .clientPhone
+                        }
                         className="input input-bordered w-full max-w-xs"
                         value={
                           orderUpdates.shippingDetails?.shippingClient
@@ -1113,7 +1180,7 @@ const ViewOrderContent = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder="Budapest"
+                  placeholder={orderDetails.order?.currentLocation}
                   className="input input-bordered w-full max-w-xs"
                   value={orderUpdates.currentLocation || ""}
                   onChange={(e) => {
@@ -1130,7 +1197,7 @@ const ViewOrderContent = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder="Assigned for pickup"
+                  placeholder={orderDetails.order?.currentStatus}
                   className="input input-bordered w-full max-w-xs"
                   value={orderUpdates.currentStatus || ""}
                   onChange={(e) => {
@@ -1147,7 +1214,7 @@ const ViewOrderContent = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder="400$"
+                  placeholder={`${orderDetails.order?.estimatedRevenue}$`}
                   className="input input-bordered w-full max-w-xs"
                   value={orderUpdates.estimatedRevenue || undefined}
                   onChange={(e) => {
@@ -1169,9 +1236,7 @@ const ViewOrderContent = () => {
                 {/* if there is a button in form, it will close the modal */}
                 <button
                   className="btn"
-                  onClick={() => {
-                    handleUpdateOrder();
-                  }}
+                  onClick={handleUpdateOrder}
                   disabled={!isUpdateValid}
                 >
                   Update order
@@ -1203,15 +1268,24 @@ const ViewOrderContent = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-400 font-bold">
-                {/* row 1 */}
-                <tr className="hover">
+                {orderDetails.order?.products.map((el: any, index: any) => {
+                  return (
+                    <tr className="hover" key={index + 666}>
+                      <th>{index + 1}</th>
+                      <td>{el.productDescription}</td>
+                      <td>{el.productCategory ?? "TBA"}</td>
+                      <td>{`${el.productWeight}kg`}</td>
+                      <td>{`${el.estimatedRevenue ?? "TBA"}$`}</td>
+                    </tr>
+                  );
+                })}
+                {/* <tr className="hover">
                   <th>1</th>
                   <td>{faker.commerce.productName()}</td>
                   <td>{faker.commerce.department()}</td>
                   <td>{faker.number.int({ max: 25 })}kg</td>
                   <td>{faker.string.numeric(3)}$</td>
                 </tr>
-                {/* row 2 */}
                 <tr className="hover">
                   <th>2</th>
                   <td>{faker.commerce.productName()}</td>
@@ -1219,14 +1293,13 @@ const ViewOrderContent = () => {
                   <td>{faker.number.int({ max: 25 })}kg</td>
                   <td>{faker.string.numeric(3)}$</td>
                 </tr>
-                {/* row 3 */}
                 <tr className="hover">
                   <th>3</th>
                   <td>{faker.commerce.productName()}</td>
                   <td>{faker.commerce.department()}</td>
                   <td>{faker.number.int({ max: 25 })}kg</td>
                   <td>{faker.string.numeric(3)}$</td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
           </div>
@@ -1252,23 +1325,50 @@ const ViewOrderContent = () => {
                   <td className="text-gray-500 font-bold italic">
                     Pickup details
                   </td>
-                  <td>{faker.location.streetAddress()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.person.fullName()}</td>
-                  <td>{faker.internet.email()}</td>
-                  <td>{faker.phone.number()}</td>
-                  <td>#{faker.string.numeric(4)}</td>
-                  <td>{"Pending"}</td>
+                  <td>{orderDetails.order?.pickupDetails.pickupAddress}</td>
+                  <td>{orderDetails.order?.pickupDetails.pickupRegion}</td>
+                  <td>
+                    {orderDetails.order?.pickupDetails.pickupClient.clientName}
+                  </td>
+                  <td>
+                    {orderDetails.order?.pickupDetails.pickupClient.clientEmail}
+                  </td>
+                  <td>
+                    {orderDetails.order?.pickupDetails.pickupClient.clientPhone}
+                  </td>
+                  <td>
+                    {orderDetails.order?.pickupDetails.pickupId ??
+                      "Not assigned"}
+                  </td>
+                  <td>{orderDetails.order?.pickupDetails.pickupStatus}</td>
                 </tr>
                 <tr className="font-bold">
                   <td className="text-gray-500 italic">Delivery details</td>
-                  <td>{faker.location.streetAddress()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.person.fullName()}</td>
-                  <td>{faker.internet.email()}</td>
-                  <td>{faker.phone.number()}</td>
-                  <td>#{faker.string.numeric(4)}</td>
-                  <td>{"Pending"}</td>
+                  <td>{orderDetails.order?.shippingDetails.shippingRegion}</td>
+                  <td>{orderDetails.order?.shippingDetails.shippingAddress}</td>
+                  <td>
+                    {
+                      orderDetails.order?.shippingDetails.shippingClient
+                        .clientName
+                    }
+                  </td>
+                  <td>
+                    {
+                      orderDetails.order?.shippingDetails.shippingClient
+                        .clientEmail
+                    }
+                  </td>
+                  <td>
+                    {
+                      orderDetails.order?.shippingDetails.shippingClient
+                        .clientPhone
+                    }
+                  </td>
+                  <td>
+                    {orderDetails.order?.shippingDetails.shippingId ??
+                      "Not assigned"}
+                  </td>
+                  <td>{orderDetails.order?.shippingDetails.shippingStatus}</td>
                 </tr>
               </tbody>
             </table>
@@ -1294,7 +1394,26 @@ const ViewOrderContent = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-400 font-bold">
-                {/* row 1 */}
+                {orderDetails.orderHistory?.map((el: any, index: any) => {
+                  return <tr className="hover" key={el._id}>
+                    <td>{convertMongoDate(el.createdAt)}</td>
+                    <td>{el.operationType}</td>
+                    <td>{el.additionalInfo}</td>
+                    <td>{el.updatedBy}</td>
+                  </tr>
+                })}
+                {/* <tr className="hover">
+                  <td>{faker.date.anytime().toDateString()}</td>
+                  <td>
+                    {
+                      mockedUpdateType[
+                        Math.floor(Math.random() * mockedUpdateType.length)
+                      ]
+                    }
+                  </td>
+                  <td>{faker.lorem.sentence()}</td>
+                  <td>{faker.person.fullName()}</td>
+                </tr>
                 <tr className="hover">
                   <td>{faker.date.anytime().toDateString()}</td>
                   <td>
@@ -1307,7 +1426,6 @@ const ViewOrderContent = () => {
                   <td>{faker.lorem.sentence()}</td>
                   <td>{faker.person.fullName()}</td>
                 </tr>
-                {/* row 2 */}
                 <tr className="hover">
                   <td>{faker.date.anytime().toDateString()}</td>
                   <td>
@@ -1319,20 +1437,7 @@ const ViewOrderContent = () => {
                   </td>
                   <td>{faker.lorem.sentence()}</td>
                   <td>{faker.person.fullName()}</td>
-                </tr>
-                {/* row 3 */}
-                <tr className="hover">
-                  <td>{faker.date.anytime().toDateString()}</td>
-                  <td>
-                    {
-                      mockedUpdateType[
-                        Math.floor(Math.random() * mockedUpdateType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.lorem.sentence()}</td>
-                  <td>{faker.person.fullName()}</td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
           </div>
