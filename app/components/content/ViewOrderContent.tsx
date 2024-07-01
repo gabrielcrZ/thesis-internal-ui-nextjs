@@ -117,11 +117,25 @@ const ViewOrderContent = () => {
   //Cancel order case
   const isOrderCancelled = orderDetails.order?.currentStatus == "Cancelled";
 
-  const handleAssignPickup = () => {
-    setSelectedPickup("");
-    console.log(
-      `A call was made for assign pickup, orderId: ${orderId} and pickupId: ${selectedPickup}`
-    );
+  const handleAssignPickup = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/assign-pickup`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ orderId: orderId, pickupId: selectedPickup }),
+        });
+      }
+      setSelectedPickup("");
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   const handleUnassignPickup = async () => {
@@ -136,7 +150,7 @@ const ViewOrderContent = () => {
             "Content-Type": "application/json",
             Authorization: token,
           },
-          body: JSON.stringify({ order: orderId }),
+          body: JSON.stringify({ orderId: orderId }),
         });
       }
     } catch (error: any) {
@@ -144,26 +158,92 @@ const ViewOrderContent = () => {
     }
   };
 
-  const handleAssignShipment = () => {
-    setSelectedShipment("");
-    console.log(
-      `A call was made for assign shipment, orderId: ${orderId} and shipmentId: ${selectedShipment}`
-    );
+  const handleAssignShipment = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/assign-shipping`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            shippingId: selectedShipment,
+          }),
+        });
+      }
+      setSelectedShipment("");
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleUnassignShipment = () => {
-    console.log(`A call was made for shipment unassign. orderId: ${orderId}`);
+  const handleUnassignShipment = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/unassign-shipment`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ orderId: orderId }),
+        });
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleAssignDelivery = () => {
-    setSelectedDelivery("");
-    console.log(
-      `A call was made for assign delivery, orderId: ${orderId} and deliveryId: ${selectedDelivery}`
-    );
+  const handleAssignDelivery = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/assign-delivery`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            deliveryId: selectedDelivery,
+          }),
+        });
+      }
+      setSelectedDelivery("");
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleUnassignDelivery = () => {
-    console.log(`A call was made for delivery unassign. orderId: ${orderId}`);
+  const handleUnassignDelivery = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/unassign-delivery`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ orderId: orderId }),
+        });
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   const handleCancelOrder = () => {
@@ -333,9 +413,7 @@ const ViewOrderContent = () => {
               </div>
             ) : hasPickupAssigned ? (
               <div className="text-warning font-bold">
-                {`Order #${orderId} has been already assigned to a pickup. Id: #${faker.string.numeric(
-                  4
-                )}`}
+                {`Order #${orderId} has been already assigned to a pickup. Id: #${orderDetails.order?.pickupDetails.pickupId}`}
               </div>
             ) : hasAvailablePickups ? (
               <label className="form-control w-full max-w-sm">
@@ -409,9 +487,7 @@ const ViewOrderContent = () => {
               </div>
             ) : hasShipmentAssigned ? (
               <div className="text-warning font-bold">
-                {`Order #${orderId} has been already assigned to a shipment. Id: #${faker.string.numeric(
-                  4
-                )}`}
+                {`Order #${orderId} has been already assigned to a shipment. Id: #${orderDetails.order?.shippingDetails.shippingId}`}
               </div>
             ) : hasAvailableShipments ? (
               <label className="form-control w-full max-w-sm">
@@ -428,11 +504,13 @@ const ViewOrderContent = () => {
                   defaultValue={"Select shipment"}
                 >
                   <option disabled>Select shipment</option>
-                  <option value={faker.string.numeric(8)}>Shipment #1</option>
-                  <option value={faker.string.numeric(8)}>Shipment #2</option>
-                  <option value={faker.string.numeric(8)}>Shipment #3</option>
-                  <option value={faker.string.numeric(8)}>Shipment #4</option>
-                  <option value={faker.string.numeric(8)}>Shipment #5</option>
+                  {orderDetails.availableShippings?.map(
+                    (el: any, index: any) => {
+                      return (
+                        <option value={el._id}>{`Shipment #${el._id}`}</option>
+                      );
+                    }
+                  )}
                 </select>
               </label>
             ) : (
@@ -485,9 +563,7 @@ const ViewOrderContent = () => {
               </div>
             ) : hasDeliveryAssigned ? (
               <div className="text-warning font-bold">
-                {`Order #${orderId} has been already assigned to a delivery. Id: #${faker.string.numeric(
-                  4
-                )}`}
+                {`Order #${orderId} has been already assigned to a delivery. Id: #${orderDetails.order?.shippingDetails.shippingId}`}
               </div>
             ) : hasAvailableDeliveries ? (
               <label className="form-control w-full max-w-sm">
@@ -504,11 +580,13 @@ const ViewOrderContent = () => {
                   defaultValue={"Select delivery"}
                 >
                   <option disabled>Select delivery</option>
-                  <option value={faker.string.numeric(8)}>Delivery #1</option>
-                  <option value={faker.string.numeric(8)}>Delivery #2</option>
-                  <option value={faker.string.numeric(8)}>Delivery #3</option>
-                  <option value={faker.string.numeric(8)}>Delivery #4</option>
-                  <option value={faker.string.numeric(8)}>Delivery #5</option>
+                  {orderDetails.availableDeliveries?.map(
+                    (el: any, index: any) => {
+                      return (
+                        <option value={el._id}>{`Delivery #${el._id}`}</option>
+                      );
+                    }
+                  )}
                 </select>
               </label>
             ) : (
