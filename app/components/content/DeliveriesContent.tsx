@@ -34,6 +34,8 @@ const DeliveriesContent = () => {
   });
   const [currentDelivery, setCurrentDelivery] = useState("");
   const [currentTransport, setCurrentTransport] = useState("");
+  const [currentDeliveryAssignInfo, setCurrentDeliveryAssignInfo] =
+    useState<any>({});
   const [deliveryUpdates, setDeliveryUpdates] = useState<deliveryUpdates>({
     deliveryType: undefined,
     placeOfDelivery: undefined,
@@ -58,9 +60,11 @@ const DeliveriesContent = () => {
         newDelivery.deliveryType &&
         newDelivery.placeOfDelivery?.deliveryAddress &&
         newDelivery.placeOfDelivery.deliveryCity &&
+        newDelivery.placeOfDelivery.deliveryCountry &&
         newDelivery.placeOfDelivery.deliveryRegion &&
         newDelivery.placeOfDeparture?.departureAddress &&
         newDelivery.placeOfDeparture.departureCity &&
+        newDelivery.placeOfDeparture.departureCountry &&
         newDelivery.placeOfDeparture.departureRegion
       )
         return true;
@@ -83,7 +87,9 @@ const DeliveriesContent = () => {
           !newTransport.transportCapabilities?.canPickup) &&
         (newTransport.transportCapabilities?.canShip ||
           !newTransport.transportCapabilities?.canShip) &&
-        newTransport.transportCapabilities?.transportCapacity
+        newTransport.transportCapabilities?.transportCapacity &&
+        newTransport.contactPerson?.contactBadgeId &&
+        newTransport.contactPerson.contactPhone
       )
         return true;
       return false;
@@ -176,49 +182,155 @@ const DeliveriesContent = () => {
     }
   };
 
-  const handleAddTransport = () => {
-    setNewTransport({
-      transportCapabilities: {
-        canPickup: false,
-        canShip: false,
-      },
-    });
-    console.log(
-      `A call has been made for adding a new transport, transportInfo: ${JSON.stringify(
-        newTransport,
-        null,
-        4
-      )}`
-    );
-    setTransportPage(1);
+  const handleAddTransport = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/add-transport`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify(newTransport),
+        });
+      }
+      setNewTransport({
+        transportCapabilities: {
+          canPickup: false,
+          canShip: false,
+        },
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleUpdateDelivery = () => {
-    console.log(
-      `A call for updating a delivery has been made, deliveryUpdates: ${JSON.stringify(
-        deliveryUpdates,
-        null,
-        4
-      )}`
-    );
-    clearDeliveryUpdates();
+  const handleUpdateDelivery = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(
+          `http://localhost:3001/api/update-delivery/${currentDelivery}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+            body: JSON.stringify(deliveryUpdates),
+          }
+        );
+      }
+      clearDeliveryUpdates();
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleAssignDelivery = () => {
-    console.log(`A call has been made for transport delivery assign`);
-    setSelectedDelivery("");
+  const getCurrentTransportAssignInfo = async (transportId: string) => {
+    try {
+      await fetch(`http://localhost:3001/api/get-available-deliveries`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ transportId: transportId }),
+      }).then((res) =>
+        res.json().then((data) => {
+          setCurrentDeliveryAssignInfo(data);
+        })
+      );
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleUnassignDelivery = () => {
-    console.log(`A call has been made for transport delivery unassign`);
+  const handleAssignDelivery = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/assign-transport-delivery`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            transportId: currentTransport,
+            deliveryId: selectedDelivery,
+          }),
+        });
+      }
+      setSelectedDelivery("");
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleDeleteTransport = () => {
-    console.log(`A call has been made to delete transport`);
+  const handleUnassignDelivery = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/unassign-transport-delivery`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            transportId: currentTransport,
+          }),
+        });
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleCancelDelivery = () => {
-    console.log("A call for canceling a delivery has been made");
+  const handleDeleteTransport = async () => {
+    try {
+      await fetch(`http://localhost:3001/api/delete-transport`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transportId: currentTransport,
+        }),
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  const handleCancelDelivery = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/cancel-delivery`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ deliveryId: currentDelivery }),
+        });
+      }
+      setCurrentDelivery("");
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {
@@ -364,15 +476,11 @@ const DeliveriesContent = () => {
       {/* //Deliveries modals */}
       <dialog id="my_modal_assignDelivery" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg text-gray-500">Assign delivery</h3>
+          <h3 className="font-bold text-lg text-gray-500">Manage delivery</h3>
           <form method="dialog">
-            {hasDeliveryAssigned ? (
-              <div className="text-warning font-bold">{`Transport #${faker.string.numeric(
-                6
-              )} has an active delivery assigned to it (id: ${faker.string.numeric(
-                6
-              )}). You can proceed with the unassign operation or return back to deliveries overview.`}</div>
-            ) : hasTransportAvailableDeliveries ? (
+            {currentDeliveryAssignInfo.hasDeliveryAssigned ? (
+              <div className="text-warning font-bold">{`Transport #${currentTransport} has an active delivery assigned to it. You can proceed with the unassign operation or return back to deliveries overview.`}</div>
+            ) : currentDeliveryAssignInfo.availableDeliveries?.length !== 0 ? (
               <label className="form-control w-full max-w-sm">
                 <div className="label">
                   <span className="label-text text-info font-bold">
@@ -387,18 +495,15 @@ const DeliveriesContent = () => {
                   }}
                 >
                   <option disabled>Select delivery</option>
-                  <option value={faker.string.numeric(6)}>
-                    #{faker.string.numeric(6)}
-                  </option>
-                  <option value={faker.string.numeric(6)}>
-                    #{faker.string.numeric(6)}
-                  </option>
-                  <option value={faker.string.numeric(6)}>
-                    #{faker.string.numeric(6)}
-                  </option>
-                  <option value={faker.string.numeric(6)}>
-                    #{faker.string.numeric(6)}
-                  </option>
+                  {currentDeliveryAssignInfo.availableDeliveries?.map(
+                    (el: any, index: any) => {
+                      return (
+                        <option key={el._id} value={el._id}>
+                          #{el._id}
+                        </option>
+                      );
+                    }
+                  )}
                 </select>
               </label>
             ) : (
@@ -409,11 +514,12 @@ const DeliveriesContent = () => {
             )}
             <div className="modal-action">
               <div className="flex gap-2">
-                {hasDeliveryAssigned ? (
+                {currentDeliveryAssignInfo.hasDeliveryAssigned ? (
                   <button className="btn" onClick={handleUnassignDelivery}>
                     Unassign
                   </button>
-                ) : !hasTransportAvailableDeliveries ? (
+                ) : currentDeliveryAssignInfo.availableDeliveries?.length ===
+                  0 ? (
                   <></>
                 ) : (
                   <button
@@ -497,6 +603,29 @@ const DeliveriesContent = () => {
               <label className="form-control w-full max-w-xs">
                 <div className="label">
                   <span className="label-text text-info font-bold">
+                    Departure country
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="input input-bordered w-full max-w-xs"
+                  value={
+                    deliveryUpdates.placeOfDeparture?.departureCountry || ""
+                  }
+                  onChange={(e) => {
+                    setDeliveryUpdates((prevState) => ({
+                      ...prevState,
+                      placeOfDeparture: {
+                        ...prevState.placeOfDeparture,
+                        departureCountry: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
                     Departure city
                   </span>
                 </div>
@@ -573,6 +702,27 @@ const DeliveriesContent = () => {
               <label className="form-control w-full max-w-xs">
                 <div className="label">
                   <span className="label-text text-info font-bold">
+                    Delivery country
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="input input-bordered w-full max-w-xs"
+                  value={deliveryUpdates.placeOfDelivery?.deliveryCountry || ""}
+                  onChange={(e) => {
+                    setDeliveryUpdates((prevState) => ({
+                      ...prevState,
+                      placeOfDelivery: {
+                        ...prevState.placeOfDelivery,
+                        deliveryCountry: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
                     Delivery city
                   </span>
                 </div>
@@ -638,9 +788,7 @@ const DeliveriesContent = () => {
             <h3 className="font-bold text-lg text-gray-500">
               Delete transport
             </h3>
-            <div className="text-red-500 font-bold">{`This action will delete transport #${faker.string.numeric(
-              6
-            )}. Before continuing, make sure there is no delivery assigned to this transport, otherwise this operation will fail.`}</div>
+            <div className="text-red-500 font-bold">{`This action will delete transport #${currentTransport}. Before continuing, make sure there is no delivery assigned to this transport, otherwise this operation will fail.`}</div>
             <div className="modal-action">
               <div className="flex gap-2">
                 <button className="btn" onClick={handleDeleteTransport}>
@@ -657,9 +805,7 @@ const DeliveriesContent = () => {
         <div className="modal-box">
           <form method="dialog">
             <h3 className="font-bold text-lg text-gray-500">Cancel delivery</h3>
-            <div className="text-red-500 font-bold">{`This action will cancel delivery #${faker.string.numeric(
-              6
-            )}. Before continuing, make sure that this delivery it's not assigned to any transport, otherwise this operation will fail.`}</div>
+            <div className="text-red-500 font-bold">{`This action will cancel delivery #${currentDelivery}. Before continuing, make sure that this delivery it's not assigned to any transport, otherwise this operation will fail.`}</div>
             <div className="modal-action">
               <div className="flex gap-2">
                 <button className="btn" onClick={handleCancelDelivery}>
@@ -673,7 +819,7 @@ const DeliveriesContent = () => {
         </div>
       </dialog>
       <dialog id="my_modal_addTransport" className="modal">
-        <div className="modal-box">
+        <div className="modal-box w-11/12 max-w-4xl">
           <h3 className="font-bold text-lg text-gray-500">
             Create new transport
           </h3>
@@ -683,134 +829,202 @@ const DeliveriesContent = () => {
             </div>
           )}
           <form className="text-gray-400 font-medium" method="dialog">
-            <label className="form-control w-full max-w-sm">
-              <div className="label">
-                <span className="label-text text-info font-bold">
-                  {`Select transport type`}
-                </span>
-              </div>
-              <select
-                className="select select-bordered text-gray-500"
-                defaultValue={"Select type"}
-                onChange={(e) => {
-                  setNewTransport((prevState) => ({
-                    ...prevState,
-                    transportType: e.target.value,
-                  }));
-                }}
-              >
-                <option disabled>Select type</option>
-                <option value="Truck">Truck</option>
-                <option value="Van">Van</option>
-                <option value="Plane">Plane</option>
-                <option value="Ship">Ship</option>
-              </select>
-            </label>
-            <label className="form-control w-full max-w-sm">
-              <div className="label">
-                <span className="label-text text-info font-bold">
-                  Delivery regions
-                </span>
-              </div>
-              <select
-                className="select select-bordered  text-gray-500"
-                defaultValue={"Select regions"}
-                onChange={(e) => {
-                  setNewTransport((prevState) => ({
-                    ...prevState,
-                    transportCapabilities: {
-                      ...prevState.transportCapabilities,
-                      availableRegions: [e.target.value],
-                    },
-                  }));
-                }}
-              >
-                <option disabled>Select regions</option>
-                <option value="Africa">Africa</option>
-                <option value="Asia">Asia</option>
-                <option value="Central America">Central America</option>
-                <option value="Europe">Europe</option>
-                <option value="Middle East">Middle East</option>
-                <option value="North America">North America</option>
-                <option value="Pacific">Pacific</option>
-                <option value="South America">South America</option>
-              </select>
-            </label>
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text text-info font-bold">
-                  Assigned region
-                </span>
-              </div>
-              <select
-                className="select select-bordered  text-gray-500"
-                defaultValue={"Select region"}
-                onChange={(e) => {
-                  setNewTransport((prevState) => ({
-                    ...prevState,
-                    transportLocation: {
-                      ...prevState.transportLocation,
-                      transportRegion: e.target.value,
-                    },
-                  }));
-                }}
-              >
-                <option disabled>Select region</option>
-                <option value="Africa">Africa</option>
-                <option value="Asia">Asia</option>
-                <option value="Central America">Central America</option>
-                <option value="Europe">Europe</option>
-                <option value="Middle East">Middle East</option>
-                <option value="North America">North America</option>
-                <option value="Pacific">Pacific</option>
-                <option value="South America">South America</option>
-              </select>
-            </label>
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text text-info font-bold">
-                  Assigned city
-                </span>
-              </div>
-              <input
-                type="text"
-                className="input input-bordered w-full max-w-xs"
-                value={newTransport.transportLocation?.transportCity || ""}
-                onChange={(e) => {
-                  setNewTransport((prevState) => ({
-                    ...prevState,
-                    transportLocation: {
-                      ...prevState.transportLocation,
-                      transportCity: e.target.value,
-                    },
-                  }));
-                }}
-              />
-            </label>
+            <div className="flex gap-2">
+              <label className="form-control w-full max-w-sm">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    {`Select transport type`}
+                  </span>
+                </div>
+                <select
+                  className="select select-bordered text-gray-500"
+                  defaultValue={"Select type"}
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      transportType: e.target.value,
+                    }));
+                  }}
+                >
+                  <option disabled>Select type</option>
+                  <option value="Truck">Truck</option>
+                  <option value="Van">Van</option>
+                  <option value="Plane">Plane</option>
+                  <option value="Ship">Ship</option>
+                </select>
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    Capacity (kg)
+                  </span>
+                </div>
+                <input
+                  type="number"
+                  className="input input-bordered w-full max-w-xs"
+                  value={
+                    newTransport.transportCapabilities?.transportCapacity || ""
+                  }
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      transportCapabilities: {
+                        ...prevState.transportCapabilities,
+                        transportCapacity: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    Badge Id
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="input input-bordered w-full max-w-xs"
+                  value={newTransport.contactPerson?.contactBadgeId || ""}
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      contactPerson: {
+                        ...prevState.contactPerson,
+                        contactBadgeId: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    Contact Phone
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="input input-bordered w-full max-w-xs"
+                  value={newTransport.contactPerson?.contactPhone || ""}
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      contactPerson: {
+                        ...prevState.contactPerson,
+                        contactPhone: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </label>
+            </div>
 
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text text-info font-bold">
-                  Capacity (kg)
-                </span>
-              </div>
-              <input
-                type="number"
-                className="input input-bordered w-full max-w-xs"
-                value={
-                  newTransport.transportCapabilities?.transportCapacity || ""
-                }
-                onChange={(e) => {
-                  setNewTransport((prevState) => ({
-                    ...prevState,
-                    transportCapabilities: {
-                      ...prevState.transportCapabilities,
-                      transportCapacity: e.target.value,
-                    },
-                  }));
-                }}
-              />
-            </label>
+            <div className="flex gap-2">
+              <label className="form-control w-full max-w-sm">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    Delivery regions
+                  </span>
+                </div>
+                <select
+                  className="select select-bordered  text-gray-500"
+                  defaultValue={"Select regions"}
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      transportCapabilities: {
+                        ...prevState.transportCapabilities,
+                        availableRegions: [e.target.value],
+                      },
+                    }));
+                  }}
+                >
+                  <option disabled>Select regions</option>
+                  <option value="Africa">Africa</option>
+                  <option value="Asia">Asia</option>
+                  <option value="Central America">Central America</option>
+                  <option value="Europe">Europe</option>
+                  <option value="Middle East">Middle East</option>
+                  <option value="North America">North America</option>
+                  <option value="Pacific">Pacific</option>
+                  <option value="South America">South America</option>
+                </select>
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    Assigned region
+                  </span>
+                </div>
+                <select
+                  className="select select-bordered  text-gray-500"
+                  defaultValue={"Select region"}
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      transportLocation: {
+                        ...prevState.transportLocation,
+                        transportRegion: e.target.value,
+                      },
+                    }));
+                  }}
+                >
+                  <option disabled>Select region</option>
+                  <option value="Africa">Africa</option>
+                  <option value="Asia">Asia</option>
+                  <option value="Central America">Central America</option>
+                  <option value="Europe">Europe</option>
+                  <option value="Middle East">Middle East</option>
+                  <option value="North America">North America</option>
+                  <option value="Pacific">Pacific</option>
+                  <option value="South America">South America</option>
+                </select>
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    Assigned country
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="input input-bordered w-full max-w-xs"
+                  value={newTransport.transportLocation?.transportCountry || ""}
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      transportLocation: {
+                        ...prevState.transportLocation,
+                        transportCountry: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    Assigned city
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="input input-bordered w-full max-w-xs"
+                  value={newTransport.transportLocation?.transportCity || ""}
+                  onChange={(e) => {
+                    setNewTransport((prevState) => ({
+                      ...prevState,
+                      transportLocation: {
+                        ...prevState.transportLocation,
+                        transportCity: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </label>
+            </div>
+
             <div className="flex gap-5 mt-4 justify-center">
               <div className="flex gap-2">
                 <span className="text-gray-500 font-medium">Pickup</span>
@@ -1179,316 +1393,6 @@ const DeliveriesContent = () => {
                     </tr>
                   );
                 })}
-                {/* <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_updateDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Update delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_cancelDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Cancel delivery
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedDeliveryType[
-                        Math.floor(Math.random() * mockedDeliveryType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>
-                    {
-                      mockedDeliveryStatus[
-                        Math.floor(Math.random() * mockedDeliveryStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 10000, max: 35000 })}$</td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
-                <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_updateDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Update delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_cancelDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Cancel delivery
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedDeliveryType[
-                        Math.floor(Math.random() * mockedDeliveryType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>
-                    {
-                      mockedDeliveryStatus[
-                        Math.floor(Math.random() * mockedDeliveryStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 10000, max: 35000 })}$</td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
-                <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_updateDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Update delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_cancelDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Cancel delivery
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedDeliveryType[
-                        Math.floor(Math.random() * mockedDeliveryType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>
-                    {
-                      mockedDeliveryStatus[
-                        Math.floor(Math.random() * mockedDeliveryStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 10000, max: 35000 })}$</td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
-                <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_updateDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Update delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_cancelDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Cancel delivery
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedDeliveryType[
-                        Math.floor(Math.random() * mockedDeliveryType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>
-                    {
-                      mockedDeliveryStatus[
-                        Math.floor(Math.random() * mockedDeliveryStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 10000, max: 35000 })}$</td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
-                <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_updateDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Update delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_cancelDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Cancel delivery
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedDeliveryType[
-                        Math.floor(Math.random() * mockedDeliveryType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>
-                    {
-                      mockedDeliveryStatus[
-                        Math.floor(Math.random() * mockedDeliveryStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 10000, max: 35000 })}$</td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr> */}
               </tbody>
               {/* foot */}
               <tfoot></tfoot>
@@ -1543,23 +1447,19 @@ const DeliveriesContent = () => {
                             className="dropdown-content z-[2] menu p-2 shadow bg-base-200 rounded-box w-52"
                           >
                             <li className="text-warning">
-                              {el.currentStatus === "Ready" && (
-                                <a
-                                  onClick={() => {
-                                    setCurrentTransport(el._id);
-                                    (
-                                      document.getElementById(
-                                        "my_modal_assignDelivery"
-                                      ) as HTMLDialogElement
-                                    ).showModal();
-                                  }}
-                                >
-                                  Assign delivery
-                                </a>
-                              )}
-                              {el.currentStatus === "Assigned to delivery" && (
-                                <a>Unassign delivery</a>
-                              )}
+                              <a
+                                onClick={() => {
+                                  setCurrentTransport(el._id);
+                                  getCurrentTransportAssignInfo(el._id);
+                                  (
+                                    document.getElementById(
+                                      "my_modal_assignDelivery"
+                                    ) as HTMLDialogElement
+                                  ).showModal();
+                                }}
+                              >
+                                Manage delivery
+                              </a>
                             </li>
                             <li className="text-red-500">
                               <a
@@ -1595,400 +1495,10 @@ const DeliveriesContent = () => {
                         ).toLocaleString("en-US")}
                       </td>
                       <td>{el.currentStatus}</td>
-                      <td>#{el.assignedShipment}</td>
+                      <td>#{el.assignedShipment ?? "Not assigned"}</td>
                     </tr>
                   );
                 })}
-                {/* <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_assignDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Assign delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_deleteTransport"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Delete transport
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedTransportTypes[
-                        Math.floor(Math.random() * mockedTransportTypes.length)
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 500, max: 10000 })}</td>
-                  <td>
-                    {
-                      mockedTransportStatus[
-                        Math.floor(Math.random() * mockedTransportStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_assignDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Assign delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_deleteTransport"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Delete transport
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedTransportTypes[
-                        Math.floor(Math.random() * mockedTransportTypes.length)
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 500, max: 10000 })}</td>
-                  <td>
-                    {
-                      mockedTransportStatus[
-                        Math.floor(Math.random() * mockedTransportStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_assignDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Assign delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_deleteTransport"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Delete transport
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedTransportTypes[
-                        Math.floor(Math.random() * mockedTransportTypes.length)
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 500, max: 10000 })}</td>
-                  <td>
-                    {
-                      mockedTransportStatus[
-                        Math.floor(Math.random() * mockedTransportStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_assignDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Assign delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_deleteTransport"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Delete transport
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedTransportTypes[
-                        Math.floor(Math.random() * mockedTransportTypes.length)
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 500, max: 10000 })}</td>
-                  <td>
-                    {
-                      mockedTransportStatus[
-                        Math.floor(Math.random() * mockedTransportStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                <tr className="hover">
-                  <td>
-                    <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="font-bold hover:text-info"
-                      >
-                        #{faker.string.numeric(6)}
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
-                      >
-                        <li className="text-warning">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_assignDelivery"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Assign delivery
-                          </a>
-                        </li>
-                        <li className="text-red-500">
-                          <a
-                            onClick={() =>
-                              (
-                                document.getElementById(
-                                  "my_modal_deleteTransport"
-                                ) as HTMLDialogElement
-                              ).showModal()
-                            }
-                          >
-                            Delete transport
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      mockedTransportTypes[
-                        Math.floor(Math.random() * mockedTransportTypes.length)
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>
-                    {
-                      mockedTransportCapabilities[
-                        Math.floor(
-                          Math.random() * mockedTransportCapabilities.length
-                        )
-                      ]
-                    }
-                  </td>
-                  <td>{faker.number.int({ min: 500, max: 10000 })}</td>
-                  <td>
-                    {
-                      mockedTransportStatus[
-                        Math.floor(Math.random() * mockedTransportStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr> */}
               </tbody>
               {/* foot */}
               <tfoot></tfoot>

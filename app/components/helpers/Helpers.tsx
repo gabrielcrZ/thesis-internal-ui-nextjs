@@ -186,6 +186,8 @@ export const mapDeliveryStatus = (status: string) => {
       return <div className="badge badge-warning">Pending</div>;
     case "Completed":
       return <div className="badge badge-success">Finished</div>;
+    case "Cancelled":
+      return <div className="badge badge-error">Cancelled</div>;
     default:
       return <div className="badge badge-info">Ongoing</div>;
   }

@@ -94,6 +94,7 @@ export type newTransport = {
   transportType?: string;
   transportLocation?: {
     transportRegion?: string;
+    transportCountry?: string;
     transportCity?: string;
   };
   transportCapabilities?: {
@@ -101,6 +102,10 @@ export type newTransport = {
     canShip?: boolean;
     availableRegions?: string[];
     transportCapacity?: string;
+  };
+  contactPerson?: {
+    contactBadgeId?: string;
+    contactPhone?: string;
   };
 };
 
@@ -116,11 +121,13 @@ export type deliveryUpdates = {
   placeOfDeparture?: {
     departureRegion?: string;
     departureCity?: string;
+    departureCountry?: string;
     departureAddress?: string;
   };
   placeOfDelivery?: {
     deliveryRegion?: string;
     deliveryCity?: string;
+    deliveryCountry?: string;
     deliveryAddress?: string;
   };
 };
