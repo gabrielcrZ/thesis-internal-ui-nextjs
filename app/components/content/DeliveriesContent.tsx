@@ -7,6 +7,13 @@ import {
   newDelivery,
   newTransport,
 } from "../types/Types";
+import {
+  convertMongoCurrency,
+  convertMongoDate,
+  mapDeliveryStatus,
+  mapTransportCapabilities,
+} from "../helpers/Helpers";
+import { useRouter } from "next/navigation";
 
 const DeliveriesContent = () => {
   const mockedDeliveryStatus = [
@@ -25,6 +32,8 @@ const DeliveriesContent = () => {
       canShip: false,
     },
   });
+  const [currentDelivery, setCurrentDelivery] = useState("");
+  const [currentTransport, setCurrentTransport] = useState("");
   const [deliveryUpdates, setDeliveryUpdates] = useState<deliveryUpdates>({
     deliveryType: undefined,
     placeOfDelivery: undefined,
@@ -38,6 +47,10 @@ const DeliveriesContent = () => {
   });
   const [selectedDelivery, setSelectedDelivery] = useState("");
   const [isAssignDelivery, setIsAssignDelivery] = useState(false);
+  const [deliveryInformation, setDeliveryInformation] = useState<any>({});
+  const [deliveryTable, setDeliveryTable] = useState<any[]>([]);
+  const [transportsTable, setTransportsTable] = useState<any[]>([]);
+  const router = useRouter();
 
   const validateAddDelivery = () => {
     const formValidationState = () => {
@@ -142,16 +155,25 @@ const DeliveriesContent = () => {
     else setTransportPage(transportsPage - 1);
   };
 
-  const handleAddDelivery = () => {
-    setNewDelivery({});
-    console.log(
-      `A call has been made for adding a new delivery. deliveryInfo: ${JSON.stringify(
-        newDelivery,
-        null,
-        4
-      )}`
-    );
-    setDeliveryPage(1);
+  const handleAddDelivery = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/add-delivery`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify(newDelivery),
+        });
+      }
+      setNewDelivery({});
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   const handleAddTransport = () => {
@@ -200,20 +222,37 @@ const DeliveriesContent = () => {
   };
 
   useEffect(() => {
-    console.log(
-      `A call has been made to retrieve deliveries and transport information`
+    fetch(`http://localhost:3001/api/get-deliveries-information`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then((res) =>
+      res.json().then((data) => {
+        setDeliveryInformation(data);
+      })
     );
   }, []);
 
   useEffect(() => {
-    console.log(
-      "A call has been made because transports pagination has changed"
+    fetch(`http://localhost:3001/api/get-transports-table`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pagination: transportsPage }),
+    }).then((res) =>
+      res.json().then((data) => {
+        setTransportsTable(data.transports);
+      })
     );
   }, [transportsPage]);
 
   useEffect(() => {
-    console.log(
-      `A call has been made because deliveries pagination has changed`
+    fetch(`http://localhost:3001/api/get-deliveries-table`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pagination: deliveryPage }),
+    }).then((res) =>
+      res.json().then((data) => {
+        setDeliveryTable(data.deliveries);
+      })
     );
   }, [deliveryPage]);
 
@@ -242,9 +281,18 @@ const DeliveriesContent = () => {
           <div className="card-body font-bold">
             <h1 className="card-title text-gray-500">Deliveries information</h1>
             <div className="font-medium text-l grid gap-2">
-              <div className="badge badge-info">Started: 10</div>
-              <div className="badge badge-warning">In progress: 10</div>
-              <div className="badge badge-success">Finished: 10</div>
+              <div className="badge badge-info">
+                Started:
+                {deliveryInformation.deliveries?.unprocessedDeliveries ?? "0"}
+              </div>
+              <div className="badge badge-warning">
+                In progress:
+                {deliveryInformation.deliveries?.processedDeliveries ?? "0"}
+              </div>
+              <div className="badge badge-success">
+                Finished:
+                {deliveryInformation.deliveries?.completedDeliveries ?? "0"}
+              </div>
             </div>
             <div className="card-actions justify-end">
               <button
@@ -274,11 +322,18 @@ const DeliveriesContent = () => {
           <div className="card-body font-bold">
             <h1 className="card-title text-gray-500">Transports information</h1>
             <div className="font-medium text-l grid gap-2">
-              <div className="badge badge-info">Available: 10</div>
-              <div className="badge badge-warning">
-                Assigned to deliveries: 10
+              <div className="badge badge-info">
+                Available:
+                {deliveryInformation.transports?.readyTransports ?? "0"}
               </div>
-              <div className="badge badge-success">In transit: 10</div>
+              <div className="badge badge-warning">
+                Assigned to deliveries:
+                {deliveryInformation.transports?.assignedTransports ?? "0"}
+              </div>
+              <div className="badge badge-success">
+                In transit:
+                {deliveryInformation.transports?.transitTransports ?? "0"}
+              </div>
             </div>
             <div className="card-actions justify-end">
               <button
@@ -873,6 +928,27 @@ const DeliveriesContent = () => {
               <label className="form-control w-full max-w-xs">
                 <div className="label">
                   <span className="label-text text-info font-bold">
+                    Departure country
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="input input-bordered w-full max-w-xs"
+                  value={newDelivery.placeOfDeparture?.departureCountry || ""}
+                  onChange={(e) => {
+                    setNewDelivery((prevState) => ({
+                      ...prevState,
+                      placeOfDeparture: {
+                        ...prevState.placeOfDeparture,
+                        departureCountry: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
                     Departure city
                   </span>
                 </div>
@@ -943,6 +1019,27 @@ const DeliveriesContent = () => {
                   <option value="Pacific">Pacific</option>
                   <option value="South America">South America</option>
                 </select>
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-info font-bold">
+                    Delivery country
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  className="input input-bordered w-full max-w-xs"
+                  value={newDelivery.placeOfDelivery?.deliveryCountry || ""}
+                  onChange={(e) => {
+                    setNewDelivery((prevState) => ({
+                      ...prevState,
+                      placeOfDelivery: {
+                        ...prevState.placeOfDelivery,
+                        deliveryCountry: e.target.value,
+                      },
+                    }));
+                  }}
+                />
               </label>
               <label className="form-control w-full max-w-xs">
                 <div className="label">
@@ -1026,7 +1123,63 @@ const DeliveriesContent = () => {
                 </tr>
               </thead>
               <tbody className="font-medium text-gray-400">
-                <tr className="hover">
+                {deliveryTable.map((el: any, index: any) => {
+                  return (
+                    <tr className="hover" key={el._id}>
+                      <td>
+                        <div className="dropdown dropdown-hover dropdown-right">
+                          <div
+                            tabIndex={0}
+                            role="button"
+                            className="font-bold hover:text-info"
+                          >
+                            #{el._id}
+                          </div>
+                          <ul
+                            tabIndex={0}
+                            className="dropdown-content z-[2] menu p-2 shadow bg-base-200 rounded-box w-52"
+                          >
+                            <li className="text-warning">
+                              <a
+                                onClick={() => {
+                                  setCurrentDelivery(el._id);
+                                  (
+                                    document.getElementById(
+                                      "my_modal_updateDelivery"
+                                    ) as HTMLDialogElement
+                                  ).showModal();
+                                }}
+                              >
+                                Update delivery
+                              </a>
+                            </li>
+                            <li className="text-red-500">
+                              <a
+                                onClick={() => {
+                                  setCurrentDelivery(el._id);
+                                  (
+                                    document.getElementById(
+                                      "my_modal_cancelDelivery"
+                                    ) as HTMLDialogElement
+                                  ).showModal();
+                                }}
+                              >
+                                Cancel delivery
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </td>
+                      <td>{el.deliveryType}</td>
+                      <td>{el.placeOfDeparture.departureCity}</td>
+                      <td>{el.placeOfDelivery.deliveryCity}</td>
+                      <td>{mapDeliveryStatus(el.currentStatus)}</td>
+                      <td>{convertMongoCurrency(el.estimatedDeliveryCost)}</td>
+                      <td>{convertMongoDate(el.updatedAt)}</td>
+                    </tr>
+                  );
+                })}
+                {/* <tr className="hover">
                   <td>
                     <div className="dropdown dropdown-hover">
                       <div
@@ -1335,7 +1488,7 @@ const DeliveriesContent = () => {
                   </td>
                   <td>{faker.number.int({ min: 10000, max: 35000 })}$</td>
                   <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
+                </tr> */}
               </tbody>
               {/* foot */}
               <tfoot></tfoot>
@@ -1373,7 +1526,80 @@ const DeliveriesContent = () => {
                 </tr>
               </thead>
               <tbody className="font-medium text-gray-400">
-                <tr className="hover">
+                {transportsTable.map((el: any, index: any) => {
+                  return (
+                    <tr className="hover" key={el._id}>
+                      <td>
+                        <div className="dropdown dropdown-hover dropdown-right">
+                          <div
+                            tabIndex={0}
+                            role="button"
+                            className="font-bold hover:text-info"
+                          >
+                            #{el._id}
+                          </div>
+                          <ul
+                            tabIndex={0}
+                            className="dropdown-content z-[2] menu p-2 shadow bg-base-200 rounded-box w-52"
+                          >
+                            <li className="text-warning">
+                              {el.currentStatus === "Ready" && (
+                                <a
+                                  onClick={() => {
+                                    setCurrentTransport(el._id);
+                                    (
+                                      document.getElementById(
+                                        "my_modal_assignDelivery"
+                                      ) as HTMLDialogElement
+                                    ).showModal();
+                                  }}
+                                >
+                                  Assign delivery
+                                </a>
+                              )}
+                              {el.currentStatus === "Assigned to delivery" && (
+                                <a>Unassign delivery</a>
+                              )}
+                            </li>
+                            <li className="text-red-500">
+                              <a
+                                onClick={() => {
+                                  setCurrentTransport(el._id);
+                                  (
+                                    document.getElementById(
+                                      "my_modal_deleteTransport"
+                                    ) as HTMLDialogElement
+                                  ).showModal();
+                                }}
+                              >
+                                Delete transport
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </td>
+                      <td>{el.transportType}</td>
+                      <td>
+                        {mapTransportCapabilities(
+                          el.transportCapabilities.canShip
+                        )}
+                      </td>
+                      <td>
+                        {mapTransportCapabilities(
+                          el.transportCapabilities.canPickup
+                        )}
+                      </td>
+                      <td>
+                        {parseInt(
+                          el.transportCapabilities.transportCapacity
+                        ).toLocaleString("en-US")}
+                      </td>
+                      <td>{el.currentStatus}</td>
+                      <td>#{el.assignedShipment}</td>
+                    </tr>
+                  );
+                })}
+                {/* <tr className="hover">
                   <td>
                     <div className="dropdown dropdown-hover">
                       <div
@@ -1762,7 +1988,7 @@ const DeliveriesContent = () => {
                     }
                   </td>
                   <td>#{faker.string.numeric(6)}</td>
-                </tr>
+                </tr> */}
               </tbody>
               {/* foot */}
               <tfoot></tfoot>

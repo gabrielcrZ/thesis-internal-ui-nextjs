@@ -179,3 +179,29 @@ export const mapDeliveryMessage = (currentStatus: string) => {
       );
   }
 };
+
+export const mapDeliveryStatus = (status: string) => {
+  switch (status) {
+    case "Created":
+      return <div className="badge badge-warning">Pending</div>;
+    case "Completed":
+      return <div className="badge badge-success">Finished</div>;
+    default:
+      return <div className="badge badge-info">Ongoing</div>;
+  }
+};
+
+export const convertMongoCurrency = (value: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(value);
+};
+
+export const mapTransportCapabilities = (canTransport: boolean) => {
+  return canTransport ? (
+    <div className="badge badge-success badge-sm">Yes</div>
+  ) : (
+    <div className="badge badge-error badge-sm">No</div>
+  );
+};

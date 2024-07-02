@@ -80,11 +80,13 @@ export type newDelivery = {
     departureRegion?: string;
     departureCity?: string;
     departureAddress?: string;
+    departureCountry?: string;
   };
   placeOfDelivery?: {
     deliveryRegion?: string;
     deliveryCity?: string;
     deliveryAddress?: string;
+    deliveryCountry?: string;
   };
 };
 
