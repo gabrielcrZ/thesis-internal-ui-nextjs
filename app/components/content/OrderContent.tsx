@@ -10,20 +10,8 @@ import {
 } from "../helpers/Helpers";
 
 const OrderContent = () => {
-  // const mockedShippingStatus = [
-  //   <div className="badge badge-success">At destination</div>,
-  //   <div className="badge badge-info">In progress</div>,
-  //   <div className="badge badge-warning">Not processed</div>,
-  //   <div className="badge badge-error">Cancelled</div>,
-  // ];
-
   const defaultStartDate = `${new Date().getFullYear()}-01-01`;
   const defaultEndDate = `${new Date().getFullYear()}-12-31`;
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [startDate, setStartDate] = useState(defaultStartDate);
-  // const [endDate, setEndDate] = useState(defaultEndDate);
-  // const [orderId, setOrderId] = useState("");
-  // const [client, setClient] = useState("");
   const [tableData, setTableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState<ordersFilters>({
@@ -43,11 +31,10 @@ const OrderContent = () => {
   };
   const pageDecrease = () => {
     if (filters.pageNumber === 1) return;
-    else
-      setFilters((prevState) => ({
-        ...prevState,
-        pageNumber: prevState.pageNumber - 1,
-      }));
+    setFilters((prevState) => ({
+      ...prevState,
+      pageNumber: prevState.pageNumber - 1,
+    }));
   };
 
   useEffect(() => {
@@ -75,30 +62,33 @@ const OrderContent = () => {
     // to add call when clearingFilters to get the unfiltered data
   };
 
-  const searchFilteredOrders = () => {
-    setFilters((prevState) => ({
-      ...prevState,
-      pageNumber: 1,
-    }));
-    fetch("http://localhost:3001/api/get-orders-table-contents", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(filters),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setTableData(data.orders);
-        setIsLoading(false);
-      });
+  const searchFilteredOrders = async () => {
+    try {
+      setFilters((prevState) => ({
+        ...prevState,
+        pageNumber: 1,
+      }));
+      await fetch("http://localhost:3001/api/get-orders-table-contents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(filters),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setTableData(data.orders);
+          setIsLoading(false);
+        });
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   if (isLoading)
     return (
-      <span className="loading loading-ring loading-lg text-gray-500 justify-self-center"></span>
+      <></>
     );
 
   return (
-    // <div className="grid gap-2">
     <div>
       <div className="collapse font-medium">
         <input type="checkbox" className="peer" />
@@ -245,42 +235,7 @@ const OrderContent = () => {
                   </tr>
                 );
               })}
-            {/* tr1 */}
-            {/* <tr className="hover">
-              <td className="text-gray-500">
-                <Link
-                  href={`orders/viewOrder?orderId=${faker.string.numeric(8)}`}
-                >
-                  <div className="font-bold hover:text-info">{`#${faker.string.numeric(
-                    8
-                  )}`}</div>
-                </Link>
-              </td>
-              <td className="text-gray-500">
-                <Link
-                  href={`clients/viewClient?clientId=${faker.string.numeric(
-                    8
-                  )}`}
-                >
-                  <div className="font-bold hover:text-info">
-                    {faker.company.name()}
-                  </div>
-                </Link>
-              </td>
-              <td>{faker.date.anytime().toDateString()}</td>
-              <td>{faker.location.countryCode("alpha-3")}</td>
-              <td>
-                {
-                  mockedShippingStatus[
-                    Math.floor(Math.random() * mockedShippingStatus.length)
-                  ]
-                }
-              </td>
-              <td>{faker.location.country()}</td>
-              <td>{faker.date.anytime().toDateString()}</td>
-            </tr> */}
           </tbody>
-          {/* foot */}
           <tfoot></tfoot>
         </table>
         <div className="join py-3 float-right">

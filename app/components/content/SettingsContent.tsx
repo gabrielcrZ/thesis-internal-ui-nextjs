@@ -2,10 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { clientSettings } from "../types/Types";
+import { useRouter } from "next/navigation";
+import { convertMongoDate } from "../helpers/Helpers";
 
 const SettingsContent = () => {
+  const router = useRouter();
   const [updateInfo, setUpdateInfo] = useState<clientSettings>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [userInfo, setUserInfo] = useState<any>({});
   const pageIncrease = () => {
     setCurrentPage(currentPage + 1);
   };
@@ -15,9 +19,27 @@ const SettingsContent = () => {
   };
 
   useEffect(() => {
-    console.log(
-      `A call has been made for retrieving data or pagination changes. Pagination ${currentPage}`
-    );
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        fetch(`http://localhost:3001/api/get-user-details`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ pageNumber: currentPage }),
+        }).then((res) =>
+          res.json().then((data) => {
+            setUserInfo(data);
+          })
+        );
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   }, [currentPage]);
 
   const handleUpdateUser = () => {
@@ -36,7 +58,7 @@ const SettingsContent = () => {
       <div className="card bg-base-200 shadow-xl w-1/3">
         <div className="card-body font-bold">
           <h1 className="card-title text-gray-500">
-            Settings - #Logged As gabrieltest@gmail.com
+            Settings - #Logged As {userInfo.userDetails?.email}
           </h1>
           <div className="text-red-500 text-sm font-bold flex gap-1">
             <svg
@@ -51,7 +73,7 @@ const SettingsContent = () => {
                 clipRule="evenodd"
               />
             </svg>
-            Super Administrator
+            {userInfo.userDetails?.role}
           </div>
           <div className="card-actions justify-end"></div>
         </div>
@@ -186,76 +208,16 @@ const SettingsContent = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-400">
-                {/* row 1 */}
-                <tr>
-                  <th>1</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 2 */}
-                <tr>
-                  <th>2</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 3 */}
-                <tr>
-                  <th>3</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 4 */}
-                <tr>
-                  <th>4</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 5 */}
-                <tr>
-                  <th>5</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 6 */}
-                <tr>
-                  <th>6</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 7 */}
-                <tr>
-                  <th>7</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 8 */}
-                <tr>
-                  <th>8</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 9  */}
-                <tr>
-                  <th>9</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
-                {/* row 10 */}
-                <tr>
-                  <th>10</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td className="font-bold">{faker.lorem.sentence()}</td>
-                  <td>#{faker.string.numeric(6)}</td>
-                </tr>
+                {userInfo.userActions?.map((el: any, index: any) => {
+                  return (
+                    <tr>
+                      <th>{index + 1}</th>
+                      <td>{convertMongoDate(el.createdAt)}</td>
+                      <td className="font-bold">{el.shortMessage}</td>
+                      <td>#{el.referenceId}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
             <div className="join py-3 float-right">

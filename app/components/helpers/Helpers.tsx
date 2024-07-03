@@ -87,7 +87,7 @@ export const mapDeliveryMessage = (currentStatus: string) => {
   switch (currentStatus) {
     case "Registered by client":
       return (
-        <div className="text-red-500 font-bold">
+        <div className="text-orange-500 font-bold">
           This order has not been processed
           <div
             className="tooltip"
@@ -110,7 +110,7 @@ export const mapDeliveryMessage = (currentStatus: string) => {
       );
     case "Cancelled":
       return (
-        <div className="text-orange-600 font-bold">
+        <div className="text-red-500 font-bold">
           This order has been cancelled
           <div
             className="tooltip"
@@ -205,5 +205,21 @@ export const mapTransportCapabilities = (canTransport: boolean) => {
     <div className="badge badge-success badge-sm">Yes</div>
   ) : (
     <div className="badge badge-error badge-sm">No</div>
+  );
+};
+
+export const mapMessageBadge = (messageStatus: string) => {
+  return messageStatus == "Seen" ? (
+    <p className="badge badge-content badge-sm"></p>
+  ) : (
+    <p className="badge badge-success badge-sm"></p>
+  );
+};
+
+export const mapHasOrdersBadge = (hasOrders: boolean) => {
+  return hasOrders ? (
+    <div className="badge badge-success badge-xs">Yes</div>
+  ) : (
+    <div className="badge badge-error badge-xs">No</div>
   );
 };

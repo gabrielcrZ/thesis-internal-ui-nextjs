@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { faker } from "@faker-js/faker";
 import {
   deliveriesValidation,
   deliveryUpdates,
@@ -16,13 +15,6 @@ import {
 import { useRouter } from "next/navigation";
 
 const DeliveriesContent = () => {
-  const mockedDeliveryStatus = [
-    <div className="badge badge-info">Ongoing</div>,
-    <div className="badge badge-warning">Pending</div>,
-    <div className="badge badge-success">Finished</div>,
-  ];
-
-  const mockedDeliveryType = ["Pickup", "Shipping", "Delivery"];
   const [deliveryPage, setDeliveryPage] = useState(1);
   const [transportsPage, setTransportPage] = useState(1);
   const [newDelivery, setNewDelivery] = useState<newDelivery>({});
@@ -32,6 +24,7 @@ const DeliveriesContent = () => {
       canShip: false,
     },
   });
+  const [isLoading, setIsLoading] = useState(true);
   const [currentDelivery, setCurrentDelivery] = useState("");
   const [currentTransport, setCurrentTransport] = useState("");
   const [currentDeliveryAssignInfo, setCurrentDeliveryAssignInfo] =
@@ -339,6 +332,7 @@ const DeliveriesContent = () => {
       headers: { "Content-Type": "application/json" },
     }).then((res) =>
       res.json().then((data) => {
+        setIsLoading(false);
         setDeliveryInformation(data);
       })
     );
@@ -368,24 +362,7 @@ const DeliveriesContent = () => {
     );
   }, [deliveryPage]);
 
-  const mockedTransportTypes = ["Truck", "Van", "Plane", "Ship"];
-  const mockedTransportCapabilities = [
-    <div className="badge badge-success badge-sm">Yes</div>,
-    <div className="badge badge-error badge-sm">No</div>,
-  ];
-  const mockedTransportStatus = [
-    "Assigned for pickup",
-    "Pickup success",
-    "Pickup fail",
-    "Assigned for shipping",
-    "Shipping success",
-    "Assigned for delivery",
-    "Delivery success",
-  ];
-
-  const hasDeliveryAssigned = false;
-  const hasTransportAvailableDeliveries = true;
-
+  if (isLoading) return <></>;
   return (
     <div className="grid gap-5 px-2">
       <div className="flex justify-between gap-5">

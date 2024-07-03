@@ -3,30 +3,18 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { faker } from "@faker-js/faker";
 import { orderUpdates } from "../types/Types";
-import { convertMongoDate, mapDeliveryMessage, mapOrderStatusBadge } from "../helpers/Helpers";
+import {
+  convertMongoCurrency,
+  convertMongoDate,
+  mapDeliveryMessage,
+  mapOrderStatusBadge,
+} from "../helpers/Helpers";
 import { useRouter } from "next/navigation";
 
 const ViewOrderContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
-  // const mockedShippingStatus = [
-  //   <div className="badge badge-success">Order At destination</div>,
-  //   <div className="badge badge-info">Order In progress</div>,
-  //   <div className="badge badge-warning">Order Not Processed</div>,
-  //   <div className="badge badge-error">Order cancelled</div>,
-  // ];
-
-  const mockedUpdateType = [
-    "Create Order",
-    "Assign pickup",
-    "Pickup success",
-    "Pickup fail",
-    "Assign shipping",
-    "Shipping success",
-    "Assign delivery",
-    "Delivery success",
-  ];
   const [orderDetails, setOrderDetails] = useState<any>({});
   const [selectedPickup, setSelectedPickup] = useState<any>("");
   const [selectedShipment, setSelectedShipment] = useState<any>("");
@@ -1263,7 +1251,7 @@ const ViewOrderContent = () => {
                   <th></th>
                   <th>Product</th>
                   <th>Category</th>
-                  <th>Weight</th>
+                  <th>Weight (Kg)</th>
                   <th>Calculated revenue</th>
                 </tr>
               </thead>
@@ -1273,33 +1261,14 @@ const ViewOrderContent = () => {
                     <tr className="hover" key={index + 666}>
                       <th>{index + 1}</th>
                       <td>{el.productDescription}</td>
-                      <td>{el.productCategory ?? "TBA"}</td>
-                      <td>{`${el.productWeight}kg`}</td>
-                      <td>{`${el.estimatedRevenue ?? "TBA"}$`}</td>
+                      <td>{el.productCategory}</td>
+                      <td>
+                        {parseInt(el.productWeight).toLocaleString("en-US")}
+                      </td>
+                      <td>{convertMongoCurrency(el.calculatedRevenue)}</td>
                     </tr>
                   );
                 })}
-                {/* <tr className="hover">
-                  <th>1</th>
-                  <td>{faker.commerce.productName()}</td>
-                  <td>{faker.commerce.department()}</td>
-                  <td>{faker.number.int({ max: 25 })}kg</td>
-                  <td>{faker.string.numeric(3)}$</td>
-                </tr>
-                <tr className="hover">
-                  <th>2</th>
-                  <td>{faker.commerce.productName()}</td>
-                  <td>{faker.commerce.department()}</td>
-                  <td>{faker.number.int({ max: 25 })}kg</td>
-                  <td>{faker.string.numeric(3)}$</td>
-                </tr>
-                <tr className="hover">
-                  <th>3</th>
-                  <td>{faker.commerce.productName()}</td>
-                  <td>{faker.commerce.department()}</td>
-                  <td>{faker.number.int({ max: 25 })}kg</td>
-                  <td>{faker.string.numeric(3)}$</td>
-                </tr> */}
               </tbody>
             </table>
           </div>
@@ -1395,49 +1364,15 @@ const ViewOrderContent = () => {
               </thead>
               <tbody className="text-gray-400 font-bold">
                 {orderDetails.orderHistory?.map((el: any, index: any) => {
-                  return <tr className="hover" key={el._id}>
-                    <td>{convertMongoDate(el.createdAt)}</td>
-                    <td>{el.operationType}</td>
-                    <td>{el.additionalInfo}</td>
-                    <td>{el.updatedBy}</td>
-                  </tr>
+                  return (
+                    <tr className="hover" key={el._id}>
+                      <td>{convertMongoDate(el.createdAt)}</td>
+                      <td>{el.operationType}</td>
+                      <td>{el.additionalInfo}</td>
+                      <td>{el.updatedBy}</td>
+                    </tr>
+                  );
                 })}
-                {/* <tr className="hover">
-                  <td>{faker.date.anytime().toDateString()}</td>
-                  <td>
-                    {
-                      mockedUpdateType[
-                        Math.floor(Math.random() * mockedUpdateType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.lorem.sentence()}</td>
-                  <td>{faker.person.fullName()}</td>
-                </tr>
-                <tr className="hover">
-                  <td>{faker.date.anytime().toDateString()}</td>
-                  <td>
-                    {
-                      mockedUpdateType[
-                        Math.floor(Math.random() * mockedUpdateType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.lorem.sentence()}</td>
-                  <td>{faker.person.fullName()}</td>
-                </tr>
-                <tr className="hover">
-                  <td>{faker.date.anytime().toDateString()}</td>
-                  <td>
-                    {
-                      mockedUpdateType[
-                        Math.floor(Math.random() * mockedUpdateType.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.lorem.sentence()}</td>
-                  <td>{faker.person.fullName()}</td>
-                </tr> */}
               </tbody>
             </table>
           </div>

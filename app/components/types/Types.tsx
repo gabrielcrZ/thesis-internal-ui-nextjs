@@ -10,14 +10,17 @@ export type ordersFilters = {
   };
 };
 
+export type clientFilters = {
+  clientFilter?: {
+    clientEmail?: string;
+    clientName?: string;
+  };
+  pageNumber: number;
+};
+
 export type messageTemplate = {
   sender: string;
   text: string;
-};
-
-export type clientFilters = {
-  email?: string;
-  name?: string;
 };
 
 export type clientSettings = {

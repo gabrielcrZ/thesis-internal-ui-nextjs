@@ -1,20 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { faker } from "@faker-js/faker";
 import { clientUpdates } from "../types/Types";
+import { convertMongoDate, mapOrderStatusBadge } from "../helpers/Helpers";
+import { useRouter } from "next/navigation";
 
 const ViewClientContent = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const clientId = searchParams.get("clientId");
-  const mockedShippingStatus = [
-    <div className="badge">Unknown</div>,
-    <div className="badge badge-success">At destination</div>,
-    <div className="badge badge-info">Shipment in progress</div>,
-    <div className="badge badge-warning">Shipment not assigned</div>,
-    <div className="badge badge-error">Order cancelled</div>,
-  ];
-
+  const [clientDetails, setClientDetails] = useState<any>({});
   const [clientUpdates, setClientUpdates] = useState<clientUpdates>({
     clientAddress: undefined,
     clientName: undefined,
@@ -43,26 +38,55 @@ const ViewClientContent = () => {
   });
 
   useEffect(() => {
-    console.log(
-      `A call has been made for retrieving client information. clientId: ${clientId}`
+    fetch(`http://localhost:3001/api/get-client-content/${clientId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then((res) =>
+      res.json().then((data) => {
+        setClientDetails(data);
+      })
     );
-  });
+  }, []);
 
-  const handleDeleteClient = () => {
-    console.log(
-      `A call for deleting the client has been made. clientId: ${clientId}`
-    );
+  const handleDeleteClient = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/delete-client`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ clientId: clientId }),
+        });
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  const handleUpdateClient = () => {
-    console.log(
-      `A call for updating the client has been made. clientId: ${clientId} and updates: ${JSON.stringify(
-        clientUpdates,
-        null,
-        4
-      )}`
-    );
-    clearClientUpdates();
+  const handleUpdateClient = async () => {
+    try {
+      const token = localStorage.getItem("auth-token");
+      if (!token) {
+        router.push("/users/login");
+      } else {
+        await fetch(`http://localhost:3001/api/update-client/${clientId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ updates: clientUpdates }),
+        });
+      }
+      clearClientUpdates();
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -71,7 +95,9 @@ const ViewClientContent = () => {
         <div className="card w-full bg-base-200 shadow-xl">
           <div className="card-body">
             <h1 className="card-title text-gray-500">{`Client #${clientId}`}</h1>
-            <h2 className="card-title text-info">{faker.company.name()}</h2>
+            <h2 className="card-title text-info">
+              {clientDetails.clientInfo?.clientName}
+            </h2>
             <div className="card-actions justify-end">
               <div className="dropdown dropdown-hover dropdown-end">
                 <div tabIndex={0} role="button" className="btn btn-info btn-sm">
@@ -141,7 +167,7 @@ const ViewClientContent = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              {faker.internet.email()}
+              {clientDetails.clientInfo?.email}
             </p>
             <p className="text-info text-sm flex gap-1">
               <svg
@@ -156,7 +182,7 @@ const ViewClientContent = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              {faker.location.streetAddress()}
+              {clientDetails.clientInfo?.clientAddress}
             </p>
             <p className="text-info text-sm flex gap-1">
               <svg
@@ -172,7 +198,7 @@ const ViewClientContent = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              {faker.phone.number()}
+              {clientDetails.clientInfo?.clientPhone}
             </p>
             <div className="card-actions justify-end"></div>
           </div>
@@ -199,86 +225,19 @@ const ViewClientContent = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-400 font-medium">
-                {/* row 1 */}
-                <tr className="hover">
-                  <th>1</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.city()}</td>
-                  <td>
-                    {
-                      mockedShippingStatus[
-                        Math.floor(Math.random() * mockedShippingStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
-                {/* row 2 */}
-                <tr className="hover">
-                  <th>2</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.city()}</td>
-                  <td>
-                    {
-                      mockedShippingStatus[
-                        Math.floor(Math.random() * mockedShippingStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
-                {/* row 3 */}
-                <tr className="hover">
-                  <th>3</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.city()}</td>
-                  <td>
-                    {
-                      mockedShippingStatus[
-                        Math.floor(Math.random() * mockedShippingStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
-                {/* row 4 */}
-                <tr className="hover">
-                  <th>4</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.city()}</td>
-                  <td>
-                    {
-                      mockedShippingStatus[
-                        Math.floor(Math.random() * mockedShippingStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
-                {/* row 5 */}
-                <tr className="hover">
-                  <th>5</th>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.country()}</td>
-                  <td>{faker.location.city()}</td>
-                  <td>
-                    {
-                      mockedShippingStatus[
-                        Math.floor(Math.random() * mockedShippingStatus.length)
-                      ]
-                    }
-                  </td>
-                  <td>{faker.date.anytime().toLocaleDateString()}</td>
-                </tr>
+                {clientDetails.ordersHistory?.map((el: any, index: any) => {
+                  return (
+                    <tr className="hover">
+                      <th>{index + 1}</th>
+                      <td>{convertMongoDate(el.createdAt)}</td>
+                      <td>{el.pickupDetails.pickupCountry}</td>
+                      <td>{el.shippingDetails.shippingCountry}</td>
+                      <td>{el.currentLocation}</td>
+                      <td>{mapOrderStatusBadge(el.currentStatus)}</td>
+                      <td>{convertMongoDate(el.updatedAt)}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -302,7 +261,7 @@ const ViewClientContent = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder={faker.person.fullName()}
+                  placeholder={clientDetails.clientInfo?.clientName}
                   className="input input-bordered w-full max-w-xs"
                   value={clientUpdates.clientName || ""}
                   onChange={(e) => {
@@ -319,7 +278,7 @@ const ViewClientContent = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder={faker.location.streetAddress()}
+                  placeholder={clientDetails.clientInfo?.clientAddress}
                   className="input input-bordered w-full max-w-xs"
                   value={clientUpdates.clientAddress || ""}
                   onChange={(e) => {
@@ -336,7 +295,7 @@ const ViewClientContent = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder={faker.phone.number()}
+                  placeholder={clientDetails.clientInfo?.clientPhone}
                   className="input input-bordered w-full max-w-xs"
                   value={clientUpdates.clientPhone || ""}
                   onChange={(e) => {
