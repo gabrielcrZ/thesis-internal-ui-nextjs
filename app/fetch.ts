@@ -4,7 +4,7 @@ import { credentials } from "./components/types/Types";
 
 export const getDashboardMetrics = async () => {
   try {
-    const response = await fetch(
+    const response: any = await fetch(
       "http://localhost:3001/api/get-dashboard-metrics",
       {
         method: "GET",
@@ -14,11 +14,11 @@ export const getDashboardMetrics = async () => {
       }
     );
 
+    const responseBody = await response.json();
     if (!response.ok) {
       throw new Error("Failed to fetch data for dashboard metrics");
     }
-
-    return response.json();
+    return responseBody;
   } catch (error: any) {
     console.log(error.message);
   }

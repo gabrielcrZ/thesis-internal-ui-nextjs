@@ -55,12 +55,14 @@ export const mapOrderStatusTooltip = (status: string) => {
         </div>
       );
     case "Delivered to final destination":
-      <div
-        className="tooltip tooltip-success tooltip-right"
-        data-tip="Delivered"
-      >
-        <div className="badge badge-success badge-sm"></div>
-      </div>;
+      return (
+        <div
+          className="tooltip tooltip-success tooltip-right"
+          data-tip="Delivered"
+        >
+          <div className="badge badge-success badge-sm"></div>
+        </div>
+      );
     default:
       return (
         <div className="tooltip tooltip-info tooltip-right" data-tip="Ongoing">

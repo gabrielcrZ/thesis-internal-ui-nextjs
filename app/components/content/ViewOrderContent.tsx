@@ -1265,7 +1265,9 @@ const ViewOrderContent = () => {
                       <td>
                         {parseInt(el.productWeight).toLocaleString("en-US")}
                       </td>
-                      <td>{convertMongoCurrency(el.calculatedRevenue)}</td>
+                      <td>
+                        {convertMongoCurrency(parseInt(el.productRevenue))}
+                      </td>
                     </tr>
                   );
                 })}
@@ -1313,8 +1315,8 @@ const ViewOrderContent = () => {
                 </tr>
                 <tr className="font-bold">
                   <td className="text-gray-500 italic">Delivery details</td>
-                  <td>{orderDetails.order?.shippingDetails.shippingRegion}</td>
                   <td>{orderDetails.order?.shippingDetails.shippingAddress}</td>
+                  <td>{orderDetails.order?.shippingDetails.shippingRegion}</td>
                   <td>
                     {
                       orderDetails.order?.shippingDetails.shippingClient
